@@ -56,8 +56,7 @@ export default function PrinterPatternForm() {
     <div id="printer-pattern-signup-card">
       <h2 id="printer-pattern-form-header">Cadastrar padrão de impressora</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div id="printer-pattern-input-group">
-          <div id="printer-pattern-input-box">
+          
             <div id="printer-pattern-fields">
               {Object.entries(fieldLabels).filter(([key]) => key !== "snmp").map(([key, label]) => (
                 <div id="printer-pattern-input-line" key={key}>
@@ -72,15 +71,20 @@ export default function PrinterPatternForm() {
                   <span>{errors[key]?.message}</span>
                 </div>
               ))}
+              <div id="inputCheckBox">
+                <label>Equipamento Colorido? </label>
+                  <input type="checkbox"></input>
+               
+                
+              </div>
             </div>
 
             <div id="printer-pattern-snmp-fields">
-              <label htmlFor="snmp">SNMP</label>
+              <label htmlFor="snmp">SNMP:</label>
               {Object.entries(fieldLabels.snmp).map(([key, label]) => (
                 <div id="snmp-fields-input-line" key={key}>
                   <label>
                     {label}
-                    <span>*</span>
                   </label>
                   <input
                     {...register(key)}
@@ -90,8 +94,8 @@ export default function PrinterPatternForm() {
                 </div>
               ))}
             </div>
-          </div>
-        </div>
+          
+        
         <div id="printer-pattern-buttons">
           <button className="printer-pattern-form-button" type="button" id="cancelar-bnt">
             <Link to="/">
@@ -105,6 +109,7 @@ export default function PrinterPatternForm() {
             {!isSubmitting ? 'REGISTRAR': "CADASTRANDO"}
           </button>
         </div>
+
       </form>
       <div className="elipse-pattern">
         <img alt="elipse" src={elipse6} />

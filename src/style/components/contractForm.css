@@ -1,0 +1,13 @@
+#padraoPagina{
+    display: grid;
+    flex-direction: column;
+    font-size: large;
+    color: #0D3D6D;
+}
+
+#form{
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+
+}

@@ -9,6 +9,8 @@ import Modal from '../components/ui/Modal';
 import Navbar from "../components/navbar/Navbar";
 import { getPadroes, togglePattern } from "../services/printerService";
 
+
+
 export default function PatternList() {
 
   const [search, setSearch] = useState('');
@@ -85,9 +87,12 @@ export default function PatternList() {
       return 'Desativadas';
     }
   }
+/*
 
+*/
   //filtros para busca de impressora
-  const filteredPatterns = useMemo(() => {
+  
+  const filteredPatterns1 = useMemo(() => {
     return patterns.filter(pattern => {
       const searchLower = search.toLowerCase();
       const {
@@ -108,10 +113,36 @@ export default function PatternList() {
              (filter === 'deactivated' && pattern.status === "DESATIVADO");
     });
   }, [patterns, search, filter]);
+  
+
+  
+  const filteredPatterns = [
+    {
+      id_padrao: 1,
+      status: "ATIVO",
+      marca: "Marca",
+      modelo: "Modelo",
+      tipo: "tipo",
+
+    },{
+      id_padrao: 1,
+      status: "ATIVO",
+      marca: "Marca",
+      modelo: "Modelo",
+      tipo: "tipo",
+
+    },{
+      id_padrao: 1,
+      status: "DESATIVADO",
+      marca: "Marca",
+      modelo: "Modelo",
+      tipo: "tipo",
+
+    }
+  ] 
 
   return (
     <>
-
       {modalOpen && (
         <Modal 
           setOpenModal={setModalOpen} 
@@ -132,10 +163,13 @@ export default function PatternList() {
             </div>
             
             <div className="patternlist-header-search-filter">
-              <Input
+              
+              <Input 
                 onChange={(e) => setSearch(e.target.value)}
+                placeholder={"Pesquisar Padão"}
               />
-              <img alt="Search" src={Search} />
+
+             
 
               <div className="patternlist-filter">
                 <img alt="" src={Filter} className="patternlist-filter"></img>
@@ -153,6 +187,7 @@ export default function PatternList() {
 
           {filteredPatterns.map(pattern => (
             <div key={pattern.id_padrao} className="patternlist-pattern" style={{ color: pattern.status === "ATIVO" ? '' : 'gray' }}>
+              
               <div className="patternlist-model">
                 <h4>
                   <Link 

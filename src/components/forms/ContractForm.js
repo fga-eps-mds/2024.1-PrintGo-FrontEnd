@@ -10,13 +10,13 @@ export default function ContractForm(){
       <h1 id="titulo">Cadastro de Contratos</h1>
       <form>
         <label id="label">Contrato
-          <input id="inputCampos" placeholder="Insira o n° do contrato" type="text"></input>
+          <input id="inputCampos" placeholder="Insira o n° do contrato" type="text" maxLength={50} ></input>
         </label>
         <label id="label">Gestor do Contrato
-          <input id="inputCampos" placeholder="Insira o nome do gestor" type="text"></input>
+          <input id="inputCampos" placeholder="Insira o nome do gestor" type="text" maxLength={255}></input>
         </label>
         <label id="label">Descrição do Contrato (Processo)
-          <input id="inputDescricao" placeholder="Insira a descrição do contrato" type="text"></input>
+          <input id="inputDescricao" placeholder="Insira a descrição do contrato" type="text" maxLength={255}></input>
         </label>
         <div id="inputData">
           <label id="label">Data de Início

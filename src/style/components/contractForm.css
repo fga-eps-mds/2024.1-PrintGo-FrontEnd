@@ -21,7 +21,6 @@
 
 #inputData{
     display: flex;
-
 }
 
 #inputDescricao{
@@ -31,6 +30,7 @@
     border-radius: 10px;
     border-color: #0D3D6D;
     border-style: solid;
+    padding-left: 20px;
 }
 
 #inputCampos{
@@ -39,6 +39,7 @@
     border-radius: 10px;
     border-color: #0D3D6D;
     border-style: solid;
+    padding-inline: 20px;
 }
 
 ::placeholder{

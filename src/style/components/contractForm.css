@@ -1,13 +1,73 @@
 #padraoPagina{
-    display: grid;
-    flex-direction: column;
-    font-size: large;
     color: #0D3D6D;
+    margin-left: 100px;
+    margin-top: 50px;
 }
 
-#form{
+#titulo{
+    border-bottom: #0D3D6D;
+    border-bottom-style: solid;
+    width: fit-content;
+    padding-bottom: 15px;
+}
+
+#label{
     display: flex;
     flex-direction: column;
-    width: 200px;
+    width: 400px;
+    margin-bottom: 40px;
+    font-size: 25px;
+}
 
+#inputData{
+    display: flex;
+
+}
+
+#inputDescricao{
+    width: 900px;
+    margin-top: 5px;
+    height: 30px;
+    border-radius: 10px;
+    border-color: #0D3D6D;
+    border-style: solid;
+}
+
+#inputCampos{
+    margin-top: 5px;
+    height: 30px;
+    border-radius: 10px;
+    border-color: #0D3D6D;
+    border-style: solid;
+}
+
+::placeholder{
+    font-size: 18px;
+    opacity: 0.6;
+}
+
+.campoDataTermino{
+    margin-left: 105px;
+}
+
+.botaoCadastro{
+    background-color: #006633;
+    height: 40px;
+    width: 200px;
+    color: white;
+    font-size: 20px;
+    border-radius: 20px;
+    border-style: none;
+}
+
+.botaoAcessarLista{
+    background-color: #D9D9D9;
+    height: 40px;
+    width: 350px;
+    margin-left: 100px;
+    font-size: 20px;
+    border-radius: 20px;
+    color: #0D3D6D;
+    border-style: none;
+    font-weight: 700;
 }

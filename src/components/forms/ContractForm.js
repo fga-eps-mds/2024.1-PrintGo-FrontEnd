@@ -1,41 +1,37 @@
 import React from "react";
 import Navbar from "../navbar/Navbar";
-import { FontSizeIcon } from "@radix-ui/react-icons";
 import "../../style/components/contractForm.css";
-
 
 export default function ContractForm(){
   return (
     <>
     <Navbar />
-    <div>
-      <h1>Cadastro de Contratos</h1>
-      <div id="padraoPagina">
-        <label>Contrato</label>
-        <input placeholder="Insira o n° do contrato"></input>
-        <label>Gestor do Contrato</label>
-        <input placeholder="Insira o nome do gestor"></input>
-        <label>Descrição do Contrato (Processo)</label>
-        <input placeholder="Insira a descrição do contrato"></input>
-        <label>Data de Início</label>
-        <input placeholder="dd/mm/aaaa"></input>
-        <label>Data de Término</label>
-        <input placeholder="dd/mm/aaaa"></input>
-        <div>
-          <button>Cadastrar</button>
-          <button>Acessar Lista de Contratos</button>
-        </div> 
-      </div>
+    <div id="padraoPagina">
+      <h1 id="titulo">Cadastro de Contratos</h1>
+      <form>
+        <label id="label">Contrato
+          <input id="inputCampos" placeholder="Insira o n° do contrato" type="text"></input>
+        </label>
+        <label id="label">Gestor do Contrato
+          <input id="inputCampos" placeholder="Insira o nome do gestor" type="text"></input>
+        </label>
+        <label id="label">Descrição do Contrato (Processo)
+          <input id="inputDescricao" placeholder="Insira a descrição do contrato" type="text"></input>
+        </label>
+        <div id="inputData">
+          <label id="label">Data de Início
+            <input id="inputCampos" placeholder="dd/mm/aaaa" type="date"></input>
+          </label>
+          <label className="campoDataTermino" id="label">Data de Término
+            <input id="inputCampos" placeholder="dd/mm/aaaa" type="date"></input>
+          </label>
+        </div>
+      </form>  
+      <div>
+        <button className="botaoCadastro">Cadastrar</button>
+        <button className="botaoAcessarLista">Acessar Lista de Contratos</button>
+      </div> 
     </div>
     </>
   );
 }
-
-/*const fieldLabels = {
-  contrato_id: 'Contrato',
-  gestorContrato: 'Gestor do Contrato',
-  descricaoContrato: 'Descrição do Contrato (Processo)',
-  dataInicio: 'Data de Início',
-  dataTermino: 'Data de Término'
-};*/
-

@@ -23,6 +23,7 @@ import RecoverPasswordPage from "./pages/RecoverPassword";
 import PrivateRoutes from "./components/utils/PrivateRoutes";
 import AdminRoutes from "./components/utils/AdminRoutes";
 import ContractForm from "./components/forms/ContractForm";
+import EditContractForm from "./components/forms/EditContractForm";
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
             <Route path="/padroescadastrados" element={<PatternList />} />
             <Route path="/visualizarpadrao/:padrao" element={<ViewPattern />} />
             <Route path="/cadastrarContrato" element={<ContractForm />} />
+            <Route path="/editarContrato" element={<EditContractForm />} />
             <Route element={<AdminRoutes/>}>
               <Route path="/listausuarios" element={<UsersList />} />
               <Route path="/cadastro" element={<CreateUserPage />} />

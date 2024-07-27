@@ -13,6 +13,19 @@ export async function getPrinters() {
   }
 }
 
+export async function getLocalizacao() {
+  try {
+
+    const response = await api.get('/location');
+    if(response.status !== 201) {
+      return { type: 'error', data: response.data};
+    }
+    return response.data;
+  } catch (error) {
+    return { type: 'error', error };
+  }
+}
+
 export async function getPadrao(id) {
   try {
     const response = await api.get(`/printer/padrao/${id}`);
@@ -73,7 +86,7 @@ export async function togglePattern(id, status) {
 
 export const createImpressora = async (printer) => {
   try {
-    const response = await api.post('/printer/impressora/create', printer);
+    const response = await api.post('/impressora/', printer);
     if(response.status !== 201) {
       return { type: 'error', data: response.data};
     }

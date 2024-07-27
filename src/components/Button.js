@@ -1,27 +1,40 @@
 import React from 'react';
-import PropTypes from 'prop-types'; // Import PropTypes
+import PropTypes from 'prop-types';
 import '../style/components/button.css';
 
-const Button = ({ textColor, bgColor, borderColor, children, onClick }) => {
-  const buttonStyle = {
-    '--text-color': textColor,
-    '--bg-color': bgColor,
-    '--border-color': borderColor,
-  };
+const Button = ({ type, size, text, onClick }) => {
+    const typeClasses = {
+        success: 'button-success',
+        error: 'button-error',
+        info: 'button-info',
+        warning: 'button-warning',
+    };
 
-  return (
-    <button className="button" style={buttonStyle} onClick={onClick}>
-      {children}
-    </button>
-  );
+    const sizeClasses = {
+        small: 'button-small',
+        medium: 'button-medium',
+        large: 'button-large',
+    };
+
+    const buttonClass = `button ${typeClasses[type] || 'button-info'} ${sizeClasses[size] || 'button-medium'}`;
+
+    return (
+        <button className={buttonClass} onClick={onClick}>
+            {text}
+        </button>
+    );
 };
 
 Button.propTypes = {
-  textColor: PropTypes.string, // Validate textColor as a string
-  bgColor: PropTypes.string,   // Validate bgColor as a string
-  borderColor: PropTypes.string, // Validate borderColor as a string
-  children: PropTypes.node,   // Validate children as a React node
-  onClick: PropTypes.func,    // Validate onClick as a function
+    type: PropTypes.oneOf(['success', 'error', 'info', 'warning']),
+    size: PropTypes.oneOf(['small', 'medium', 'large']),
+    text: PropTypes.string.isRequired,
+    onClick: PropTypes.func.isRequired,
+};
+
+Button.defaultProps = {
+    type: 'info',
+    size: 'medium',
 };
 
 export default Button;

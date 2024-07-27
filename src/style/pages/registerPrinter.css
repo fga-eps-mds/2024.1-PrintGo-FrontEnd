@@ -1,6 +1,8 @@
 #registerPrinter-container {
-  display: flex;
-  justify-content: space-between;
+  padding-left: 300px;
+  padding-top: 50px;
+  display: flow-root;
+  padding-right: 200px;
   align-items: center;
 }
 

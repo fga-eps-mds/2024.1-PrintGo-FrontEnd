@@ -210,7 +210,7 @@ export default function RegisterPrinterForm() {
 
     return (
         <div>
-            <div>
+            <div className='register-printer-field'>
                 <span className="form-title">Cadastrar Equipamento</span>
 
                 <SelectContainer
@@ -235,7 +235,7 @@ export default function RegisterPrinterForm() {
                     error={errors.marca}
                 />
 
-                <div className="container">
+                <div className="container" style={{ gap: '5rem' }}>
                     <SelectContainer
                         id="modelo"
                         name="modelo"
@@ -244,7 +244,7 @@ export default function RegisterPrinterForm() {
                         label="Modelo"
                         onChange={handleModeloChange}
                         value={selectedModelo}
-                        error={errors.modelo}
+                        error={errors.modelo}   
                     />
 
                     <InputContainer
@@ -278,7 +278,7 @@ export default function RegisterPrinterForm() {
                 />
 
                 <div className="form-separator"> Localização </div>
-                <div className="container">
+                <div id='localization' className="container" style={{ gap: '5rem' }}>
                     <SelectContainer
                         id="cidade"
                         name="cidade"
@@ -314,7 +314,7 @@ export default function RegisterPrinterForm() {
                 </div>
 
                 <div className="form-separator"> Instalação </div>
-                <div className="container">
+                <div className="container" style={{ gap: '5rem' }}>
                     <DateContainer
                         label="Data de Instalação"
                         value={dataInstalacao}
@@ -336,25 +336,6 @@ export default function RegisterPrinterForm() {
 
                 <div className="form-separator"> Retirada </div>
                 <div className="container">
-                    <SelectContainer
-                        id="status"
-                        name="status"
-                        options={["Ativo", "Inativo"]}
-                        className="lg-select"
-                        label="Status"
-                        onChange={handleStatusChange}
-                        value={status}
-                    />
-                </div>
-                <div className='container'>
-                    <DateContainer
-                        label="Data de retirada"
-                        value={dataRetirada}
-                        onChange={(e) => setDataRetirada(e.target.value)}
-                        className={`md ${retiradaClass}`}
-                        error={errors.dataRetirada}
-                    />
-
                     <NumberContainer
                         id="contadorRetirada"
                         name="contadorRetirada"
@@ -364,6 +345,27 @@ export default function RegisterPrinterForm() {
                         label="Contador de Retirada"
                         error={errors.contadorRetirada}
                     />
+
+                </div>
+                <div className='container' style={{ gap: '5rem' }}>
+                    <DateContainer
+                        label="Data de retirada"
+                        value={dataRetirada}
+                        onChange={(e) => setDataRetirada(e.target.value)}
+                        className={`md ${retiradaClass}`}
+                        error={errors.dataRetirada}
+                    />
+
+                    <SelectContainer
+                        id="status"
+                        name="status"
+                        options={["Ativo", "Inativo"]}
+                        className="lg-select"
+                        label="Status"
+                        onChange={handleStatusChange}
+                        value={status}
+                    />      
+
                 </div>
             </div>
 
@@ -371,7 +373,7 @@ export default function RegisterPrinterForm() {
             <Button
                 type="success"
                 size="medium"
-                text="Salvar"
+                text="Cadastrar"
                 onClick={handleFormSubmit}
             />
         </div>

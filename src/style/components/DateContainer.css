@@ -3,6 +3,10 @@
     height: 39px;
 }
 
+.date-container-form{
+    padding-top: 20px;
+}
+
 .date-field,
 .number-field {
     border-radius: 4px;

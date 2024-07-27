@@ -4,7 +4,7 @@ import "../../style/components/DateContainer.css";
 
 const DateContainer = ({ label, value, onChange, className, error }) => {
     return (
-        <div>
+        <div className='date-container-form'>
             <span className="form-subtitle">{label}</span>
             <div>
                 <input

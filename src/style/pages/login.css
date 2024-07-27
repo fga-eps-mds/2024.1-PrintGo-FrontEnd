@@ -1,6 +1,7 @@
 
 body {
-  font-family: 'Overpass', sans-serif;
+  font-family: 'Jost', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
 }
 
 .login-right-content{

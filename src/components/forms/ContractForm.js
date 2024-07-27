@@ -20,10 +20,10 @@ export default function ContractForm(){
         </label>
         <div id="inputData">
           <label id="label">Data de Início
-            <input id="inputCampos" placeholder="dd/mm/aaaa" type="date"></input>
+            <input className="inputDataInicio" id="inputCampos" placeholder="dd/mm/aaaa" type="date"></input>
           </label>
           <label className="campoDataTermino" id="label">Data de Término
-            <input id="inputCampos" placeholder="dd/mm/aaaa" type="date"></input>
+            <input className="inputDataInicio" id="inputCampos" placeholder="dd/mm/aaaa" type="date"></input>
           </label>
         </div>
       </form>  

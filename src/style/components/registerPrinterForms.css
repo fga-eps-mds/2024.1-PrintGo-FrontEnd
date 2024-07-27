@@ -1,3 +1,7 @@
+.space {
+    margin: 50px 0px;
+}
+
 .form-title {
     font-size: 48px;
     color: #0D3D6D;
@@ -25,7 +29,7 @@
     gap: 1rem;
 }
 
-#localization{
+#localization {
     padding-top: 0px;
 }
 

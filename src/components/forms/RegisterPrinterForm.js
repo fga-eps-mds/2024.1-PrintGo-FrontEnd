@@ -132,6 +132,10 @@ export default function RegisterPrinterForm() {
         }
     };
 
+    const handleExitForm = () => {
+        navigate('/impressorascadastradas');
+    };
+
     const handleContratoChange = (event) => {
         setSelectedContrato(event.target.value);
     };
@@ -244,7 +248,7 @@ export default function RegisterPrinterForm() {
                         label="Modelo"
                         onChange={handleModeloChange}
                         value={selectedModelo}
-                        error={errors.modelo}   
+                        error={errors.modelo}
                     />
 
                     <InputContainer
@@ -364,18 +368,29 @@ export default function RegisterPrinterForm() {
                         label="Status"
                         onChange={handleStatusChange}
                         value={status}
-                    />      
+                    />
 
                 </div>
             </div>
 
 
-            <Button
-                type="success"
-                size="medium"
-                text="Cadastrar"
-                onClick={handleFormSubmit}
-            />
+            <div className="space"></div>
+            <div className="container">
+                <Button
+                    type="success"
+                    size="medium"
+                    text="Cadastrar"
+                    onClick={handleFormSubmit}
+                />
+
+                <Button
+                    type="info"
+                    size="medium"
+                    text="Acessar Lista de Equipamentos"
+                    onClick={handleExitForm}
+                />
+            </div>
+            <div className="space"></div>
         </div>
     );
 }

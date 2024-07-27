@@ -16,7 +16,7 @@ const Button = ({ type, size, text, onClick }) => {
         large: 'button-large',
     };
 
-    const buttonClass = `${typeClasses[type] || 'button-info'} ${sizeClasses[size] || 'button-medium'}`;
+    const buttonClass = `button ${typeClasses[type] || 'button-info'} ${sizeClasses[size] || 'button-medium'}`;
 
     return (
         <button className={buttonClass} onClick={onClick}>

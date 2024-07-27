@@ -1,11 +1,12 @@
 .button {
     border: none;
-    border-radius: 4px;
+    border-radius: 10px;
     color: #fff;
     cursor: pointer;
     font-size: 16px;
     padding: 10px 20px;
     transition: background-color 0.3s ease, border-color 0.3s ease;
+    font-weight: 600;
 }
 
 .button-success {
@@ -19,8 +20,9 @@
 }
 
 .button-info {
-    background-color: #17a2b8;
-    border-color: #17a2b8;
+    background-color: #D9D9D9;
+    border-color: #D9D9D9;
+    color: #003366;
 }
 
 .button-warning {

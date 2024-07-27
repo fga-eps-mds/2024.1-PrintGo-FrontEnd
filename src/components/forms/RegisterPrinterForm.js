@@ -5,7 +5,9 @@ import SelectContainer from '../containers/SelectContainer';
 import InputContainer from '../containers/InputContainer';
 import DateContainer from '../containers/DateContainer';
 import NumberContainer from '../containers/NumberContainer';
+import { toast } from "react-toastify";
 import Button from '../Button';
+import { createImpressora, getLocalizacao } from "../../services/printerService";
 
 export default function RegisterPrinterForm() {
     const [marcas, setMarcas] = useState([]);
@@ -36,8 +38,8 @@ export default function RegisterPrinterForm() {
     useEffect(() => {
         const fetchLocalizacoes = async () => {
             try {
-                const data = mockLocations;
-                setLocalizacoes(data);
+                const response = await getLocalizacao();
+                setLocalizacoes(response.data);
             } catch (error) {
                 console.error('Erro ao buscar localizações:', error);
             }
@@ -95,7 +97,6 @@ export default function RegisterPrinterForm() {
         if (!numSerie) newErrors.numSerie = 'Número de série é obrigatório';
         if (!selectedCidade) newErrors.cidade = 'Cidade é obrigatória';
         if (!selectedWorkstation) newErrors.workstation = 'Posto de trabalho é obrigatório';
-        if (!selectedSubWorkstation) newErrors.subWorkstation = 'Subposto de trabalho é obrigatório';
         if (!dataInstalacao) newErrors.dataInstalacao = 'Data de instalação é obrigatória';
         if (!contadorInstalacao) newErrors.contadorInstalacao = 'Contador de instalação é obrigatório';
         if (status === 'Inativo') {
@@ -107,28 +108,39 @@ export default function RegisterPrinterForm() {
         return Object.keys(newErrors).length === 0; // Retorna true se não houver erros
     };
 
-    const handleFormSubmit = () => {
-        if (validateForm()) {
-            // Log form data to the console
-            console.log({
-                contrato: selectedContrato,
-                marca: selectedMarca,
-                modelo: selectedModelo,
-                enderecoIP: enderecoIP,
-                numSerie: numSerie,
-                dentroRede: selectedDentroRede,
-                cidade: selectedCidade,
-                workstation: selectedWorkstation,
-                subWorkstation: selectedSubWorkstation,
-                dataInstalacao: dataInstalacao,
-                contadorInstalacao: contadorInstalacao,
-                dataRetirada: dataRetirada,
-                status: status,
-                contadorRetirada: contadorRetirada
-            });
+    const handleFormSubmit = async () => {
+        try {
+            if (validateForm()) {
+                let data = {
+                    contrato: selectedContrato,
+                    marca: selectedMarca,
+                    modelo: selectedModelo,
+                    enderecoIp: enderecoIP,
+                    numSerie: numSerie,
+                    dentroRede: selectedDentroRede == "Sim" ? true : false,
+                    cidade: selectedCidade,
+                    regional: selectedWorkstation,
+                    ...(selectedSubWorkstation !== "" && { subestacao: selectedSubWorkstation }),
+                    dataInstalacao: dataInstalacao,
+                    contadorInstalacao: contadorInstalacao,
+                    ...(dataRetirada !== "" && { dataRetirada: dataRetirada }),
+                    status: status,
+                    ...(contadorRetirada !== "" && { contadorRetirada: contadorRetirada }),
+                };
 
-            // Redirect to impressoras-cadastradas
-            navigate('/impressorascadastradas');
+                const res = await createImpressora(data);
+                if (res.type == "error") {
+                    toast.error(res.error.response.data.message);
+                } else {
+                    navigate('/impressorascadastradas');
+                }
+            } else {
+                toast.error("Erro ao criar impressora!");
+            }
+        } catch (error) {
+            // Trate o erro aqui, por exemplo, mostrar uma mensagem para o usuário
+            console.error("Erro ao criar impressora:", error);
+            toast.error("Ocorreu um erro ao criar a impressora. Tente novamente.");
         }
     };
 
@@ -394,54 +406,3 @@ export default function RegisterPrinterForm() {
         </div>
     );
 }
-
-const mockLocations = [
-    {
-        id: '1',
-        name: 'Goiânia',
-        state: 'GO',
-        workstations: [
-            {
-                id: '101',
-                name: 'Workstation A',
-                phone: '1234-5678',
-                ip: '192.168.0.1',
-                gateway: '192.168.0.254',
-                is_regional: true,
-                vpn: true,
-                parent_workstation: null,
-                child_workstations: [
-                    {
-                        id: '102',
-                        name: 'Workstation B',
-                        phone: '2345-6789',
-                        ip: '192.168.0.2',
-                        gateway: '192.168.0.254',
-                        is_regional: false,
-                        vpn: true,
-                        parent_workstation: { id: '101', name: 'Workstation A' },
-                        child_workstations: []
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        id: '2',
-        name: 'Anápolis',
-        state: 'GO',
-        workstations: [
-            {
-                id: '201',
-                name: 'Workstation C',
-                phone: '3456-7890',
-                ip: '192.168.1.1',
-                gateway: '192.168.1.254',
-                is_regional: false,
-                vpn: false,
-                parent_workstation: null,
-                child_workstations: []
-            }
-        ]
-    }
-];

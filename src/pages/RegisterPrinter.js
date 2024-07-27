@@ -9,7 +9,6 @@ export default function RegisterPrinterPage(){
         <>
             <Navbar />
             <div id="registerPrinter-container">
-                <img alt="" src={registerPrinter_image} />
                 <RegisterPrinterForm/>
             </div>
         </>

@@ -1,0 +1,45 @@
+.number-container {
+    height: 39px;
+}
+
+.number-container-form{
+    padding-top: 20px;
+}
+
+.number-field {
+    border-radius: 10px;
+    border: 2px solid #0D3D6D;
+    font-size: 18px;
+    outline: none;
+    transition: border-color 0.3s ease;
+    margin: 0px;
+    padding: 6.5px;
+    box-sizing: border-box;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.number-field::placeholder {
+    color: #D3D3D3;
+}
+
+.number-field.md {
+    width: 250px;
+}
+
+.number-field.lg {
+    width: 350px;
+}
+
+.number-field:focus {
+    border-color: #0D3D6D;
+}
+
+.disabled {
+    background-color: #dddddd;
+    color: #6C6C6C;
+    cursor: not-allowed;
+}
+
+.disabled::placeholder {
+    color: grey;
+}

@@ -2,8 +2,12 @@
     height: 39px;
 }
 
+.input-label{
+    padding-top: 20px;
+}
+
 .input-field {
-    border-radius: 4px;
+    border-radius: 10px;
     border: 2px solid #0D3D6D;
     font-size: 18px;
     outline: none;
@@ -11,6 +15,7 @@
     margin: 0px;
     padding: 6.5px;
     box-sizing: border-box;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .input-error {

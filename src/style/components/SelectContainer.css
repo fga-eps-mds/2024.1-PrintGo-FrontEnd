@@ -1,11 +1,12 @@
 .md-select {
     border: 2px solid #0D3D6D;
-    border-radius: 4px;
+    border-radius: 10px;
     width: 150px;
     font-size: 16px;
     padding: 8px;
     background-color: white;
     color: black;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     /* appearance: none; */
 }
 
@@ -30,12 +31,13 @@
 
 .lg-select {
     border: 2px solid #0D3D6D;
-    border-radius: 4px;
+    border-radius: 10px;
     width: 200px;
     font-size: 16px;
     padding: 8px;
     background-color: white;
     color: black;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     /* appearance: none; */
 }
 
@@ -52,4 +54,8 @@
 
 .lg-select::placeholder {
     color: #0D3D6D;
+}
+
+.select-container{
+    padding-top: 20px;
 }

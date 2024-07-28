@@ -37,6 +37,36 @@
     padding-top: 50px;
 }
 
+.big-info-cards-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.big-info-card {
+  text-align: left; /* Títulos alinhados à esquerda */
+}
+
+.space {
+  margin-bottom: 20px;
+}
+
+.printer-field {
+    display: flex;
+    justify-content: space-between;
+}
+
+.info-field{
+    width: fit-content;
+    flex: 1;
+    margin-right: 2rem;
+}
+
+.cards-field{
+    width: fit-content;
+}
+
 #localization {
     padding-top: 0px;
 }

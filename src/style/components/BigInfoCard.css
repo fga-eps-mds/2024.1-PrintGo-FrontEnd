@@ -10,6 +10,7 @@
     color: white; /* Texto branco */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra */
     padding: 10px; /* Espaçamento interno */
+    margin-top: 50px;
 }
 
 .big-card-title {

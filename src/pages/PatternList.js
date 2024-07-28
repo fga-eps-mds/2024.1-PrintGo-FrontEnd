@@ -172,7 +172,7 @@ export default function PatternList() {
                     Padrão: {pattern.marca} - {pattern.modelo}
                    </Link>
                 </h4>
-                {pattern.status === 'DESATIVADO' && <h5>Desativado</h5>}
+                {!pattern.ativo && <h5>Desativado</h5>}
               </div>
               
               <div className="patternlist-engine">

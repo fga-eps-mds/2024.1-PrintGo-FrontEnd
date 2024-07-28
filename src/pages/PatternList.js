@@ -36,6 +36,8 @@ export default function PatternList() {
     fetchData();
   }, []);
 
+  console.log(patterns)
+
   // modal para desativar impressora
   const modalDeactivatePattern = (pattern) => {
     setSelectedPattern(pattern);
@@ -92,7 +94,7 @@ export default function PatternList() {
 */
   //filtros para busca de impressora
   
-  const filteredPatterns1 = useMemo(() => {
+  const filteredPatterns= useMemo(() => {
     return patterns.filter(pattern => {
       const searchLower = search.toLowerCase();
       const {
@@ -109,37 +111,10 @@ export default function PatternList() {
       );
     }).filter(pattern => {
       return filter === 'all' ||
-             (filter === 'active' && pattern.status === "ATIVO") ||
-             (filter === 'deactivated' && pattern.status === "DESATIVADO");
+             (filter === 'active' && pattern.ativo) ||
+             (filter === 'deactivated' && !pattern.ativo);
     });
   }, [patterns, search, filter]);
-  
-
-  
-  const filteredPatterns = [
-    {
-      id_padrao: 1,
-      status: "ATIVO",
-      marca: "Marca",
-      modelo: "Modelo",
-      tipo: "tipo",
-
-    },{
-      id_padrao: 1,
-      status: "ATIVO",
-      marca: "Marca",
-      modelo: "Modelo",
-      tipo: "tipo",
-
-    },{
-      id_padrao: 1,
-      status: "DESATIVADO",
-      marca: "Marca",
-      modelo: "Modelo",
-      tipo: "tipo",
-
-    }
-  ] 
 
   return (
     <>
@@ -186,15 +161,15 @@ export default function PatternList() {
           </div>
 
           {filteredPatterns.map(pattern => (
-            <div key={pattern.id_padrao} className="patternlist-pattern" style={{ color: pattern.status === "ATIVO" ? '' : 'gray' }}>
+            <div key={pattern.id_padrao} className="patternlist-pattern" style={{ color: pattern.ativo ? '' : 'gray' }}>
               
               <div className="patternlist-model">
                 <h4>
                   <Link 
                     to={`/visualizarpadrao/${btoa(JSON.stringify(pattern))}`}
-                    style={{ color: pattern.status === "ATIVO" ? '' : 'gray' }}
+                    style={{ color: pattern.ativo ? '' : 'gray' }}
                    >
-                    Padrão {pattern.marca} - {pattern.modelo} - {pattern.tipo}
+                    Padrão: {pattern.marca} - {pattern.modelo}
                    </Link>
                 </h4>
                 {pattern.status === 'DESATIVADO' && <h5>Desativado</h5>}
@@ -204,7 +179,7 @@ export default function PatternList() {
                 <img alt="" src={Engine}/>
                 <div className="patternlist-engine-dropdown">
                     <div  className="patternlist-pattern-dropdown">
-                      {pattern.status === "ATIVO"
+                      {pattern.ativo
                         ? <Link to="#" tabIndex="0" onClick={() => modalDeactivatePattern(pattern)}>Desativar</Link>
                         : <Link to="#" tabIndex="0" onClick={() => modalActivePattern(pattern)}>Ativar</Link>
                       }

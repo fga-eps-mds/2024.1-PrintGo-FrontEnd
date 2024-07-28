@@ -40,7 +40,7 @@ export async function getPadrao(id) {
 
 export async function getPadroes() {
   try {
-    const response = await api.get('/printer/padrao');
+    const response = await api.get('/padrao');
     if(response.status !== 200) {
       return { type: 'error', data: response.data};
     }
@@ -123,7 +123,7 @@ export const editImpressora = async (printer) => {
 
 export const createPadraoImpressora = async (printerPattern) => {
   try {
-    const response = await api.post('/printer/padrao/create', printerPattern);
+    const response = await api.post('/padrao/create', printerPattern);
     if(response.status !== 201) {
       return { type: 'error', data: response.data};
     }

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import Navbar from "../navbar/Navbar";
 import "../../style/components/contractForm.css";
-import { createContract, getContract } from "../../services/contractService";
+import { createContract } from "../../services/contractService";
 
 export default function ContractForm() {
   const [numero, setNumero] = useState('');

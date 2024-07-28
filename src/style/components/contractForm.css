@@ -1,22 +1,28 @@
-#padraoPagina{
-    color: #0D3D6D;
-    margin-left: 100px;
-    margin-top: 50px;
+.padraoPagina{
+    margin-top: 5px;
+    padding-inline: 100px;
+    justify-content: center;
+    height: 800px;
 }
 
-#titulo{
+#tituloCad{
     border-bottom: #0D3D6D;
     border-bottom-style: solid;
     width: fit-content;
     padding-bottom: 15px;
+    font-weight: 400;
+    font-size: 48px;
+    color: #0D3D6D;
+    margin-inline: 100px;
 }
 
 #label{
     display: flex;
     flex-direction: column;
     width: 400px;
-    margin-bottom: 40px;
-    font-size: 25px;
+    margin-bottom: 30px;
+    font-weight: 400;
+    color: #0D3D6D;
 }
 
 #inputData{
@@ -31,6 +37,7 @@
     border-color: #0D3D6D;
     border-style: solid;
     padding-left: 20px;
+    padding-top: 5px;
 }
 
 #inputCampos{
@@ -40,38 +47,64 @@
     border-color: #0D3D6D;
     border-style: solid;
     padding-inline: 20px;
+    align-items: center;
+    padding-top: 5px;
+}
+
+#inputCampoDatas{
+    margin-top: 5px;
+    height: 35px;
+    border-radius: 10px;
+    border-color: #0D3D6D;
+    border-style: solid;
+    border-width: 2px;
+    padding-inline: 20px;
+    align-items: center;
+    cursor: pointer;  
 }
 
 ::placeholder{
     font-size: 18px;
     opacity: 0.6;
     font-family: Jost;
+    align-items: center;
 }
 
+.topBar{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-color: #0D3D6D;
+    margin-inline: 70px;
+    max-height: 120px;
+    margin-bottom: -10px;
+}
 .campoDataTermino{
     margin-left: 105px;
 }
 
-.botaoCadastro{
+#botaoCadastro{
     background-color: #006633;
-    height: 40px;
-    width: 200px;
+    height: 6vh;
+    width: 10vw;
     color: white;
-    font-size: 20px;
-    border-radius: 20px;
+    font-size: 24px;
+    border-radius: 30px;
     border-style: none;
     font-family: Jost;
     cursor: pointer;
     font-weight: 600;
+    margin-inline: 70px;
+    margin-left: 200px;
 }
 
-.botaoAcessarLista{
+#botaoAcessarLista{
     background-color: #D9D9D9;
-    height: 40px;
-    width: 350px;
+    height: 6vh;
+    width: 20vw;
     margin-left: 100px;
-    font-size: 20px;
-    border-radius: 20px;
+    font-size: 24px;
+    border-radius: 30px;
     color: #0D3D6D;
     border-style: none;
     font-weight: 700;
@@ -88,4 +121,13 @@
 .contrato-status{
     display: flex;
     gap: 20%;
+
+#contratos-form{
+    margin-inline: 70px;
+    margin-top: 30px;
+}
+
+.formularioCad{
+    margin-inline: 100px;
+    margin-top: -30px;
 }

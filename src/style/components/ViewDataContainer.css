@@ -46,3 +46,7 @@
     margin-bottom: 16px;
     padding-top: 20px;
 }
+
+.view-data-container .disabled-cursor {
+    cursor: not-allowed;
+}

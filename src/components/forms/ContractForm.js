@@ -48,8 +48,11 @@ export default function ContractForm() {
   return (
     <>
       <Navbar />
-      <div id="padraoPagina">
-        <h1 id="titulo">Cadastro de Contratos</h1>
+      <div className="padraoPagina">
+        <div className="topBar">
+          <h1 id="tituloCad">Cadastro de Contrato</h1>
+        </div>
+        <div className="formularioCad">
         <form id="contratos-form">
           <div className="contrato-status">
             <label id="label">
@@ -92,7 +95,7 @@ export default function ContractForm() {
               Data de Início
               <input
                 className="inputDataInicio"
-                id="inputCampos"
+                id="inputCampoDatas"
                 placeholder="dd/mm/aaaa"
                 type="date"
                 value={dataInicio}
@@ -103,7 +106,7 @@ export default function ContractForm() {
               Data de Término
               <input
                 className="inputDataInicio"
-                id="inputCampos"
+                id="inputCampoDatas"
                 placeholder="dd/mm/aaaa"
                 type="date"
                 value={dataFim}
@@ -112,15 +115,12 @@ export default function ContractForm() {
             </label>
           </div>
         </form>
-        <div>
-          <button
-            className="botaoCadastro"
-            type="submit"
-            onClick={handleSubmit}
-          >
+        </div>       
+        <div className="buttonAreaCad">
+          <button id="botaoCadastro" type="submit" onClick={handleSubmit}>
             Cadastrar
           </button>
-          <button className="botaoAcessarLista" type="button" onClick={navigateToContractListForm}>
+          <button id="botaoAcessarLista" type="button" onClick={navigateToContractListForm}>
             Acessar Lista de Contratos
           </button>
         </div>

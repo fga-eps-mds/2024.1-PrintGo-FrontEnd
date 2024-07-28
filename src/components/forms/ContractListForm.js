@@ -26,6 +26,9 @@ const ContractListForm = () => {
     const handleToggleClick = (id) => {
         console.log(`Toggle button clicked for equipment ID: ${id}`);
     };
+    const navigateToContractForm = () => {
+        window.location = "/cadastrarContrato"
+    };
 
     return (
       <>
@@ -47,7 +50,7 @@ const ContractListForm = () => {
                   />
               ))}
           </div>
-          <button id="buttonContracts">Cadastrar Novo Contrato</button>   
+          <button id="buttonContracts" onClick={navigateToContractForm}>Cadastrar Novo Contrato</button>   
         </div>
       </>
     );

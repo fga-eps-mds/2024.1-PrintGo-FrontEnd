@@ -61,6 +61,8 @@
     border-radius: 20px;
     border-style: none;
     font-family: Jost;
+    cursor: pointer;
+    font-weight: 600;
 }
 
 .botaoAcessarLista{
@@ -74,6 +76,7 @@
     border-style: none;
     font-weight: 700;
     font-family: Jost;
+    cursor: pointer;
 }
 
 .inputDataInicio{

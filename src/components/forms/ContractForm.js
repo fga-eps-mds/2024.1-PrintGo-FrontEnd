@@ -40,6 +40,10 @@ export default function ContractForm() {
     }
   };
 
+  const navigateToContractListForm = () => {
+    window.location = "/listagemContrato"
+};
+
   return (
     <>
       <Navbar />
@@ -112,7 +116,7 @@ export default function ContractForm() {
           >
             Cadastrar
           </button>
-          <button className="botaoAcessarLista" type="button">
+          <button className="botaoAcessarLista" type="button" onClick={navigateToContractListForm}>
             Acessar Lista de Contratos
           </button>
         </div>

@@ -10,7 +10,7 @@ export default function ContractForm() {
   const [nomeGestor, setNomeGestor] = useState('');
   const [descricao, setDescricao] = useState('');
   const [dataInicio, setDataInicio] = useState(new Date(Date.now()).toISOString());
-  const [dataFim, setDataFim] = useState(new Date(Date.now()).toISOString());
+  const [dataTermino, setdataTermino] = useState(new Date(Date.now()).toISOString());
   const ativo = false
 
 
@@ -21,7 +21,7 @@ export default function ContractForm() {
       nomeGestor,
       descricao,
       dataInicio: new Date(dataInicio).toISOString(),
-      dataFim: new Date(dataInicio).toISOString(),
+      dataTermino: new Date(dataTermino).toISOString(),
       ativo
 
     };
@@ -31,6 +31,9 @@ export default function ContractForm() {
 
     if(response.type === "success") {
       toast.success("Contrato criado com sucesso!")
+      setTimeout(() => {
+        window.location = "/listagemContrato";
+      }, 1000);
     } else {
       if(response.error.response.status === 400){
         toast.error("Este número de contrato ja existe!")
@@ -41,9 +44,9 @@ export default function ContractForm() {
     }
   };
 
-  const navigateToContractListForm = () => {
+  const navigateToContractList = () => {
     window.location = "/listagemContrato"
-};
+  };
 
   return (
     <>
@@ -109,8 +112,8 @@ export default function ContractForm() {
                 id="inputCampoDatas"
                 placeholder="dd/mm/aaaa"
                 type="date"
-                value={dataFim}
-                onChange={(e) => setDataFim(e.target.value)}
+                value={dataTermino}
+                onChange={(e) => setdataTermino(e.target.value)}
               ></input>
             </label>
           </div>
@@ -120,7 +123,7 @@ export default function ContractForm() {
           <button id="botaoCadastro" type="submit" onClick={handleSubmit}>
             Cadastrar
           </button>
-          <button id="botaoAcessarLista" type="button" onClick={navigateToContractListForm}>
+          <button className="botaoAcessarLista" type="button" onClick={navigateToContractList}>
             Acessar Lista de Contratos
           </button>
         </div>

@@ -13,7 +13,10 @@ function StatusButton() {
     <div>
       {/* Botão que chama a função toggleStatus ao ser clicado */}
       <button 
-        onClick={toggleStatus}
+        onClick={(e) => {
+          e.preventDefault();
+          toggleStatus();
+        }}
         style={{
           height: '39px',
           width: '10vw',

@@ -24,8 +24,8 @@ import PrivateRoutes from "./components/utils/PrivateRoutes";
 import AdminRoutes from "./components/utils/AdminRoutes";
 import ContractForm from "./components/forms/ContractForm";
 import EditContractForm from "./components/forms/EditContractForm";
-import ContractListForm from "./components/forms/ContractListForm";
-import ReadContractForm from "./components/forms/ReadContractForm";
+import ContractList from "./pages/ContractList";
+import ViewContract from "./pages/ViewContract";
 
 function App() {
   return (
@@ -46,8 +46,8 @@ function App() {
             <Route path="/visualizarpadrao/:padrao" element={<ViewPattern />} />
             <Route path="/cadastrarContrato" element={<ContractForm />} />
             <Route path="/editarContrato" element={<EditContractForm />} />
-            <Route path="/verContrato" element={<ReadContractForm />} />
-            <Route path="/listagemContrato" element={<ContractListForm />} />
+            <Route path="/listagemContrato" element={<ContractList />} />
+            <Route path="/verContrato/:contrato" element={<ViewContract />} />
             <Route element={<AdminRoutes/>}>
               <Route path="/listausuarios" element={<UsersList />} />
               <Route path="/cadastro" element={<CreateUserPage />} />

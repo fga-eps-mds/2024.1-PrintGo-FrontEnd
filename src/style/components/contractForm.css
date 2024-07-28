@@ -121,6 +121,7 @@
 .contrato-status{
     display: flex;
     gap: 20%;
+}
 
 #contratos-form{
     margin-inline: 70px;

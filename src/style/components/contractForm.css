@@ -84,3 +84,8 @@
     opacity: 0.6;
     font-family: Jost;
 }
+
+.contrato-status{
+    display: flex;
+    gap: 20%;
+}

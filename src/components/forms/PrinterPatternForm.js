@@ -6,7 +6,7 @@ import "../../style/components/printerPatternForm.css";
 import elipse6 from "../../assets/elipse6.svg";
 import { getRegisterPatternSchema } from "../utils/YupSchema";
 import { ReloadIcon } from "@radix-ui/react-icons";
-import { createPadraoImpressora } from "../../services/printerService";
+import { createPadraoImpressora } from "../../services/patternService";
 import { toast } from "react-toastify";
 
 const fieldLabels = {

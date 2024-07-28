@@ -5,7 +5,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import "../../style/components/printerPatternForm.css";
 import elipse6 from "../../assets/elipse6.svg";
 import { getRegisterPatternSchema } from "../utils/YupSchema";
-import { editPadrao } from "../../services/printerService";
+import { editPadrao } from "../../services/patternService";
 import { toast } from "react-toastify";
 
 const fieldLabels = {

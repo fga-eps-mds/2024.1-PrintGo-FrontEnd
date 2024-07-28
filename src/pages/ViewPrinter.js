@@ -3,6 +3,8 @@ import '../style/pages/viewPrinter.css';
 import Navbar from "../components/navbar/Navbar";
 import ViewDataContainer from "../components/containers/ViewDataContainer";
 import "../style/pages/viewPrinter.css";
+import Button from "../components/Button.js"
+import { useNavigate } from 'react-router-dom';
 
 // Mock de dados da impressora
 const mockPrinterData = {
@@ -53,6 +55,12 @@ export default function ViewPrinter() {
     cidade: "Cidade",
     regional: "Regional",
     subestacao: "Subestação"
+  };
+
+  const navigate = useNavigate();
+
+  const handleExitForm = () => {
+    navigate('/impressorascadastradas');
   };
 
 
@@ -141,6 +149,45 @@ export default function ViewPrinter() {
                 value={mockPrinterData.status}
               />
           </div>
+          <div className="form-separator"> Localização </div>
+          <div className="container" style={{ gap: '5rem' }}>
+              <ViewDataContainer
+                id="cidade-equipamento"
+                className={`large-view`}
+                labelName={infoLabels.cidade}
+                value={mockPrinterData.cidade}
+              />
+
+              <ViewDataContainer
+                id="regional-equipamento"
+                className="large-view"
+                labelName={infoLabels.regional}
+                value={mockPrinterData.regional}
+              />
+
+              <ViewDataContainer
+                id="subestacao-equipamento"
+                className="large-view"
+                labelName={infoLabels.subestacao}
+                value={mockPrinterData.subestacao}
+              />
+          </div>
+          <div className="space"></div>
+            <div className="container">
+                <Button
+                    type="success"
+                    size="medium"
+                    text="Editar"
+                />
+
+                <Button
+                    type="info"
+                    size="medium"
+                    text="Acessar Lista de Equipamentos"
+                    onClick={handleExitForm}
+                />
+          </div>
+          <div className="space"></div>
 
       </div>
       

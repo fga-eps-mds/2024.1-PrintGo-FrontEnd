@@ -2,13 +2,15 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../components/navbar/Navbar.js";
 import "../style/components/readContractForm.css";
 import { useParams } from "react-router-dom";
+import { getContract } from "../services/contractService.js";
+import { toast } from "react-toastify";
 
 /* const mockContract = [
     { id: 1, numero: "09/2001 SSP", nomeGestor: "João Augusto", descricao: "Impressoras laser mono." , dataInicio: "01/01/2024", dataTermino: "28/07/2024"},
 ]; */
 
 const ViewContract = () => {
-    const { contrato } = useParams();
+    const {numero : paramNumero } = useParams();
     const [numero, setNumero] = useState();
     const [nomeGestor, setNomeGestor] = useState();
     const [descricao, setDescricao] = useState();
@@ -24,20 +26,26 @@ const ViewContract = () => {
     };
 
     useEffect(() => {
-      try {
-        const contractString = atob(contrato);
-        const contractObject = JSON.parse(contractString);
-        console.log(contractObject)
-        setNumero(contractObject.numero)
-        setNomeGestor(contractObject.nomeGestor)
-        setDescricao(contractObject.descricao)
-        setDataInicio(contractObject.dataInicio)
-        setDataTermino(contractObject.dataTermino)
-        setAtivo(contractObject.ativo)
-      } catch (error) {
-        console.error("Error decoding Base64 string", error);
+      const fetchContract = async () => {
+        try {
+          const response = await getContract(paramNumero);
+          if (response.type === "success") {
+            setNumero(response.data.numero);
+            setNomeGestor(response.data.nomeGestor);
+            setDescricao(response.data.descricao);
+            setDataInicio(response.data.dataInicio);
+            setDataTermino(response.data.dataTermino);
+            setAtivo(response.data.ativo);
+          } else {
+            toast.error("Erro ao obter o contrato");
+          }
+        } catch (error) {
+          console.log("Erro ao buscar os contratos:", error);
+          toast.error("Erro ao buscar o contrato");
+        }
       }
-    }, [contrato])
+      fetchContract();
+    }, [paramNumero])
 
     return (
       <>

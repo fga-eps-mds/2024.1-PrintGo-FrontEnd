@@ -8,6 +8,7 @@ import {
 } from "../services/contractService.js";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import encodeSpecialChars from "../utils/encode.js";
 
 export default function ContractList() {
   const [contracts, setContracts] = useState([]);
@@ -33,7 +34,10 @@ export default function ContractList() {
   }, []);
 
   const handleReadClick = (contract) => {
-    window.location = `/verContrato/${btoa(JSON.stringify(contract))}`
+    const encodedParam = encodeSpecialChars(contract.numero)
+    const encodedUrl = `/verContrato/${encodedParam}`;
+    console.log(encodedUrl)
+    window.location = encodedUrl
     console.log(`Read button clicked for equipment ID: ${contract.id}`);
   };
 

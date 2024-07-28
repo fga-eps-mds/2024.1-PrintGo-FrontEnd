@@ -47,7 +47,7 @@ function App() {
             <Route path="/cadastrarContrato" element={<ContractForm />} />
             <Route path="/editarContrato" element={<EditContractForm />} />
             <Route path="/listagemContrato" element={<ContractList />} />
-            <Route path="/verContrato/:contrato" element={<ViewContract />} />
+            <Route path="/verContrato/:numero" element={<ViewContract />} />
             <Route element={<AdminRoutes/>}>
               <Route path="/listausuarios" element={<UsersList />} />
               <Route path="/cadastro" element={<CreateUserPage />} />

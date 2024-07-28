@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function ContractList() {
   const [contracts, setContracts] = useState([]);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,8 +32,9 @@ export default function ContractList() {
     fetchContracts();
   }, []);
 
-  const handleReadClick = (id) => {
-    console.log(`Read button clicked for equipment ID: ${id}`);
+  const handleReadClick = (contract) => {
+    window.location = `/verContrato/${btoa(JSON.stringify(contract))}`
+    console.log(`Read button clicked for equipment ID: ${contract.id}`);
   };
 
   const navigateToContractForm = () => {
@@ -47,6 +49,13 @@ export default function ContractList() {
   const handleToggleClick = async (id, numero) => {
     console.log(`Toggle button clicked for equipment ID: ${id}`);
     try {
+      console.log(`CONTRATOS DPS DO SWITCH: ${contracts}`)
+      // Setando o estado do atributo "ativo" apenas do contrato do id referente ao click
+      setContracts(prevContracts =>
+        prevContracts.map(contract =>
+          contract.id === id ? { ...contract, ativo: !contract.ativo } : contract
+        )
+      );
       const response = await switchContractStatus(id);
       const { ativo } = response.data.data;
       if (response.type === "success") {
@@ -83,7 +92,7 @@ export default function ContractList() {
                 numero={contract.numero}
                 gestor={contract.nomeGestor}
                 ativo={contract.ativo}
-                onReadClick={() => handleReadClick(contract.id)}
+                onReadClick={() => handleReadClick(contract)}
                 onEditClick={() => handleEditClick(contract)}
                 onToggleClick={() =>
                   handleToggleClick(contract.id, contract.numero)

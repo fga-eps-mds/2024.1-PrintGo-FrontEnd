@@ -9,7 +9,7 @@ export default function ContractForm() {
   const [nomeGestor, setNomeGestor] = useState('');
   const [descricao, setDescricao] = useState('');
   const [dataInicio, setDataInicio] = useState(new Date(Date.now()).toISOString());
-  const [dataFim, setDataFim] = useState(new Date(Date.now()).toISOString());
+  const [dataTermino, setdataTermino] = useState(new Date(Date.now()).toISOString());
   const ativo = false
 
 
@@ -20,7 +20,7 @@ export default function ContractForm() {
       nomeGestor,
       descricao,
       dataInicio: new Date(dataInicio).toISOString(),
-      dataFim: new Date(dataInicio).toISOString(),
+      dataTermino: new Date(dataTermino).toISOString(),
       ativo
 
     };
@@ -105,8 +105,8 @@ export default function ContractForm() {
                 id="inputCampos"
                 placeholder="dd/mm/aaaa"
                 type="date"
-                value={dataFim}
-                onChange={(e) => setDataFim(e.target.value)}
+                value={dataTermino}
+                onChange={(e) => setdataTermino(e.target.value)}
               ></input>
             </label>
           </div>

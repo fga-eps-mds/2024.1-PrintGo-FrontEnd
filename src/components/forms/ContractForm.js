@@ -3,7 +3,8 @@ import { toast } from "react-toastify";
 import Navbar from "../navbar/Navbar";
 import "../../style/components/contractForm.css";
 import { createContract } from "../../services/contractService";
-import Dropdown from "../containers/StatusDropdown";
+import StatusDropdown from "../containers/StatusDropdown";
+import encodeSpecialChars from "../utils/encode.js";
 
 export default function ContractForm() {
   const [numero, setNumero] = useState('');
@@ -11,7 +12,8 @@ export default function ContractForm() {
   const [descricao, setDescricao] = useState('');
   const [dataInicio, setDataInicio] = useState(new Date(Date.now()).toISOString());
   const [dataTermino, setdataTermino] = useState(new Date(Date.now()).toISOString());
-  const ativo = false
+  const [ativo, setAtivo] = useState(false);
+
 
 
   const handleSubmit = async (e) => {
@@ -23,7 +25,6 @@ export default function ContractForm() {
       dataInicio: new Date(dataInicio).toISOString(),
       dataTermino: new Date(dataTermino).toISOString(),
       ativo
-
     };
     console.log("Form data:", formData);
 
@@ -32,7 +33,10 @@ export default function ContractForm() {
     if(response.type === "success") {
       toast.success("Contrato criado com sucesso!")
       setTimeout(() => {
-        window.location = "/listagemContrato";
+        const encodedParam = encodeSpecialChars(formData.numero)
+        const encodedUrl = `/verContrato/${encodedParam}`;
+        console.log(encodedUrl)
+        window.location = encodedUrl
       }, 1000);
     } else {
       if(response.error.response.status === 400){
@@ -47,6 +51,16 @@ export default function ContractForm() {
   const navigateToContractList = () => {
     window.location = "/listagemContrato"
   };
+
+  const handleStatus = (e) => {
+    console.log("value", e.target.value)
+    if(e.target.value === "ativo"){
+      setAtivo(true)
+    }
+    else if(e.target.value === "inativo"){
+      setAtivo(false)
+    }
+  }
 
   return (
     <>
@@ -69,7 +83,7 @@ export default function ContractForm() {
                 onChange={(e) => setNumero(e.target.value)}
               ></input>
             </label>
-            <Dropdown />
+            <StatusDropdown onChange={handleStatus} />
           </div>
           <label id="label">
             Gestor do Contrato

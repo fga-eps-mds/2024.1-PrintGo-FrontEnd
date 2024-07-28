@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
-function Dropdown() {
+function StatusDropdown({ onChange }) {
   // Estado para armazenar o valor selecionado
   const [selectedOption, setSelectedOption] = useState('');
 
   // Função para lidar com a mudança de seleção
   const handleChange = (event) => {
     setSelectedOption(event.target.value);
+
+    if (onChange) {
+      onChange(event);  // Passa o evento completo
+    }
   };
 
   return (
@@ -54,4 +59,8 @@ function Dropdown() {
   );
 }
 
-export default Dropdown;
+StatusDropdown.propTypes = {
+  onChange: PropTypes.func.isRequired,
+};
+
+export default StatusDropdown;

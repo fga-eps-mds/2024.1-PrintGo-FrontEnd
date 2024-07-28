@@ -27,7 +27,8 @@ export default function RegisterPrinterForm() {
     const [selectedDentroRede, setSelectedDentroRede] = useState('Sim');
     const [dataInstalacao, setDataInstalacao] = useState('');
     const [dataRetirada, setDataRetirada] = useState('');
-    const [contadorInstalacao, setContadorInstalacao] = useState('');
+    const [contadorInstalacaoPB, setContadorInstalacaoPB] = useState('');
+    const [contadorInstalacaoCor, setContadorInstalacaoCor] = useState('');
     const [contadorRetirada, setContadorRetirada] = useState('');
     const [status, setStatus] = useState('Ativo');  // Estado para armazenar o status
     const [errors, setErrors] = useState({});
@@ -98,7 +99,8 @@ export default function RegisterPrinterForm() {
         if (!selectedCidade) newErrors.cidade = 'Cidade é obrigatória';
         if (!selectedWorkstation) newErrors.workstation = 'Posto de trabalho é obrigatório';
         if (!dataInstalacao) newErrors.dataInstalacao = 'Data de instalação é obrigatória';
-        if (!contadorInstalacao) newErrors.contadorInstalacao = 'Contador de instalação é obrigatório';
+        if (!contadorInstalacaoCor) newErrors.contadorInstalacaoCor = 'Contador de instalação é obrigatório';
+        if (!contadorInstalacaoPB) newErrors.contadorInstalacaoPB = 'Contador de instalação é obrigatório';
         if (status === 'Inativo') {
             if (!dataRetirada) newErrors.dataRetirada = 'Data de retirada é obrigatória';
             if (!contadorRetirada) newErrors.contadorRetirada = 'Contador de retirada é obrigatório';
@@ -112,23 +114,31 @@ export default function RegisterPrinterForm() {
         try {
             if (validateForm()) {
                 let data = {
-                    contrato: selectedContrato,
-                    marca: selectedMarca,
-                    modelo: selectedModelo,
+                    numContrato: selectedContrato,
+                    // marca: selectedMarca,
+                    modeloId: selectedModelo,
                     enderecoIp: enderecoIP,
                     numSerie: numSerie,
-                    dentroRede: selectedDentroRede == "Sim" ? true : false,
-                    cidade: selectedCidade,
-                    regional: selectedWorkstation,
-                    ...(selectedSubWorkstation !== "" && { subestacao: selectedSubWorkstation }),
+                    estaNaRede: selectedDentroRede == "Sim" ? true : false,
+                    localizacao: selectedCidade + ';' + selectedWorkstation + (selectedSubWorkstation ? ';' + selectedSubWorkstation : ';'),
+                    // cidade: selectedCidade,
+                    // regional: selectedWorkstation,
+                    // ...(selectedSubWorkstation !== "" && { subestacao: selectedSubWorkstation }),
                     dataInstalacao: dataInstalacao,
-                    contadorInstalacao: contadorInstalacao,
+                    contadorInstalacaoPB: contadorInstalacaoPB,
+                    contadorInstalacaoCor: contadorInstalacaoCor,
+                    contadorRetiradaPB: 0,
+                    contadorRetiradaCor: 0,
+                    contadorAtualPB: 0,
+                    contadorAtualCor: 0,
                     ...(dataRetirada !== "" && { dataRetirada: dataRetirada }),
-                    status: status,
-                    ...(contadorRetirada !== "" && { contadorRetirada: contadorRetirada }),
+                    ativo: status == "Ativo" ? true : false,
+                    ...(contadorRetirada !== "" && { contadorRetiradaPB: contadorRetirada }),
+                    ...(contadorRetirada !== "" && { contadorRetiradaCor: contadorRetirada }),
                 };
 
                 const res = await createImpressora(data);
+                console.log(res)
                 if (res.type == "error") {
                     toast.error(res.error.response.data.message);
                 } else {
@@ -172,8 +182,12 @@ export default function RegisterPrinterForm() {
         setNumSerie(newValue);
     };
 
-    const handleContadorInstalacaoChange = (event) => {
-        setContadorInstalacao(event.target.value);
+    const handleContadorInstalacaoPBChange = (event) => {
+        setContadorInstalacaoPB(event.target.value);
+    };
+
+    const handleContadorInstalacaoCorChange = (event) => {
+        setContadorInstalacaoCor(event.target.value);
     };
 
     const handleContadorRetiradaChange = (event) => {
@@ -339,14 +353,26 @@ export default function RegisterPrinterForm() {
                         error={errors.dataInstalacao}
                     />
 
+                </div>
+                <div className="container" style={{ gap: '5rem' }}>
                     <NumberContainer
-                        id="contadorInstalacao"
-                        name="contadorInstalacao"
-                        value={contadorInstalacao}
-                        onChange={handleContadorInstalacaoChange}
+                        id="contadorInstalacaoPB"
+                        name="contadorInstalacaoPB"
+                        value={contadorInstalacaoPB}
+                        onChange={handleContadorInstalacaoPBChange}
                         className="md-select"
-                        label="Contador de Instalação"
-                        error={errors.contadorInstalacao}
+                        label="Contador preto e branco"
+                        error={errors.contadorInstalacaoPB}
+                    />
+
+                    <NumberContainer
+                        id="contadorInstalacaoCor"
+                        name="contadorInstalacaoCor"
+                        value={contadorInstalacaoCor}
+                        onChange={handleContadorInstalacaoCorChange}
+                        className="md-select"
+                        label="Contador com cor"
+                        error={errors.contadorInstalacaoCor}
                     />
                 </div>
 

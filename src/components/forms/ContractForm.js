@@ -30,6 +30,9 @@ export default function ContractForm() {
 
     if(response.type === "success") {
       toast.success("Contrato criado com sucesso!")
+      setTimeout(() => {
+        window.location = "/listagemContrato";
+      }, 1000);
     } else {
       if(response.error.response.status === 400){
         toast.error("Este número de contrato ja existe!")
@@ -40,9 +43,9 @@ export default function ContractForm() {
     }
   };
 
-  const navigateToContractListForm = () => {
+  const navigateToContractList = () => {
     window.location = "/listagemContrato"
-};
+  };
 
   return (
     <>
@@ -116,7 +119,7 @@ export default function ContractForm() {
           >
             Cadastrar
           </button>
-          <button className="botaoAcessarLista" type="button" onClick={navigateToContractListForm}>
+          <button className="botaoAcessarLista" type="button" onClick={navigateToContractList}>
             Acessar Lista de Contratos
           </button>
         </div>

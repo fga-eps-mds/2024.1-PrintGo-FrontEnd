@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../style/pages/viewPrinter.css';
 import Navbar from "../components/navbar/Navbar";
 import ViewDataContainer from "../components/containers/ViewDataContainer";
-import "../style/pages/viewPrinter.css";
-import Button from "../components/Button.js"
-import { useNavigate } from 'react-router-dom';
+import SmallInfoCard from "../components/cards/SmallInfoCard.js";
+import Button from "../components/Button.js";
 
 // Mock de dados da impressora
 const mockPrinterData = {
@@ -38,7 +38,6 @@ export default function ViewPrinter() {
   const dataRetiradaClass = mockPrinterData.status === "Ativo" ? "inactive-field" : "";
   const dataRetiradaValue = mockPrinterData.status === "Ativo" ? "Equipamento ainda ativo" : mockPrinterData.dataRetirada;
 
-
   // Labels dos campos de informação
   const infoLabels = {
     equipamento: "Equipamento",
@@ -63,134 +62,154 @@ export default function ViewPrinter() {
     navigate('/impressorascadastradas');
   };
 
-
   return (
     <>
       <Navbar />
       <div id="view-printer-data">
-        <span className="form-title">Visualizar Equipamento</span>
-          <ViewDataContainer
-            id="nome-equipamento"
-            className="large-view"
-            labelName={infoLabels.equipamento}
-            value={mockPrinterData.equipamento}
-          />
-
-          <ViewDataContainer
-            id="marca-equipamento"
-            className="large-view"
-            labelName={infoLabels.marca}
-            value={mockPrinterData.marca}
-          />
-
-          <ViewDataContainer
-            id="modelo-equipamento"
-            className="large-view"
-            labelName={infoLabels.modelo}
-            value={mockPrinterData.modelo}
-          />
-
-          <ViewDataContainer
-            id="nserie-equipamento"
-            className="large-view"
-            labelName={infoLabels.numeroSerie}
-            value={mockPrinterData.numeroSerie}
-          />
-
-          <ViewDataContainer
-            id="localizacao-equipamento"
-            className="large-view"
-            labelName={infoLabels.localizacao}
-            value={mockPrinterData.localizacao}
-          />
-
-          <ViewDataContainer
-            id="contrato-equipamento"
-            className="large-view"
-            labelName={infoLabels.contrato}
-            value={mockPrinterData.contrato}
-          />
-
-          <div className="container" style={{ gap: '5rem' }}>
-              <ViewDataContainer
-                id="ip-equipamento"
-                className="large-view"
-                labelName={infoLabels.enderecoIp}
-                value={mockPrinterData.enderecoIp}
-              />
-
-              <ViewDataContainer
-                id="rede-equipamento"
-                className="small-view"
-                labelName={infoLabels.dentroDaRede}
-                value={mockPrinterData.dentroDaRede}
-              />
+        <div className="header-container">
+          <span className="form-title">Visualizar Equipamento</span>
+          <div className="info-cards-container" style={{ gap: '2rem' }}>
+            <SmallInfoCard
+              className="grey-info-card"
+              title="Último contador"
+              imageSrc={require('../assets/green-calendar.png')}
+              info="25/07/2024"
+            />
+            <SmallInfoCard
+              className="grey-info-card"
+              title="Tempo Ativo"
+              imageSrc={require('../assets/green-calendar.png')}
+              info="20 dias"
+            />
+            <SmallInfoCard
+              className="blue-info-card"
+              title="Versão do Firmware"
+              imageSrc={require('../assets/processor.png')}
+              info="1.9.2"
+            />
           </div>
+        </div>
 
+        <ViewDataContainer
+          id="nome-equipamento"
+          className="large-view"
+          labelName={infoLabels.equipamento}
+          value={mockPrinterData.equipamento}
+        />
+
+        <ViewDataContainer
+          id="marca-equipamento"
+          className="large-view"
+          labelName={infoLabels.marca}
+          value={mockPrinterData.marca}
+        />
+
+        <ViewDataContainer
+          id="modelo-equipamento"
+          className="large-view"
+          labelName={infoLabels.modelo}
+          value={mockPrinterData.modelo}
+        />
+
+        <ViewDataContainer
+          id="nserie-equipamento"
+          className="large-view"
+          labelName={infoLabels.numeroSerie}
+          value={mockPrinterData.numeroSerie}
+        />
+
+        <ViewDataContainer
+          id="localizacao-equipamento"
+          className="large-view"
+          labelName={infoLabels.localizacao}
+          value={mockPrinterData.localizacao}
+        />
+
+        <ViewDataContainer
+          id="contrato-equipamento"
+          className="large-view"
+          labelName={infoLabels.contrato}
+          value={mockPrinterData.contrato}
+        />
+
+        <div className="container" style={{ gap: '5rem' }}>
           <ViewDataContainer
-            id="data-instalacao-equipamento"
+            id="ip-equipamento"
             className="large-view"
-            labelName={infoLabels.dataInstalacao}
-            value={mockPrinterData.dataInstalacao}
+            labelName={infoLabels.enderecoIp}
+            value={mockPrinterData.enderecoIp}
           />
 
-          <div className="container" style={{ gap: '5rem' }}>
-              <ViewDataContainer
-                id="data-retirada-equipamento"
-                className={`large-view ${dataRetiradaClass}`}
-                labelName={infoLabels.dataRetirada}
-                value={dataRetiradaValue}
-              />
+          <ViewDataContainer
+            id="rede-equipamento"
+            className="small-view"
+            labelName={infoLabels.dentroDaRede}
+            value={mockPrinterData.dentroDaRede}
+          />
+        </div>
 
-              <ViewDataContainer
-                id="status-equipamento"
-                className="small-view"
-                labelName={infoLabels.status}
-                value={mockPrinterData.status}
-              />
-          </div>
-          <div className="form-separator"> Localização </div>
-          <div className="container" style={{ gap: '5rem' }}>
-              <ViewDataContainer
-                id="cidade-equipamento"
-                className={`large-view`}
-                labelName={infoLabels.cidade}
-                value={mockPrinterData.cidade}
-              />
+        <ViewDataContainer
+          id="data-instalacao-equipamento"
+          className="large-view"
+          labelName={infoLabels.dataInstalacao}
+          value={mockPrinterData.dataInstalacao}
+        />
 
-              <ViewDataContainer
-                id="regional-equipamento"
-                className="large-view"
-                labelName={infoLabels.regional}
-                value={mockPrinterData.regional}
-              />
+        <div className="container" style={{ gap: '5rem' }}>
+          <ViewDataContainer
+            id="data-retirada-equipamento"
+            className={`large-view ${dataRetiradaClass}`}
+            labelName={infoLabels.dataRetirada}
+            value={dataRetiradaValue}
+          />
 
-              <ViewDataContainer
-                id="subestacao-equipamento"
-                className="large-view"
-                labelName={infoLabels.subestacao}
-                value={mockPrinterData.subestacao}
-              />
-          </div>
-          <div className="space"></div>
-            <div className="container">
-                <Button
-                    type="success"
-                    size="medium"
-                    text="Editar"
-                />
+          <ViewDataContainer
+            id="status-equipamento"
+            className="small-view"
+            labelName={infoLabels.status}
+            value={mockPrinterData.status}
+          />
+        </div>
+        <div className="form-separator"> Localização </div>
+        <div className="container" style={{ gap: '5rem' }}>
+          <ViewDataContainer
+            id="cidade-equipamento"
+            className={`large-view`}
+            labelName={infoLabels.cidade}
+            value={mockPrinterData.cidade}
+          />
 
-                <Button
-                    type="info"
-                    size="medium"
-                    text="Acessar Lista de Equipamentos"
-                    onClick={handleExitForm}
-                />
-          </div>
-          <div className="space"></div>
+          <ViewDataContainer
+            id="regional-equipamento"
+            className="large-view"
+            labelName={infoLabels.regional}
+            value={mockPrinterData.regional}
+          />
 
+          <ViewDataContainer
+            id="subestacao-equipamento"
+            className="large-view"
+            labelName={infoLabels.subestacao}
+            value={mockPrinterData.subestacao}
+          />
+        </div>
+        <div className="space"></div>
+        <div className="container">
+          <Button
+            type="success"
+            size="medium"
+            text="Editar"
+          />
+
+          <Button
+            type="info"
+            size="medium"
+            text="Acessar Lista de Equipamentos"
+            onClick={handleExitForm}
+          />
+        </div>
+        <div className="space"></div>
       </div>
-      
     </>
   );
 }

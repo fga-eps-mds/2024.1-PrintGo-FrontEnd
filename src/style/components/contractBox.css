@@ -1,0 +1,56 @@
+.box .overlap-group {
+    background-color: #ffffff;
+    border: 2px solid;
+    border-color: #003366;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    height: 100px;
+    align-items: center;
+
+}
+
+.box .text-wrapper {
+    color: #003366;
+    font-family: "Jost", Helvetica;
+    font-size: 40px;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: normal;
+    display: flex;
+    justify-content: space-between;
+    width: 900px;
+    align-items:first baseline;
+    overflow: hidden;
+}
+
+.box .text-wrapper .numero {
+    font-weight: 600;
+    margin-left: 45px;
+}
+
+.box .text-wrapper .gestor {
+    font-weight: 500;
+    width: 400px;
+}
+
+.box .edit {
+    object-fit: cover;
+    width: 69px;
+    align-items: center;
+}
+
+.box .toggle {
+    object-fit: cover;
+    width: 93px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
+.box .actions {
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+}
+

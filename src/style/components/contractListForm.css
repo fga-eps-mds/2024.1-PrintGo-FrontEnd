@@ -1,4 +1,4 @@
-.equipment-list {
+.contract-list {
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -55,5 +55,4 @@
     font-size: 24px;
     font-weight: 600;
     cursor: pointer;
-
 }   

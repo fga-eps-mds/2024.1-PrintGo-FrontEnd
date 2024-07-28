@@ -4,8 +4,8 @@ import "../../style/components/contractBox.css";
 import { FaToggleOn, FaToggleOff, FaPencil, FaMagnifyingGlass } from "react-icons/fa6";
 import Button from "../Button";
 
-const ContractBox = ({ label, gestor, onReadClick, onEditClick, onToggleClick }) => {
-    const [isToggled, setIsToggled] = useState(true);
+const ContractBox = ({ numero, gestor, ativo, onReadClick, onEditClick, onToggleClick }) => {
+    const [isToggled, setIsToggled] = useState(ativo);
 
     const handleToggleClick = () => {
         setIsToggled(prevState => !prevState);
@@ -14,11 +14,15 @@ const ContractBox = ({ label, gestor, onReadClick, onEditClick, onToggleClick })
         }
     };
 
+    const overlapGroupStyle = {
+      backgroundColor: isToggled ? "#ffffff" : "#d9d9d9"
+    };
+
     return (
         <div className="box">
-            <div className="overlap-group">
+            <div className="overlap-group" style={overlapGroupStyle}>
                 <div className="text-wrapper">
-                    <div className="numero">{label}</div>
+                    <div className="numero">{numero}</div>
                     <div className="gestor">{gestor}</div>                    
                 </div>
                 <div className="actions">
@@ -55,15 +59,16 @@ const ContractBox = ({ label, gestor, onReadClick, onEditClick, onToggleClick })
 };
 
 ContractBox.propTypes = {
-    label: PropTypes.string,
+    numero: PropTypes.string,
     gestor: PropTypes.string,
+    ativo: PropTypes.bool,
     onReadClick: PropTypes.func,
     onEditClick: PropTypes.func,
     onToggleClick: PropTypes.func,
 };
 
 ContractBox.defaultProps = {
-    label: "Default Label",
+    numero: "Default Numero",
     gestor: "Default Gestor",
     onReadClick: () => console.log('Read button clicked'),
     onEditClick: () => console.log('Edit button clicked'),

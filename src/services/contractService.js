@@ -23,3 +23,22 @@ export const createContract = async (data) => {
     return { type: 'error', error };
   }
 };
+
+export const editContract = async (id, data) => {
+  try {
+    const response = await api.put(`/contract/${id}`, data);
+    return { type: 'success', data: response.data};
+  } catch (error) {
+    return { type: 'error', error };
+  }
+};
+
+export const switchContractStatus = async (id) => {
+  try {
+    const response = await api.patch(`/contract/${id}`);
+    console.log(response.data.data)
+    return { type: 'success', data: response.data};
+  } catch (error) {
+    return { type: 'error', error };
+  }
+};

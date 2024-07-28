@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import Navbar from "../navbar/Navbar";
 import "../../style/components/contractForm.css";
 import { createContract } from "../../services/contractService";
+import Dropdown from "../containers/StatusDropdown";
 
 export default function ContractForm() {
   const [numero, setNumero] = useState('');
@@ -53,17 +54,20 @@ export default function ContractForm() {
       <div id="padraoPagina">
         <h1 id="titulo">Cadastro de Contratos</h1>
         <form id="contratos-form">
-          <label id="label">
-            Contrato
-            <input
-              id="inputCampos"
-              placeholder="Insira o n° do contrato"
-              type="text"
-              maxLength={50}
-              value={numero}
-              onChange={(e) => setNumero(e.target.value)}
-            ></input>
-          </label>
+          <div className="contrato-status">
+            <label id="label">
+              Contrato
+              <input
+                id="inputCampos"
+                placeholder="Insira o n° do contrato"
+                type="text"
+                maxLength={50}
+                value={numero}
+                onChange={(e) => setNumero(e.target.value)}
+              ></input>
+            </label>
+            <Dropdown />
+          </div>
           <label id="label">
             Gestor do Contrato
             <input

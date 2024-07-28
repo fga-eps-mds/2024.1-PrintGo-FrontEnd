@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "../navbar/Navbar";
-import { FontSizeIcon } from "@radix-ui/react-icons";
-import ReactDOM from 'react-dom/client';
+/*import { FontSizeIcon } from "@radix-ui/react-icons";
+import ReactDOM from 'react-dom/client';*/
 import ContractBox from "../containers/contractBox.js";
 import "../../style/components/contractListForm.css";
 
@@ -15,6 +15,10 @@ import "../../style/components/contractListForm.css";
 ];
 
 const ContractListForm = () => {
+    const handleReadClick = (id) => {
+      console.log(`Read button clicked for equipment ID: ${id}`);
+    };
+
     const handleEditClick = (id) => {
         console.log(`Edit button clicked for equipment ID: ${id}`);
     };
@@ -37,6 +41,7 @@ const ContractListForm = () => {
                       key={equipment.id}
                       label={equipment.label}
                       gestor={equipment.gestor}
+                      onReadClick={() => handleReadClick(equipment.id)}
                       onEditClick={() => handleEditClick(equipment.id)}
                       onToggleClick={() => handleToggleClick(equipment.id)}
                   />

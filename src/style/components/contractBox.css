@@ -8,6 +8,7 @@
     height: 100px;
     align-items: center;
 
+
 }
 
 .box .text-wrapper {
@@ -34,10 +35,18 @@
     width: 400px;
 }
 
+.box .read {
+    width: 69px;
+    align-items: center;
+    justify-content: left;
+}
+
 .box .edit {
     object-fit: cover;
     width: 69px;
+    display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .box .toggle {

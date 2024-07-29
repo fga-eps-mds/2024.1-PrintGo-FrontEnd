@@ -23,6 +23,10 @@ import RecoverPasswordPage from "./pages/RecoverPassword";
 import PrivateRoutes from "./components/utils/PrivateRoutes";
 import AdminRoutes from "./components/utils/AdminRoutes";
 import ListEquipment from "./components/forms/ListEquipment";
+import ContractForm from "./components/forms/ContractForm";
+import EditContractForm from "./components/forms/EditContractForm";
+import ContractList from "./pages/ContractList";
+import ViewContract from "./pages/ViewContract";
 
 function App() {
   return (
@@ -38,10 +42,16 @@ function App() {
             <Route path="/cadastroimpressora" element={<RegisterPrinter />} />
             {/* <Route path="/editarimpressora/:printer" element={<EditPrinter />} /> */}
             <Route path="/padraoimpressora" element={<PatternPrinter />} />
-            <Route path="/editarpadrao/:padrao" element={<EditPattern />} />
+            <Route path="/editarpadrao" element={<EditPattern />} />
+            <Route path="/impressorascadastradas" element={<PrintersList />} />
+            <Route path="/visualizarimpressora/:printerData" element={<ViewPrinter/>}/>
             <Route path="/listapadroes" element={<PatternList />} />
             <Route path="/padroescadastrados" element={<PatternList />} />
-            <Route path="/visualizarpadrao/:padrao" element={<ViewPattern />} />
+            <Route path="/visualizarpadrao" element={<ViewPattern />} />
+            <Route path="/cadastrarContrato" element={<ContractForm />} />
+            <Route path="/editarContrato" element={<EditContractForm />} />
+            <Route path="/listagemContrato" element={<ContractList />} />
+            <Route path="/verContrato/:id" element={<ViewContract />} />
             <Route element={<AdminRoutes/>}>
               <Route path="/listausuarios" element={<UsersList />} />
               <Route path="/cadastro" element={<CreateUserPage />} />

@@ -81,14 +81,14 @@ export default function EditPatternForm() {
       "marca": marca,
       "modelo": modelo,
       "colorido": isColorido,
-      "oidModelo":  oidModelo,
-      "oidNumeroSerie": oidNumeroSerie,
-      "oidFirmware":  oidFirmware,
-      "oidTempoAtivo":  oidTempoAtivo,
-      "oidDigitalizacoes":  oidDigitalizacoes,
-      "oidCopiasPB":  oidCopiasPB,
-      "oidCopiasCor": oidCopiasCor,
-      "oidTotalGeral":  oidTotalGeral
+      "oidModelo":  oidModelo || null,
+      "oidNumeroSerie": oidNumeroSerie || null,
+      "oidFirmware":  oidFirmware || null,
+      "oidTempoAtivo":  oidTempoAtivo || null,
+      "oidDigitalizacoes":  oidDigitalizacoes || null,
+      "oidCopiasPB":  oidCopiasPB || null,
+      "oidCopiasCor": oidCopiasCor || null,
+      "oidTotalGeral":  oidTotalGeral || null
     }
   }
 

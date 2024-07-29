@@ -32,12 +32,29 @@ export default function EditPatternForm() {
   
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location.state.tipo);
+
+  const altLocation = {
+      id:"",
+      marca: "",
+      modelo: "",
+      tipo: "",
+      colorido: false,
+      oidModelo:  "",
+      oidNumeroSerie: "",
+      oidFirmware:  "",
+      oidTempoAtivo:  "",
+      oidDigitalizacoes:  "",
+      oidCopiasPB:  "",
+      oidCopiasCor: "",
+      oidTotalGeral:  ""
+    }
   
-  const previousPattern = location.state;
   
-  const [tipo, setTipo] = useState(previousPattern.tipo)
+  const previousPattern = location.state || altLocation;
+ 
+  const id = previousPattern.id
   const [marca, setMarca] = useState(previousPattern.marca)
+  const [type, setType] = useState(previousPattern.tipo)
   const [modelo, setModelo] = useState(previousPattern.modelo)
   const [isColorido, setIsColorido] = useState(previousPattern.colorido)
   const [oidModelo, setOidModelo] = useState(previousPattern.oidModelo)
@@ -48,23 +65,19 @@ export default function EditPatternForm() {
   const [oidCopiasPB, setOidCopiasPB] = useState(previousPattern.oidCopiasPB)
   const [oidCopiasCor, setOidCopiasCor] = useState(previousPattern.oidCopiasCor)
   const [oidTotalGeral, setOidTotalGeral] = useState(previousPattern.oidTotalGeral)
-  console.log(tipo);
 
+  
   
   const registerPrinterSchema = getRegisterPatternSchema(fieldLabels);
   const {
-    register,
-    handleSubmit,
-    setValue,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: yupResolver(registerPrinterSchema),
-    mode: "onSubmit",
   });
 
   const updateData = () => {
     return {
-      "tipo": tipo,
+      "tipo": type,
       "marca": marca,
       "modelo": modelo,
       "colorido": isColorido,
@@ -79,10 +92,16 @@ export default function EditPatternForm() {
     }
   }
 
-  const onSubmit = async () => {
+
+
+  
+  const onSubmit = async (e) => {
+    e.preventDefault();
     const data = updateData()
     console.log(data);
-    const response = await editPadrao(data);
+
+    const response = await editPadrao(data, id);
+
     if (response.type === "success") {
       toast.success("Padrão editado com sucesso!");
       setTimeout(() => {
@@ -91,14 +110,12 @@ export default function EditPatternForm() {
     } else {
        toast.error("Erro ao editar o padrão!");
     }
-    
-    
   };
 
   const fieldsObrigatorios = ()=>{
     if(marca === ""){return false}
     if(modelo === ""){return false}
-    if(tipo === ""){return false}
+    if(type === ""){return false}
     return true
   }
 
@@ -108,14 +125,13 @@ export default function EditPatternForm() {
     <div id="printer-pattern-signup-card" data-testid="printer-pattern-signup-card">
       <h2 id="printer-pattern-form-header">Edição de padrão de impressora</h2>
       <form >
-          
         <div id="printer-pattern-fields">
               <div id="printer-pattern-input-line">
                   <label>Tipo<span>*</span></label>
                   <input
                    placeholder={`Digite ${"Tipo".toLowerCase()}`} 
-                   value={tipo}
-                   onChange={(e)=>setTipo(e.target.value)}/>
+                   value={type}
+                   onChange={(e)=>setType(e.target.value)}/>
               </div>
               <div id="printer-pattern-input-line">
                   <label>Marca<span>*</span></label>
@@ -135,9 +151,11 @@ export default function EditPatternForm() {
 
               <div id="inputCheckBox">
                 <label>Equipamento Colorido? </label>
-                  <select onChange={setIsColorido} id="inputColorido" value={isColorido}>
-                    <option value = "false">não</option>
-                    <option value = "true" >sim</option>
+                  <select onChange={(e)=>(setIsColorido(e.target.value === "sim"))} 
+                  id="inputColorido" 
+                  value={isColorido? "sim": "não"}>
+                    <option>sim</option>
+                    <option>não</option>
                   </select> 
               </div>
         </div>
@@ -217,9 +235,10 @@ export default function EditPatternForm() {
               CANCELAR
             </Link>
           </button>
-          <button onClick={onSubmit} className="printer-pattern-form-button"  id="registrar-bnt" disabled={!fieldsObrigatorios() || isSubmitting}>
+          
+          <button onClick={onSubmit} className="printer-pattern-form-button"  id="registrar-bnt" disabled={!fieldsObrigatorios()}>
 
-            {!isSubmitting ? 'EDITAR': "ALTERANDO"}
+            EDITAR
           </button>
         </div>
 

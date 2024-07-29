@@ -1,7 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import "../../style/components/printerPatternForm.css";
 import elipse6 from "../../assets/elipse6.svg";
 import { getRegisterPatternSchema } from "../utils/YupSchema";
@@ -39,7 +39,8 @@ export default function PrinterPatternForm() {
   const [oidCopiasPB, setOidCopiasPB] = useState("")
   const [oidCopiasCor, setOidCopiasCor] = useState("")
   const [oidTotalGeral, setOidTotalGeral] = useState("")
- 
+  const navigate = useNavigate()
+
   const registerPrinterSchema = getRegisterPatternSchema(fieldLabels);
   const {
     formState: { errors, isValid, isSubmitting },
@@ -48,9 +49,6 @@ export default function PrinterPatternForm() {
     resolver: yupResolver(registerPrinterSchema),
     mode: "onChange",
   });
-
-
-  
 
   const createData = ()=>{
     return{
@@ -68,13 +66,16 @@ export default function PrinterPatternForm() {
       "oidTotalGeral":  oidTotalGeral
     }
   }
-    const onSubmit = async () => {
+    const onSubmit = async (e) => {
+      e.preventDefault();
       const data = createData()
       console.log(data)
       const response = await createPadraoImpressora(data)
       if(response.type === "success") {
         toast.success("Padrao de impressora criado com sucesso!")
-        reset();
+        setTimeout(() => {
+          navigate("/padroescadastrados");
+        }, 1000);
       } else {
         toast.error("Erro ao criar o padrao de impressora!")
       }

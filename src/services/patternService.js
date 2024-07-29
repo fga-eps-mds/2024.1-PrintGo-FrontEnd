@@ -50,26 +50,9 @@ import { api } from "../lib/api/config";
     }
   };
   
-  export const editPadrao = async (pattern) => {
+  export const editPadrao = async (pattern, id) => {
     try {
-      const data = {
-        tipo: pattern.tipo,
-        marca: pattern.marca,
-        modelo: pattern.modelo,
-        modeloImpressora: pattern.modeloImpressora,
-        numeroSerie: pattern.numeroSerie,
-        versaoFirmware: pattern.versaoFirmware,
-        tempoAtivoSistema: pattern.tempoAtivoSistema,
-        totalDigitalizacoes: pattern.totalDigitalizacoes,
-        totalCopiasPB: pattern.totalCopiasPB,
-        totalCopiasColoridas: pattern.totalCopiasColoridas,
-        totalImpressoesPb: pattern.totalImpressoesPb,
-        totalImpressoesColoridas: pattern.totalImpressoesColoridas,
-        totalGeral: pattern.totalGeral,
-        enderecoIp: pattern.enderecoIp,
-      }
-      
-      const response = await api.patch(`/printer/padrao/${pattern.id}`, data);
+      const response = await api.put(`/padrao/${id}`, pattern);
       
       if (response.status !== 200) {
         return { type: 'error', data: response.data };

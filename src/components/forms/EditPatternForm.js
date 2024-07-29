@@ -149,7 +149,7 @@ export default function EditPatternForm() {
                    onChange={(e)=>setModelo(e.target.value)}/>
               </div>
 
-              <div id="inputCheckBox">
+              <div id="selection">
                 <label>Equipamento Colorido? </label>
                   <select onChange={(e)=>(setIsColorido(e.target.value === "sim"))} 
                   id="inputColorido" 

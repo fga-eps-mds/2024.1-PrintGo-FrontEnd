@@ -4,6 +4,7 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    
 }
 
 /* View card */
@@ -53,8 +54,7 @@
     width: 100%;
     flex-wrap: wrap;
     justify-content: space-between;
-    margin-bottom: 20px;
-    padding: 16px 0;
+    
 }
 
 .viewpattern-info-header {
@@ -62,6 +62,7 @@
     width: 100%;
     color: #003366;
     font-size: 30px;
+    
 }
 
 .viewpattern-info-line {
@@ -76,20 +77,27 @@
   color: #003366;
   display: block;
   margin-bottom: 0px;
+  
 }
 
 .viewpattern-info-box {
     display: flex;
     width: 30%;
     flex-direction: column;
-    margin-bottom: 12px;
+    margin: 12px 10px; /* Adiciona espaço acima, abaixo, à direita e à esquerda */
     box-sizing: border-box;
+    border: 1px solid #003366; /* Adiciona a borda */
+    padding: 5px; /* Adiciona espaço interno */
+    border-radius: 15px; /* Adiciona cantos arredondados */
+    
 }
 
 .viewpattern-info-box label {
     color: #003366;
     display: block;
     margin-bottom: 0px;
+    font-weight: bold; /* Deixa todos os textos dentro de .viewpattern-info-box em negrito */
+    
 }
 
 .viewpattern-info-box p {
@@ -97,17 +105,20 @@
     display: block;
     font-size: 20px;
     margin-top: 5px;
-    margin-bottom: 0px;
+    margin-bottom: 5px;
+    
 }
 
 .viewpattern-oid-line {
   display: block;
   width: 100%;
   margin-bottom: 30px;
+  
 }
 
 .viewpattern-oid-line p {
   color: #003366;
+  
 }
 
 .viewpattern-oid-box {
@@ -115,13 +126,17 @@
   justify-content: flex-start;
   width: 100%;
   height: fit-content;
-  margin: 0px;
+  margin: 15px 0; /* Adiciona espaço acima e abaixo */
+  border: 1px solid #003366; /* Adiciona a borda */
+  padding: 5px; /* Adiciona espaço interno */
+  border-radius: 15px; /* Adiciona cantos arredondados */
 }
 
 .viewpattern-oid-box label {
   color: #003366;
   width: 50%;
-  margin-bottom: 0px;
+  margin: 5px 5px; /* */
+  font-weight: bold; /* Deixa todos os textos dentro de .viewpattern-info-box em negrito */
 }
 
 .viewpattern-oid-box p {
@@ -129,7 +144,7 @@
   display: block;
   font-size: 16px;
   margin-top: 5px;
-  margin-bottom: 0px;
+  margin-bottom: 5px;
 }
 
 /*Estilo de circuferencia */

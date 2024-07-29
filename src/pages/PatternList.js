@@ -181,7 +181,7 @@ export default function PatternList() {
                         ? <Link to="#" tabIndex="0" onClick={() => modalDeactivatePattern(pattern)}>Desativar</Link>
                         : <Link to="#" tabIndex="0" onClick={() => modalActivePattern(pattern)}>Ativar</Link>
                       }
-                      <button onClick={()=>{navigate("/editarpadrao",{state:pattern})}}>editar</button>
+                      <a onClick={()=>{navigate("/editarpadrao",{state:pattern})}}>Editar</a>
                     </div>
                 </div> 
               </div>

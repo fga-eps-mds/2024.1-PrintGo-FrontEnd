@@ -113,17 +113,28 @@
   color: #9f0805;
 }
 
-#input-checkbox {
-  margin-top: 2rem;
-  display: flex;
-  align-items: center;
+
+#selection select {
+  width: 150px;
+  font-size: 15px;
+  border-radius: 10px;
+
+
+}
+#selection select:focus{
+  background-color: #ffffff;
+  color: #003366;
+  
+  
+
+
 }
 
-#input-checkbox input {
-  margin: 0 12px 0 0;
-  vertical-align: middle;
-  position: relative;
-  top: -3px;
+
+
+#selection {
+  margin-left: 20px;
+
 }
 
 #printer-pattern-fields input {

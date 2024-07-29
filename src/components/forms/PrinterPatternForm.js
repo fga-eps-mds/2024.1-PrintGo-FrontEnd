@@ -117,7 +117,7 @@ export default function PrinterPatternForm() {
                    onChange={(e)=>setModelo(e.target.value)}/>
               </div>
 
-              <div id="inputCheckBox">
+              <div id="selection">
                 <label>Equipamento Colorido? </label>
                   <select onChange={(e)=>{setIsColorido(e.target.value === "sim")}} id="inputColorido">
                     <option>não</option>

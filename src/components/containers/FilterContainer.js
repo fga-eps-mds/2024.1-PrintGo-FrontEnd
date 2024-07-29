@@ -1,11 +1,11 @@
 import React from 'react';
 import DropdownSection from './DropdownSection';
-import "../../style/components/FilterContainer";
+import "../../style/components/FilterContainer.css"
 
 const FilterContainer = () => {
     return (
-        <div className="app">
-            <header className="app-header">
+        <div className="filter-container">
+            <header className="filter-header">
                 <h1>Equipamentos disponíveis</h1>
             </header>
             <main>

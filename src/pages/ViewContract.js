@@ -6,7 +6,7 @@ import { getContract } from "../services/contractService.js";
 import { toast } from "react-toastify";
 
 const ViewContract = () => {
-    const {numero : paramNumero } = useParams();
+    const { id } = useParams();
     const [numero, setNumero] = useState();
     const [nomeGestor, setNomeGestor] = useState();
     const [descricao, setDescricao] = useState();

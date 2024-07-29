@@ -10,6 +10,7 @@ import { FiChevronDown } from "react-icons/fi";
 const Navbar = () => {
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [printerDropdownOpen, setPrinterDropdownOpen] = useState(false);
+  const [contractDropdownOpen, setContractDropdownOpen] = useState(false);
 
   let navigate = useNavigate();
 
@@ -29,6 +30,10 @@ const Navbar = () => {
 
   const togglePrinterDropdown = () => {
     setPrinterDropdownOpen(!printerDropdownOpen)
+  }
+
+  const toggleContractDropdown = () => {
+    setContractDropdownOpen(!printerDropdownOpen)
   }
 
   let user = null;
@@ -97,6 +102,19 @@ const Navbar = () => {
                 )}
               </button>
             </div>
+
+            <div className="navbar-contracts">
+              <button className="navbar-contracts-button" onClick={toggleContractDropdown}>
+                <h4>Contratos</h4> 
+                <FiChevronDown />
+                {contractDropdownOpen && (
+                  <div className="navbar-contracts-dropdown">
+                    <Link to="/listagemContrato">Lista de Contratos</Link>
+                    <Link to="/cadastrarContrato">Cadastrar Contrato</Link>
+                  </div>
+                )}
+                </button>
+              </div>
           </>
         )}
 

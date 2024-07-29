@@ -1,0 +1,133 @@
+.padraoPagina{
+    margin-top: 5px;
+    padding-inline: 50px;
+    justify-content: center;
+}
+
+#tituloCad{
+    border-bottom: #0D3D6D;
+    border-bottom-style: solid;
+    width: fit-content;
+    padding-bottom: 15px;
+    font-weight: 400;
+    font-size: 48px;
+    color: #0D3D6D;
+    margin-left: 30px;
+}
+
+#label{
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    margin-bottom: 30px;
+    font-weight: 400;
+    color: #0D3D6D;
+}
+
+#inputData{
+    display: flex;
+    gap: 20px;
+}
+
+#inputDescricao{
+    width: 900px;
+    margin-top: 5px;
+    height: 35px;
+    border-radius: 10px;
+    border-color: #0D3D6D;
+    border-style: solid;
+    padding-left: 20px;
+    padding-top: 5px;
+}
+
+#inputCampos{
+    margin-top: 5px;
+    height: 35px;
+    border-radius: 10px;
+    border-color: #0D3D6D;
+    border-style: solid;
+    padding-inline: 20px;
+    align-items: center;
+    padding-top: 5px;
+}
+
+#inputCampoDatas{
+    margin-top: 5px;
+    height: 35px;
+    border-radius: 10px;
+    border-color: #0D3D6D;
+    border-style: solid;
+    border-width: 2px;
+    padding-inline: 20px;
+    align-items: center;
+    cursor: pointer;  
+}
+
+::placeholder{
+    font-size: 18px;
+    opacity: 0.6;
+    font-family: Jost;
+    align-items: center;
+}
+
+.topBar{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-color: #0D3D6D;
+    margin-inline: 70px;
+    max-height: 120px;
+    margin-bottom: -10px;
+}
+.campoDataTermino{
+    margin-left: 110px;
+}
+
+#botaoCadastro{
+    background-color: #006633;
+    height: 6vh;
+    width: 10vw;
+    color: white;
+    font-size: 24px;
+    border-radius: 30px;
+    border-style: none;
+    font-family: Jost;
+    cursor: pointer;
+    font-weight: 600;
+    margin-inline: 70px;
+    margin-left: 100px;
+}
+
+.botaoAcessarLista{
+    background-color: #D9D9D9;
+    height: 6vh;
+    width: 25vw;
+    margin-left: 100px;
+    font-size: 24px;
+    border-radius: 30px;
+    color: #0D3D6D;
+    border-style: none;
+    font-weight: 700;
+    font-family: Jost;
+    cursor: pointer;
+}
+
+.inputDataInicio{
+    font-size: 18px;
+    opacity: 0.6;
+    font-family: Jost;
+}
+
+.contrato-status{
+    display: flex;
+    gap: 29%;
+}
+
+#contratos-form{
+    margin-top: 30px;
+}
+
+.formularioCad{
+    margin-inline: 100px;
+    margin-top: -30px;
+}

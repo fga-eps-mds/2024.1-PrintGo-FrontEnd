@@ -8,6 +8,7 @@ const Button = ({ type, size, text, onClick, bgColor }) => {
         error: 'button-error',
         info: 'button-info',
         warning: 'button-warning',
+        icon: 'button-icon'
     };
 
     const sizeClasses = {
@@ -33,7 +34,7 @@ const Button = ({ type, size, text, onClick, bgColor }) => {
 };
 
 Button.propTypes = {
-    type: PropTypes.oneOf(['success', 'error', 'info', 'warning']),
+    type: PropTypes.oneOf(['success', 'error', 'info', 'warning', 'icon']),
     size: PropTypes.oneOf(['small', 'medium', 'large']),
     text: PropTypes.string.isRequired,
     bgColor: PropTypes.string.isRequired,

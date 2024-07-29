@@ -153,6 +153,59 @@
   color: #006633;
 }
 
+/* Contracts dropdown */
+.navbar-contracts {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-contracts-button {
+  display: flex;
+  background-color: #ffff;
+  color: #003366;
+  font-size: 18px;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 1px;
+}
+
+.navbar-contracts-button h4{
+  margin: 0;
+  font-weight: normal;
+  font-size: 18px;
+}
+.navbar-contracts-dropdown {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 180px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.navbar-contracts-dropdown a {
+  color: #003366;
+  width: 15vw;
+  text-decoration: none;
+  display: block;
+  font-size: 20px;
+  padding: 4px 4px;
+}
+
+.navbar-contracts-dropdown a:hover {
+  background-color: #003366;
+  color: #ffff;
+}
+
+.navbar-contracts:hover .navbar-contracts-dropdown {
+  display: block;
+}
+
+.navbar-contracts:hover .navbar-contracts-button  {
+  background-color: #ffff;
+  color: #006633;
+}
+
 /* Login */
 .navbar-login {
   width: 100%;

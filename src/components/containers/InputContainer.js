@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import "../../style/components/InputContainer.css";
 
 const InputContainer = ({ label, placeholder, value, onChange, className, error }) => {
+    const [localValue, setLocalValue] = useState(value);
+
+    useEffect(() => {
+        setLocalValue(value);
+    }, [value]);
+
+    const handleChange = (e) => {
+        setLocalValue(e.target.value);
+        onChange(e.target.value);
+    };
+
     return (
         <div className={`input-label`}>
             <span className="form-subtitle">{label}</span>
@@ -11,8 +22,8 @@ const InputContainer = ({ label, placeholder, value, onChange, className, error 
                     id={label}
                     type="text"
                     placeholder={placeholder}
-                    value={value}
-                    onChange={e => onChange(e.target.value)}
+                    value={localValue}
+                    onChange={handleChange}
                     className={error ? `input-field ${className} input-error` : `input-field ${className}`}
                 />
             </div>

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import '../../style/pages/viewPrinter.css';
 import "../../style/components/registerPrinterForms.css";
@@ -12,6 +12,8 @@ import InputContainer from '../containers/InputContainer.js';
 import SelectContainer from '../containers/SelectContainer.js';
 import { getLocalizacao } from "../../services/printerService";
 import DateContainer from '../containers/DateContainer.js';
+import { toast } from "react-toastify";
+import { editImpressora, } from "../../services/printerService";
 
 // Mock de dados da impressora
 const mockPrinterData = {
@@ -62,164 +64,168 @@ export default function EditPrinterForm() {
     cidade: '',
     regional: '',
     subestacao: ''
-});
-const [numSerie, setNumSerie] = useState('');
-const [selectedContrato, setSelectedContrato] = useState('');
-const [localizacoes, setLocalizacoes] = useState([]);
-const [marcas, setMarcas] = useState([]);
-const [contratos, setContratos] = useState([]);
-const [enderecoIP, setEnderecoIP] = useState('');
-const [selectedDentroRede, setSelectedDentroRede] = useState('Sim');
-const yesNo = ["Sim", "Não"];
-const [dataInstalacao, setDataInstalacao] = useState('');
-const [status, setStatus] = useState('Ativo');
-const [selectedCidade, setSelectedCidade] = useState('');
-const [workstations, setWorkstations] = useState([]);
-const [selectedWorkstation, setSelectedWorkstation] = useState('');
-const [subWorkstations, setSubWorkstations] = useState([]);
-const [selectedSubWorkstation, setSelectedSubWorkstation] = useState('');
+  });
+  const [numSerie, setNumSerie] = useState('');
+  const [selectedContrato, setSelectedContrato] = useState('');
+  const [localizacoes, setLocalizacoes] = useState([]);
+  const [marcas, setMarcas] = useState([]);
+  const [contratos, setContratos] = useState([]);
+  const [enderecoIP, setEnderecoIP] = useState('');
+  const [selectedDentroRede, setSelectedDentroRede] = useState('Sim');
+  const yesNo = ["Sim", "Não"];
+  const [dataInstalacao, setDataInstalacao] = useState('');
+  const [status, setStatus] = useState('Ativo');
+  const [selectedCidade, setSelectedCidade] = useState('');
+  const [workstations, setWorkstations] = useState([]);
+  const [selectedWorkstation, setSelectedWorkstation] = useState('');
+  const [subWorkstations, setSubWorkstations] = useState([]);
+  const [selectedSubWorkstation, setSelectedSubWorkstation] = useState('');
+  const [selectedMarca, setSelectedMarca] = useState('');
+  const [modelos, setModelos] = useState([]);
+  const [selectedModelo, setSelectedModelo] = useState('');
+  const [dataRetirada, setDataRetirada] = useState('');
+  const [contadorRetirada, setContadorRetirada] = useState('');
 
-const {id} = useParams()
 
-useEffect(() => {
-  const fetchLocalizacoes = async () => {
+  const { id } = useParams()
+
+  useEffect(() => {
+    const fetchLocalizacoes = async () => {
       try {
-          const response = await getLocalizacao();
-          setLocalizacoes(response.data);
+        const response = await getLocalizacao();
+        setLocalizacoes(response.data);
       } catch (error) {
-          console.error('Erro ao buscar localizações:', error);
+        console.error('Erro ao buscar localizações:', error);
       }
-  };
+    };
 
-  const fetchMarcas = async () => {
+    const fetchMarcas = async () => {
       try {
-          const data = [
-              {
-                  marca: 'HP',
-                  modelos: ['Model A', 'Model B', 'Model C']
-              },
-              {
-                  marca: 'Canon',
-                  modelos: ['Model X', 'Model Y']
-              }
-          ];
-          setMarcas(data);
+        const data = [
+          {
+            marca: 'HP',
+            modelos: ['Model A', 'Model B', 'Model C']
+          },
+          {
+            marca: 'Canon',
+            modelos: ['Model X', 'Model Y']
+          }
+        ];
+        setMarcas(data);
       } catch (error) {
-          console.error('Erro ao buscar marcas:', error);
+        console.error('Erro ao buscar marcas:', error);
       }
-  };
+    };
 
-  const fetchContratos = async () => {
+    const fetchContratos = async () => {
       try {
-          const data = [
-              'A1B2C3D4',
-              'E5F6G7H8',
-              'I9J0K1L2',
-              'M3N4O5P6',
-              'Q7R8S9T0',
-              'U1V2W3X4',
-              'Y5Z6A7B8',
-              'C9D0E1F2'
-          ];
-          setContratos(data);
+        const data = [
+          'A1B2C3D4',
+          'E5F6G7H8',
+          'I9J0K1L2',
+          'M3N4O5P6',
+          'Q7R8S9T0',
+          'U1V2W3X4',
+          'Y5Z6A7B8',
+          'C9D0E1F2'
+        ];
+        setContratos(data);
       } catch (error) {
-          console.error('Erro ao buscar contratos:', error);
+        console.error('Erro ao buscar contratos:', error);
       }
-  };
+    };
 
-  fetchMarcas();
-  fetchContratos();
-  fetchLocalizacoes();
-}, []);
+    fetchMarcas();
+    fetchContratos();
+    fetchLocalizacoes();
+  }, []);
 
-useEffect(() => {
-  const fetchData = async () => {
+  useEffect(() => {
+    const fetchData = async () => {
       const response = await getPrinterById(id);
       if (response.type === 'success') {
-          const { localizacao, ...restData } = response.data;
-          const [cidade, regional, subestacao] = localizacao.split(';');
+        const { localizacao, ...restData } = response.data;
+        const [cidade, regional, subestacao] = localizacao.split(';');
 
-          setPrinterData({
-              ...restData,
-              cidade: cidade || '',
-              regional: regional || '',
-              subestacao: subestacao || ''
-          });
+        setPrinterData({
+          ...restData,
+          cidade: cidade || '',
+          regional: regional || '',
+          subestacao: subestacao || ''
+        });
       }
+    };
+    fetchData();
+  }, [id]);
+
+  const handleNumSerieChange = (newValue) => {
+    setNumSerie(newValue);
   };
-  fetchData();
-}, [id]);
 
-const handleNumSerieChange = (newValue) => {
-  setNumSerie(newValue);
-};
+  const handleContratoChange = (event) => {
+    setSelectedContrato(event.target.value);
+  };
 
-const handleContratoChange = (event) => {
-  setSelectedContrato(event.target.value);
-};
+  const handleEnderecoIPChange = (newValue) => {
+    setEnderecoIP(newValue);
+  };
 
-const handleEnderecoIPChange = (newValue) => {
-  setEnderecoIP(newValue);
-};
+  const handleContadorRetiradaChange = (event) => {
+    setContadorRetirada(event.target.value);
+  };
 
-const handleStatusChange = (event) => {
-  const newStatus = event.target.value;
-  setStatus(newStatus);
-};
+  const handleStatusChange = (event) => {
+    const newStatus = event.target.value;
+    setStatus(newStatus);
+  };
 
-const handleDentroRedeChange = (event) => {
-  const value = event.target.value;
-  setSelectedDentroRede(value);
+  const handleDentroRedeChange = (event) => {
+    const value = event.target.value;
+    setSelectedDentroRede(value);
 
-  if (value === "Não") {
+    if (value === "Não") {
       setEnderecoIP('');
-  }
-};
-
-const handleLocalizacaoChange = (event) => {
-  const cidadeSelecionada = event.target.value;
-  setSelectedCidade(cidadeSelecionada);
-
-  const localizacao = localizacoes.find(m => m.name === cidadeSelecionada);
-  setWorkstations(localizacao ? localizacao.workstations : []);
-  setSubWorkstations([]);
-
-  setSelectedWorkstation('');
-};
-
-const handleWorkstationChange = (event) => {
-  const workstationSelecionada = event.target.value;
-  setSelectedWorkstation(workstationSelecionada);
-
-  const subworkstations = workstations.find(m => m.name === workstationSelecionada);
-  setSubWorkstations(subworkstations ? subworkstations.child_workstations : []);
-};
-
-const handleSubWorkstationChange = (event) => {
-  const workstationSelecionada = event.target.value;
-  setSelectedSubWorkstation(workstationSelecionada);
-};
-
-const dataRetiradaClass = mockPrinterData.status === "Ativo" ? "inactive-field" : "";
-const dataRetiradaValue = mockPrinterData.status === "Ativo" ? "Equipamento ainda ativo" : mockPrinterData.dataRetirada;
-
-  // Labels dos campos de informação
-  const infoLabels = {
-    equipamento: "Equipamento",
-    numeroSerie: "Número de série",
-    modelo: "Modelo",
-    localizacao: "Localização",
-    contrato: "Contrato",
-    enderecoIp: "Endereço IP",
-    dentroDaRede: "Dentro da rede",
-    dataInstalacao: "Data de instalação",
-    dataRetirada: "Data de retirada",
-    status: "Status",
-    marca: "Marca",
-    cidade: "Cidade",
-    regional: "Regional",
-    subestacao: "Subestação"
+    }
   };
+
+  const handleLocalizacaoChange = (event) => {
+    const cidadeSelecionada = event.target.value;
+    setSelectedCidade(cidadeSelecionada);
+
+    const localizacao = localizacoes.find(m => m.name === cidadeSelecionada);
+    setWorkstations(localizacao ? localizacao.workstations : []);
+    setSubWorkstations([]);
+
+    setSelectedWorkstation('');
+  };
+
+  const handleWorkstationChange = (event) => {
+    const workstationSelecionada = event.target.value;
+    setSelectedWorkstation(workstationSelecionada);
+
+    const subworkstations = workstations.find(m => m.name === workstationSelecionada);
+    setSubWorkstations(subworkstations ? subworkstations.child_workstations : []);
+  };
+
+  const handleSubWorkstationChange = (event) => {
+    const workstationSelecionada = event.target.value;
+    setSelectedSubWorkstation(workstationSelecionada);
+  };
+
+  const handleMarcaChange = (event) => {
+    const marcaSelecionada = event.target.value;
+    setSelectedMarca(marcaSelecionada);
+
+    const marca = marcas.find(m => m.marca === marcaSelecionada);
+    setModelos(marca ? marca.modelos : []);
+  };
+
+  const handleModeloChange = (event) => {
+    setSelectedModelo(event.target.value);
+  };
+
+  const dataRetiradaClass = mockPrinterData.status === "Ativo" ? "inactive-field" : "";
+  const dataRetiradaValue = mockPrinterData.status === "Ativo" ? "Equipamento ainda ativo" : mockPrinterData.dataRetirada;
 
   const navigate = useNavigate();
 
@@ -231,7 +237,49 @@ const dataRetiradaValue = mockPrinterData.status === "Ativo" ? "Equipamento aind
     navigate('/editimpressora');
   };
 
+  const handleEdit = async (printerId) => {
+    try {
+      // Crie o objeto de dados com os valores atuais dos campos
+      let data = {
+        numContrato: selectedContrato,
+        modeloId: selectedModelo,
+        enderecoIp: enderecoIP,
+        numSerie: numSerie,
+        estaNaRede: selectedDentroRede === "Sim",
+        localizacao: `${selectedCidade};${selectedWorkstation}${selectedSubWorkstation ? ';' + selectedSubWorkstation : ';'}`,
+        dataInstalacao: dataInstalacao,
+        // Mantenha os contadores atuais ou defina como necessário
+        // contadorInstalacaoPB: contadorInstalacaoPB,
+        // contadorInstalacaoCor: contadorInstalacaoCor,
+        contadorRetiradaPB: 0,
+        contadorRetiradaCor: 0,
+        contadorAtualPB: 0,
+        contadorAtualCor: 0,
+        ...(dataRetirada !== "" && { dataRetirada: dataRetirada }),
+        ativo: status === "Ativo",
+        ...(contadorRetirada !== "" && { contadorRetiradaPB: contadorRetirada }),
+        ...(contadorRetirada !== "" && { contadorRetiradaCor: contadorRetirada }),
+      };
+
+      // Chame a função de edição com o ID da impressora
+      const res = await editImpressora(printerId, data);
+      console.log(res);
+      if (res.type === "error") {
+        toast.error(res.error.response.data.message);
+      } else {
+        navigate('/impressorascadastradas');
+      }
+    } catch (error) {
+      // Trate o erro aqui, por exemplo, mostrar uma mensagem para o usuário
+      console.error("Erro ao editar impressora:", error);
+      toast.error("Ocorreu um erro ao editar a impressora. Tente novamente.");
+    }
+  };
+
   const enderecoIPClass = selectedDentroRede === "Não" ? "disabled" : "";
+  const retiradaClass = status === 'Ativo' ? 'disabled' : '';
+  const formattedDateInstalacao = printerData.dataInstalacao ? new Date(printerData.dataInstalacao).toISOString().split('T')[0] : '';
+  const formattedDateRetirada = printerData.dataRetirada ? new Date(printerData.dataRetirada).toISOString().split('T')[0] : '';
 
   return (
     <>
@@ -261,25 +309,33 @@ const dataRetiradaValue = mockPrinterData.status === "Ativo" ? "Equipamento aind
         </div>
         <div className="printer-field">
           <div className='info-field'>
-            <ViewDataContainer
-              id="nome-equipamento"
-              className="large-view"
-              labelName={infoLabels.equipamento}
+            <InputContainer
+              label="Equipamento"
+              placeholder="Insira número de série"
               value={printerData.numSerie}
+              onChange={handleNumSerieChange}
+              className="lg"
+
             />
 
-            <ViewDataContainer
-              id="marca-equipamento"
-              className="large-view"
-              labelName={infoLabels.marca}
-              value={printerData.modeloId}
+            <SelectContainer
+              id="marca"
+              name="marca"
+              options={marcas.map(m => m.marca)}
+              className="md-select"
+              label="Marca"
+              onChange={handleMarcaChange}
+              value={selectedMarca}
             />
 
-            <ViewDataContainer
-              id="modelo-equipamento"
-              className="large-view"
-              labelName={infoLabels.modelo}
-              value={printerData.modeloId}
+            <SelectContainer
+              id="modelo"
+              name="modelo"
+              options={modelos}
+              className="md-select"
+              label="Modelo"
+              onChange={handleModeloChange}
+              value={selectedModelo}
             />
 
             <InputContainer
@@ -288,7 +344,7 @@ const dataRetiradaValue = mockPrinterData.status === "Ativo" ? "Equipamento aind
               value={printerData.numSerie}
               onChange={handleNumSerieChange}
               className="lg"
-              
+
             />
 
             <SelectContainer
@@ -319,12 +375,12 @@ const dataRetiradaValue = mockPrinterData.status === "Ativo" ? "Equipamento aind
                 label="Dentro da rede"
                 onChange={handleDentroRedeChange}
                 value={printerData.estaNaRede ? "Sim" : "Não"}
-               />
+              />
             </div>
 
             <DateContainer
               label="Data de Instalação"
-              value={new Date(printerData.dataInstalacao).toLocaleString()}
+              value={formattedDateInstalacao}
               onChange={(e) => setDataInstalacao(e.target.value)}
               className="md"
             />
@@ -332,9 +388,9 @@ const dataRetiradaValue = mockPrinterData.status === "Ativo" ? "Equipamento aind
             <div className="container" style={{ gap: '5rem' }}>
               <DateContainer
                 label="Data de Retirada"
-                value={dataRetiradaValue}
-                onChange={(e) => setDataInstalacao(e.target.value)}
-                className="md"
+                value={formattedDateRetirada}
+                onChange={(e) => setDataRetirada(e.target.value)}
+                className={`md ${retiradaClass}`}
               />
 
               <SelectContainer
@@ -348,7 +404,7 @@ const dataRetiradaValue = mockPrinterData.status === "Ativo" ? "Equipamento aind
               />
             </div>
           </div>
-          <div className='cards-field'> 
+          <div className='cards-field'>
             <BigInfoCard
               title="Impressões totais"
               info={printerData.contadorAtualPB + printerData.contadorAtualCor}
@@ -371,7 +427,7 @@ const dataRetiradaValue = mockPrinterData.status === "Ativo" ? "Equipamento aind
             />
           </div>
         </div>
-        
+
         <div className="form-separator"> Localização </div>
         <div className="container" style={{ gap: '5rem' }}>
           <SelectContainer
@@ -381,7 +437,7 @@ const dataRetiradaValue = mockPrinterData.status === "Ativo" ? "Equipamento aind
             className="md-select"
             label="Cidade"
             onChange={handleLocalizacaoChange}
-            value={printerData.cidade}                        
+            value={printerData.cidade}
           />
 
           <SelectContainer
@@ -410,7 +466,7 @@ const dataRetiradaValue = mockPrinterData.status === "Ativo" ? "Equipamento aind
             type="success"
             size="medium"
             text="Editar"
-            onClick={handleEditButton}
+            onClick={handleEdit}
           />
 
           <Button
@@ -420,7 +476,7 @@ const dataRetiradaValue = mockPrinterData.status === "Ativo" ? "Equipamento aind
             onClick={handleExitForm}
           />
         </div>
-        
+
         <div className="space"></div>
       </div>
     </>

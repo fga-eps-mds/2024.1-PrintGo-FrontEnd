@@ -21,7 +21,8 @@ function Dropdown() {
         style={{
           fontSize: '25px',
           marginBottom: '5px',
-          fontFamily: 'Jost'
+          fontFamily: 'Jost',
+          color: '#0D3D6D'
         }}
       >
         Status

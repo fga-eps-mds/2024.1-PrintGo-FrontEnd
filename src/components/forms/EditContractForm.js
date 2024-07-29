@@ -2,41 +2,87 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import Navbar from "../navbar/Navbar";
 import "../../style/components/editContractForm.css";
-import { createContract, getContract } from "../../services/contractService";
-import StatusButton from "../containers/StatusButton";
+import { editContract } from "../../services/contractService";
+import { useLocation } from 'react-router-dom';
+import StatusDropdown from "../containers/StatusDropdown";
+import formatDate from "../../utils/formatDate";
 
 export default function EditContractForm() {
-  const [numero, setNumero] = useState('');
-  const [nomeGestor, setNomeGestor] = useState('');
-  const [descricao, setDescricao] = useState('');
-  const [dataInicio, setDataInicio] = useState(new Date(Date.now()).toISOString());
-  const [dataFim, setDataFim] = useState(new Date(Date.now()).toISOString());
-  const ativo = false
+  const location = useLocation();
+  const { contract } = location.state
+  const [numero, setNumero] = useState(contract.numero);
+  const [nomeGestor, setNomeGestor] = useState(contract.nomeGestor);
+  const [descricao, setDescricao] = useState(contract.descricao);
+  const [dataInicio, setDataInicio] = useState(contract.dataInicio);
+  const [dataTermino, setDataTermino] = useState(contract.dataTermino);
+  const [ativo, setAtivo] = useState(contract.ativo)
 
+  const handleNumberChange = (e) => {
+    console.log(`Mudou o numero agora ele é ${e.target.value}`)
+    setNumero(e.target.value)
+  }
+
+  const handleNomeGestorChange = (e) => {
+    e.preventDefault();
+    setNomeGestor(e.target.value)
+  }
+
+  const handleDescricaoChange = (e) => {
+    e.preventDefault();
+    setDescricao(e.target.value)
+  }
+
+  const handleDataInicioChange = (e) => {
+    e.preventDefault();
+    setDataInicio(e.target.value)
+  }
+
+  const handleDataTerminoChange = (e) => {
+    e.preventDefault();
+    setDataTermino(e.target.value)
+  }
+
+  const navigateToContractList = () => {
+    window.location = "/listagemContrato"
+  }
+
+  const handleStatus = (e) => {
+    console.log("value", e.target.value)
+    if(e.target.value === "ativo"){
+      setAtivo(true)
+    }
+    else if(e.target.value === "inativo"){
+      setAtivo(false)
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const formData = {
       numero,
       nomeGestor,
       descricao,
       dataInicio: new Date(dataInicio).toISOString(),
-      dataFim: new Date(dataInicio).toISOString(),
+      dataTermino: new Date(dataTermino).toISOString(),
       ativo
+    }
 
-    };
-    console.log("Form data:", formData);
+    if(new Date(dataTermino).getTime() < new Date(Date.now()).getTime()){
+      toast.error("Não é possivel ativar um contrato com a data vencida!")
+    }
+    else{
+      const response = await editContract(contract.id, formData);
 
-    const response = await createContract(formData);
-
-    if(response.type === "success") {
-      toast.success("Contrato criado com sucesso!")
-    } else {
-      if(response.error.response.status === 400){
-        toast.error("Este número de contrato ja existe!")
+      if(response.type === "success") {
+        toast.success("Contrato editado com sucesso!")
+        setTimeout(() => {
+          window.location = "listagemContrato"
+        }, 1000);
       }
       else{
-        toast.error("Erro ao criar contrato!")
+        console.log(response.error)
+        toast.error("Erro ao editar contrato!")
       }
     }
   };
@@ -52,17 +98,13 @@ export default function EditContractForm() {
               Contrato
               <input
                 id="inputCampos"
-                placeholder="Insira o n° do contrato"
                 type="text"
                 maxLength={50}
                 value={numero}
-                onChange={(e) => setNumero(e.target.value)}
+                onChange={handleNumberChange}
               ></input>
             </label>
-            <label id="label">
-              Status
-              <StatusButton />
-            </label>
+            <StatusDropdown onChange={handleStatus} value={ativo ? "ativo" : "inativo"}/>
           </div> 
           <label id="label">
             Gestor do Contrato
@@ -72,7 +114,7 @@ export default function EditContractForm() {
               type="text"
               maxLength={255}
               value={nomeGestor}
-              onChange={(e) => setNomeGestor(e.target.value)}
+              onChange={handleNomeGestorChange}
             ></input>
           </label>
           <label id="label">
@@ -83,7 +125,7 @@ export default function EditContractForm() {
               type="text"
               maxLength={255}
               value={descricao}
-              onChange={(e) => setDescricao(e.target.value)}
+              onChange={handleDescricaoChange}
             ></input>
           </label>
           <div id="inputData">
@@ -92,10 +134,9 @@ export default function EditContractForm() {
               <input
                 className="inputDataInicio"
                 id="inputCampos"
-                placeholder="dd/mm/aaaa"
                 type="date"
-                value={dataInicio}
-                onChange={(e) => setDataInicio(e.target.value)}
+                value={formatDate(dataInicio)}
+                onChange={handleDataInicioChange}
               ></input>
             </label>
             <label className="campoDataTermino" id="label">
@@ -103,10 +144,9 @@ export default function EditContractForm() {
               <input
                 className="inputDataInicio"
                 id="inputCampos"
-                placeholder="dd/mm/aaaa"
                 type="date"
-                value={dataFim}
-                onChange={(e) => setDataFim(e.target.value)}
+                value={formatDate(dataTermino)}
+                onChange={handleDataTerminoChange}
               ></input>
             </label>
           </div>
@@ -119,7 +159,7 @@ export default function EditContractForm() {
           >
             Salvar Mudanças
           </button>
-          <button className="botaoCancelar" type="button">
+          <button className="botaoCancelar" type="button" onClick={navigateToContractList}>
             Cancelar
           </button>
         </div>

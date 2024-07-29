@@ -22,6 +22,7 @@ import ForgottenPasswordPage from "./pages/ForgottenPassword";
 import RecoverPasswordPage from "./pages/RecoverPassword";
 import PrivateRoutes from "./components/utils/PrivateRoutes";
 import AdminRoutes from "./components/utils/AdminRoutes";
+import ListEquipment from "./components/forms/ListEquipment";
 
 function App() {
   return (
@@ -30,13 +31,13 @@ function App() {
         <Routes>
           <Route element={<PrivateRoutes />}>
             <Route path="/editarusuario/:id" element={<EditUserPage/>}/>
+            <Route path="/listimpressora" element={<ListEquipment/>}/>
+            <Route path="/visualizarimpressora/:id" element={<ViewPrinter/>}/>
             <Route path="/mudarsenha" element={<ChangePassword />} />
             <Route path="/cadastroimpressora" element={<RegisterPrinter />} />
-            <Route path="/editarimpressora/:printer" element={<EditPrinter />} />
+            {/* <Route path="/editarimpressora/:printer" element={<EditPrinter />} /> */}
             <Route path="/padraoimpressora" element={<PatternPrinter />} />
             <Route path="/editarpadrao/:padrao" element={<EditPattern />} />
-            <Route path="/impressorascadastradas" element={<PrintersList />} />
-            <Route path="/visualizarimpressora/:printerData" element={<ViewPrinter/>}/>
             <Route path="/listapadroes" element={<PatternList />} />
             <Route path="/padroescadastrados" element={<PatternList />} />
             <Route path="/visualizarpadrao/:padrao" element={<ViewPattern />} />

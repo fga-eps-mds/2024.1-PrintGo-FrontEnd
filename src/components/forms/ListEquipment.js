@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import ItemBox from "../containers/ItemBox";
 import { getPrinters } from "../../services/printerService";
 import "../../style/components/listEquipment.css";
+import { FaWindows } from "react-icons/fa6";
 
 const ListEquipment = () => {
     const [printers, setPrinters] = useState([]);
@@ -23,7 +24,7 @@ const ListEquipment = () => {
     }, []);
 
     const handleEditClick = (id) => {
-        console.log(`Edit button clicked for equipment ID: ${id}`);
+        window.location = `/visualizarimpressora/${id}`
     };
 
     const handleToggleClick = (id) => {

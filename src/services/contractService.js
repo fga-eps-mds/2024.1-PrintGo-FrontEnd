@@ -25,7 +25,7 @@ export const getContractById = async (id) => {
 
 export const createContract = async (data) => {
   try {
-    const response = await api.post('/', data);
+    const response = await api.post('/create', data);
     return { type: 'success', data: response.data};
   } catch (error) {
     return { type: 'error', error };

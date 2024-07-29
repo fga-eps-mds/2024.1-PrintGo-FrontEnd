@@ -1,86 +1,284 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import '../style/pages/viewPrinter.css';
-import ellipse from '../assets/login_ellipse.svg';
-import voltar_vector from '../assets/voltar_vector.svg';
 import Navbar from "../components/navbar/Navbar";
-import { Link, useParams } from "react-router-dom";
-import { extractDate } from "../utils/utils";
+import ViewDataContainer from "../components/containers/ViewDataContainer";
+import SmallInfoCard from "../components/cards/SmallInfoCard.js";
+import BigInfoCard from "../components/cards/BigInfoCard.js";
+import Button from "../components/Button.js";
+import { getPrinterById } from '../services/printerService.js';
 
+// Mock de dados da impressora
+const mockPrinterData = {
+    equipamento: "Impressora XYZ",
+    numeroSerie: "123456789",
+    modelo: "Modelo ABC",
+    localizacao: "Goias",
+    contrato: "Contrato XYZ-123",
+    enderecoIp: "192.168.0.1",
+    dentroDaRede: "Sim",
+    dataInstalacao: "2023-01-15",
+    dataRetirada: "2024-01-15",
+    status: "Ativo",
+    marca: "Marca ABC",
+    cidade: "Cidade XYZ",
+    regional: "Regional 1",
+    subestacao: "Subestação A"
+};
 
-export default function ViewPrinter(){
-    const { printerData } = useParams();
-    console.log(atob(printerData));
+// Função para codificar um objeto em Base64
+function encodeToBase64(obj) {
+    return btoa(JSON.stringify(obj));
+}
 
-    // Labels dos campos de informação.
-    const infoLabels = {
-        numeroSerie: "Número de série",
-        ip: "IP",
-        codigoLocadora: "Código de locadora",
-        espacoLivre: "",
-        contadorInstalacao: "Contador de instalação",
-        dataInstalacao: "Data de instalação",
-        contadorRetiradas: "Contador de retirada",
-        dataContadorRetirada: "Data de retirada",
-        ultimoContador: "Último contador",
-        dataUltimoContador: "Data do último contador",
-        circunscricao: "Circunscrição",
-        unidadeId: "Unidade"
-    }
+// Codificar os dados da impressora
+const encodedPrinterData = encodeToBase64(mockPrinterData);
 
-    // Estado para armazenar os dados da impressora.
-    const [printer, setPrinter] = useState(null);
+console.log(encodedPrinterData); // A string codificada para usar na URL
+
+export default function ViewPrinter() {
+
+    const [printerData, setPrinterData] = useState({
+        numContrato: '',
+        numSerie: '',
+        enderecoIp: '',
+        estaNaRede: false,
+        dataInstalacao: '',
+        dataRetirada: null,
+        ativo: false,
+        contadorInstalacaoPB: 0,
+        contadorInstalacaoCor: 0,
+        contadorAtualPB: 0,
+        contadorAtualCor: 0,
+        contadorRetiradaPB: 0,
+        contadorRetiradaCor: 0,
+        localizacao: '',
+        modeloId: '',
+        cidade: '',
+        regional: '',
+        subestacao: ''
+    });
+
+    const { id } = useParams()
 
     useEffect(() => {
-      try {
-        console.log("Printer Data:", printerData);
-        const printerString = atob(printerData);
-        const printerObject = JSON.parse(printerString);
-        setPrinter(printerObject);
-      } catch (error) {
-        console.error("Error decoding Base64 string:", error);
-        // Handle the error as needed, e.g., setPrinter to a default value or show an error message.
-      }
-    }, [printerData]);
+        const fetchData = async () => {
+            const response = await getPrinterById(id);
+            if (response.type === 'success') {
+                const { localizacao, ...restData } = response.data;
+                const [cidade, regional, subestacao] = localizacao.split(';');
 
-    return(
+                setPrinterData({
+                    ...restData,
+                    cidade: cidade || '',
+                    regional: regional || '',
+                    subestacao: subestacao || ''
+                });
+            }
+        };
+        fetchData();
+    }, [id]);
+
+    const dataRetiradaClass = mockPrinterData.status === "Ativo" ? "inactive-field" : "";
+    const dataRetiradaValue = mockPrinterData.status === "Ativo" ? "Equipamento ainda ativo" : mockPrinterData.dataRetirada;
+
+    // Labels dos campos de informação
+    const infoLabels = {
+        equipamento: "Equipamento",
+        numeroSerie: "Número de série",
+        modelo: "Modelo",
+        localizacao: "Localização",
+        contrato: "Contrato",
+        enderecoIp: "Endereço IP",
+        dentroDaRede: "Dentro da rede",
+        dataInstalacao: "Data de instalação",
+        dataRetirada: "Data de retirada",
+        status: "Status",
+        marca: "Marca",
+        cidade: "Cidade",
+        regional: "Regional",
+        subestacao: "Subestação"
+    };
+
+    const navigate = useNavigate();
+
+    const handleExitForm = () => {
+        navigate('/listimpressora');
+    };
+
+    const handleEditButton = () => {
+        window.location = `/editimpressora/${id}`
+    };
+
+    return (
         <>
-          <Navbar />
-          <div id="container-viewprinter" data-testid="container-viewprinter">
-            <div id="viewprinter-left-content"></div>
-            <div id="viewprinter-right-content">
-              <div id="viewprinter-card">
-                
-                  {printer ? (
-                    <div id="viewprinter-info-group">
-                      <header id="viewprinter-card-header">
-                        <Link to="/impressorascadastradas">
-                          <img alt="" src={voltar_vector}></img>
-                        </Link>
-                        <a href="/impressorascadastradas">Voltar</a>
-                      </header>
-                      <p id="viewprinter-info-header">
-                        {printer.padrao.tipo} - {printer.padrao.marca} - {printer.padrao.modelo}
-                      </p>
-                      <div id="viewprinter-info-line">
-                        {Object.entries(infoLabels).map(([key, label]) => (
-                          <div key={key} id="viewprinter-info-box">
-                            <label>{label}</label>
-                            <p>{key.includes("data") ? extractDate(printer?.[key]) : printer?.[key]}</p>
-                          </div>
-                        ))}
-                      </div>
+            <Navbar />
+            <div id="view-printer-data">
+                <div className="header-container">
+                    <span className="form-title">Visualizar Equipamento</span>
+                    <div className="info-cards-container" style={{ gap: '2rem' }}>
+                        <SmallInfoCard
+                            className="grey-info-card"
+                            title="Último contador"
+                            imageSrc={require('../assets/green-calendar.png')}
+                            info="25/07/2024"
+                        />
+                        <SmallInfoCard
+                            className="grey-info-card"
+                            title="Tempo Ativo"
+                            imageSrc={require('../assets/green-calendar.png')}
+                            info="20 dias"
+                        />
+                        <SmallInfoCard
+                            className="blue-info-card"
+                            title="Versão do Firmware"
+                            imageSrc={require('../assets/processor.png')}
+                            info="1.9.2"
+                        />
                     </div>
-                    ) : (
-                      <p id="viewprinter-loading-text">Carregando dados...</p>
-                    )
-                  }
+                </div>
+                <div className="printer-field">
+                    <div className='info-field'>
+                        <ViewDataContainer
+                            id="nome-equipamento"
+                            className="large-view"
+                            labelName={infoLabels.equipamento}
+                            value={printerData.numSerie}
+                        />
 
-              </div>
-              <div className="elipse-viewprinter">
-                <img alt= "elipse"  src={ellipse}></img>
-              </div>
+                        <ViewDataContainer
+                            id="marca-equipamento"
+                            className="large-view"
+                            labelName={infoLabels.marca}
+                            value={printerData.modeloId}
+                        />
+
+                        <ViewDataContainer
+                            id="modelo-equipamento"
+                            className="large-view"
+                            labelName={infoLabels.modelo}
+                            value={printerData.modeloId}
+                        />
+
+                        <ViewDataContainer
+                            id="nserie-equipamento"
+                            className="large-view"
+                            labelName={infoLabels.numeroSerie}
+                            value={printerData.numSerie}
+                        />
+
+                        <ViewDataContainer
+                            id="contrato-equipamento"
+                            className="large-view"
+                            labelName={infoLabels.contrato}
+                            value={printerData.numContrato}
+                        />
+
+                        <div className="container" style={{ gap: '5rem' }}>
+                            <ViewDataContainer
+                                id="ip-equipamento"
+                                className="large-view"
+                                labelName={infoLabels.enderecoIp}
+                                value={printerData.enderecoIp}
+                            />
+
+                            <ViewDataContainer
+                                id="rede-equipamento"
+                                className="small-view"
+                                labelName={infoLabels.dentroDaRede}
+                                value={printerData.estaNaRede ? "Sim" : "Não"}
+                            />
+                        </div>
+
+                        <ViewDataContainer
+                            id="data-instalacao-equipamento"
+                            className="large-view"
+                            labelName={infoLabels.dataInstalacao}
+                            value={new Date(printerData.dataInstalacao).toLocaleString()}
+                        />
+
+                        <div className="container" style={{ gap: '5rem' }}>
+                            <ViewDataContainer
+                                id="data-retirada-equipamento"
+                                className={`large-view ${dataRetiradaClass}`}
+                                labelName={infoLabels.dataRetirada}
+                                value={dataRetiradaValue}
+                            />
+
+                            <ViewDataContainer
+                                id="status-equipamento"
+                                className="small-view"
+                                labelName={infoLabels.status}
+                                value={printerData.ativo ? "Ativo" : "Inativo"}
+                            />
+                        </div>
+                    </div>
+                    <div className='cards-field'>
+                        <BigInfoCard
+                            title="Impressões totais"
+                            info={printerData.contadorAtualPB + printerData.contadorAtualCor}
+                        />
+                        <BigInfoCard
+                            title="Contador Atual"
+                            info={printerData.contadorInstalacaoCor + printerData.contadorInstalacaoPB}
+                        />
+                        <BigInfoCard
+                            title="Impressões Preto e Branco"
+                            info={printerData.contadorAtualPB}
+                        />
+                        <BigInfoCard
+                            title="Impressões Coloridas"
+                            info={printerData.contadorAtualCor}
+                        />
+                        <BigInfoCard
+                            title="Digitalizações totais"
+                            info="80"
+                        />
+                    </div>
+                </div>
+
+                <div className="form-separator"> Localização </div>
+                <div className="container" style={{ gap: '5rem' }}>
+                    <ViewDataContainer
+                        id="cidade-equipamento"
+                        className={`large-view`}
+                        labelName={infoLabels.cidade}
+                        value={printerData.cidade}
+                    />
+
+                    <ViewDataContainer
+                        id="regional-equipamento"
+                        className="large-view"
+                        labelName={infoLabels.regional}
+                        value={printerData.regional}
+                    />
+
+                    <ViewDataContainer
+                        id="subestacao-equipamento"
+                        className="large-view"
+                        labelName={infoLabels.subestacao}
+                        value={printerData.subestacao}
+                    />
+                </div>
+                <div className="space"></div>
+                <div className="container">
+                    <Button
+                        type="success"
+                        size="medium"
+                        text="Editar"
+                        onClick={handleEditButton}
+                    />
+
+                    <Button
+                        type="info"
+                        size="medium"
+                        text="Acessar Lista de Equipamentos"
+                        onClick={handleExitForm}
+                    />
+                </div>
+
+                <div className="space"></div>
             </div>
-          </div>
         </>
     );
 }

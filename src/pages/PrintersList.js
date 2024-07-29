@@ -11,6 +11,29 @@ import { getPrinters, togglePrinter } from "../services/printerService";
 import { extractDate } from "../utils/utils";
 import { toast } from "react-toastify";
 
+const mockPrinters = [
+  {
+    id: 1,
+    codigoLocadora: "LOC123",
+    ip: "192.168.1.10",
+    padrao: { marca: "HP", tipo: "LaserJet", modelo: "P1102" },
+    numeroSerie: "SN123456",
+    status: "ATIVO",
+    contadorInstalacao: 1500,
+    dataUltimoContador: "2024-06-15"
+  },
+  {
+    id: 2,
+    codigoLocadora: "LOC124",
+    ip: "192.168.1.11",
+    padrao: { marca: "Canon", tipo: "InkJet", modelo: "MG2522" },
+    numeroSerie: "SN654321",
+    status: "DESATIVADO",
+    contadorInstalacao: 200,
+    dataUltimoContador: "2024-06-16"
+  }
+];
+
 export default function PrintersList() {
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState('all');
@@ -35,6 +58,7 @@ export default function PrintersList() {
           }
     }
     fetchData();
+    setPrinters(mockPrinters);
   }, []);
 
   const modalTogglePrinter = (printer) => {

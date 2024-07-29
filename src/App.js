@@ -22,6 +22,7 @@ import ForgottenPasswordPage from "./pages/ForgottenPassword";
 import RecoverPasswordPage from "./pages/RecoverPassword";
 import PrivateRoutes from "./components/utils/PrivateRoutes";
 import AdminRoutes from "./components/utils/AdminRoutes";
+import ListEquipment from "./components/forms/ListEquipment";
 import ContractForm from "./components/forms/ContractForm";
 import EditContractForm from "./components/forms/EditContractForm";
 import ContractList from "./pages/ContractList";
@@ -34,9 +35,12 @@ function App() {
         <Routes>
           <Route element={<PrivateRoutes />}>
             <Route path="/editarusuario/:id" element={<EditUserPage/>}/>
+            <Route path="/listimpressora" element={<ListEquipment/>}/>
+            <Route path="/editimpressora/:id" element={<EditPrinter/>}/>
+            <Route path="/visualizarimpressora/:id" element={<ViewPrinter/>}/>
             <Route path="/mudarsenha" element={<ChangePassword />} />
             <Route path="/cadastroimpressora" element={<RegisterPrinter />} />
-            <Route path="/editarimpressora/:printer" element={<EditPrinter />} />
+            {/* <Route path="/editarimpressora/:printer" element={<EditPrinter />} /> */}
             <Route path="/padraoimpressora" element={<PatternPrinter />} />
             <Route path="/editarpadrao" element={<EditPattern />} />
             <Route path="/impressorascadastradas" element={<PrintersList />} />

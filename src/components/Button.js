@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import '../style/components/button.css';
 
-const Button = ({ type, size, text, onClick }) => {
+const Button = ({ type, size, text, onClick, bgColor }) => {
     const typeClasses = {
         success: 'button-success',
         error: 'button-error',
@@ -19,7 +19,14 @@ const Button = ({ type, size, text, onClick }) => {
     const buttonClass = `button ${typeClasses[type] || 'button-info'} ${sizeClasses[size] || 'button-medium'}`;
 
     return (
-        <button className={buttonClass} onClick={onClick}>
+        <button className={buttonClass} onClick={onClick} 
+        style={
+            {background: bgColor,
+             width:"150px",
+             height:"50px",
+             borderRadius:"25px",
+             color:"white"}}>
+
             {text}
         </button>
     );
@@ -29,6 +36,7 @@ Button.propTypes = {
     type: PropTypes.oneOf(['success', 'error', 'info', 'warning']),
     size: PropTypes.oneOf(['small', 'medium', 'large']),
     text: PropTypes.string.isRequired,
+    bgColor: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
 };
 

@@ -8,6 +8,7 @@ import Input from '../components/Input';
 import Modal from '../components/ui/Modal';
 import Navbar from "../components/navbar/Navbar";
 import { getPadroes, togglePattern } from "../services/patternService";
+import { toast } from "react-toastify";
 
 
 
@@ -57,17 +58,15 @@ export default function PatternList() {
   async function patternToggle() {
     try {
       if (selectedPattern) {
-        const data = await togglePattern(selectedPattern.id, selectedPattern.status);
+        const data = await togglePattern(selectedPattern.id);
         console.log(data);
         
         if (data.type === 'success') {
-          const pattern = patterns.find(pattern => pattern.id === selectedPattern.id);
-          if (pattern.status === 'ATIVO') {
-            pattern.status = 'DESATIVADO';
-          } else {
-            pattern.status = 'ATIVO';
-          }
           setModalOpen(false);
+          selectedPattern.ativo? toast.success("Padão destivado com sucesso"): toast.success("Padão reativado com sucesso")
+          setTimeout(() => {
+            window.location.reload()
+          }, 1000);
         }
       } else {
         console.error("Pattern not selected");
@@ -160,7 +159,7 @@ export default function PatternList() {
           </div>
 
           {filteredPatterns.map(pattern => (
-            <div key={pattern.id_padrao} className="patternlist-pattern" style={{ color: pattern.ativo ? '' : 'gray' }}>
+            <div key={pattern.id} className="patternlist-pattern" style={{ color: pattern.ativo ? '' : 'gray' }}>
               
               <div className="patternlist-model">
                 <h4>

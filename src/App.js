@@ -34,7 +34,7 @@ function App() {
             <Route path="/cadastroimpressora" element={<RegisterPrinter />} />
             <Route path="/editarimpressora/:printer" element={<EditPrinter />} />
             <Route path="/padraoimpressora" element={<PatternPrinter />} />
-            <Route path="/editarpadrao/:padrao" element={<EditPattern />} />
+            <Route path="/editarpadrao" element={<EditPattern />} />
             <Route path="/impressorascadastradas" element={<PrintersList />} />
             <Route path="/visualizarimpressora/:printerData" element={<ViewPrinter/>}/>
             <Route path="/listapadroes" element={<PatternList />} />

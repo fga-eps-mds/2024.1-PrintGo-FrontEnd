@@ -20,8 +20,9 @@ export const getPrinterSchema = (printerFieldLabels) => {
 export const getRegisterPatternSchema = (fieldLabels) => {
 
   return yup.object().shape({
-  marca: yup.string().required(`${fieldLabels.marca} é obrigatório`),
-  modelo: yup.string().required(`${fieldLabels.modelo} é obrigatório`),
+    tipo: yup.string().required(`${fieldLabels.tipo} é obrigatório`),
+    marca: yup.string().required(`${fieldLabels.marca} é obrigatório`),
+    modelo: yup.string().required(`${fieldLabels.modelo} é obrigatório`),
   });
 }
 

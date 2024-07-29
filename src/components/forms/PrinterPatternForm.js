@@ -10,6 +10,7 @@ import { createPadraoImpressora } from "../../services/patternService";
 import { toast } from "react-toastify";
 
 const fieldLabels = {
+  tipo: "Tipo",
   marca: "Marca",
   modelo: "Modelo",
   snmp: {
@@ -26,6 +27,7 @@ const fieldLabels = {
 
 
 export default function PrinterPatternForm() {
+  const [tipo, setTipo] = useState("")
   const [marca, setMarca] = useState("")
   const [modelo, setModelo] = useState("")
   const [isColorido, setIsColorido] = useState(false)
@@ -48,20 +50,11 @@ export default function PrinterPatternForm() {
   });
 
 
-  const onSubmit = async () => {
-    const data = createData()
-    console.log(data)
-    const response = await createPadraoImpressora(data)
-    if(response.type === "success") {
-      toast.success("Padrao de impressora criado com sucesso!")
-      reset();
-    } else {
-      toast.error("Erro ao criar o padrao de impressora!")
-    }
-  };
+  
 
   const createData = ()=>{
     return{
+      "tipo": tipo,
       "marca": marca,
       "modelo": modelo,
       "colorido": isColorido,
@@ -75,19 +68,38 @@ export default function PrinterPatternForm() {
       "oidTotalGeral":  oidTotalGeral
     }
   }
-
+    const onSubmit = async () => {
+      const data = createData()
+      console.log(data)
+      const response = await createPadraoImpressora(data)
+      if(response.type === "success") {
+        toast.success("Padrao de impressora criado com sucesso!")
+        reset();
+      } else {
+        toast.error("Erro ao criar o padrao de impressora!")
+      }
+    };
   const fildsObrigatorios = ()=>{
     if(marca === ""){return false}
     if(modelo === ""){return false}
+    if(tipo === ""){return false}
     return true
   }
 
   return (
     <div id="printer-pattern-signup-card">
       <h2 id="printer-pattern-form-header">Cadastrar padrão de impressora</h2>
-      <form onSubmit={onSubmit}>
+      <form >
           
         <div id="printer-pattern-fields">
+              <div id="printer-pattern-input-line">
+                  <label>Tipo<span>*</span></label>
+                  <input
+                   placeholder={`Digite ${"Tipo".toLowerCase()}`} 
+                   value={tipo}
+                   onChange={(e)=>setTipo(e.target.value)}/>
+              </div>
+
               <div id="printer-pattern-input-line">
                   <label>Marca<span>*</span></label>
                   <input
@@ -188,7 +200,7 @@ export default function PrinterPatternForm() {
               CANCELAR
             </Link>
           </button>
-          <button className="printer-pattern-form-button" type="submit" id="registrar-bnt" disabled={!fildsObrigatorios() || isSubmitting}>
+          <button onClick={onSubmit} className="printer-pattern-form-button"  id="registrar-bnt" disabled={!fildsObrigatorios() || isSubmitting}>
             {isSubmitting && (
               <ReloadIcon id="animate-spin"/>
             )}

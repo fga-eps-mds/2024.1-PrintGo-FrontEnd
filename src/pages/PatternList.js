@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
 import "../style/pages/patternList.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Search from '../assets/Search.svg';
 import Filter from '../assets/Filter.svg';
 import Engine from '../assets/engine.svg';
@@ -20,6 +20,7 @@ export default function PatternList() {
   const [modalBodytext, setModalBodytext] = useState('');
   const [selectedPattern, setSelectedPattern] = useState();
   const [patterns, setPatterns] = useState([]);
+  const navigate = useNavigate();
 
   useEffect( () => {
     async function fetchData() {
@@ -35,8 +36,6 @@ export default function PatternList() {
 
     fetchData();
   }, []);
-
-  console.log(patterns)
 
   // modal para desativar impressora
   const modalDeactivatePattern = (pattern) => {
@@ -169,7 +168,7 @@ export default function PatternList() {
                     to={`/visualizarpadrao/${btoa(JSON.stringify(pattern))}`}
                     style={{ color: pattern.ativo ? '' : 'gray' }}
                    >
-                    Padrão: {pattern.marca} - {pattern.modelo}
+                    Padrão: {pattern.marca} - {pattern.modelo}- {pattern.tipo}
                    </Link>
                 </h4>
                 {!pattern.ativo && <h5>Desativado</h5>}
@@ -183,7 +182,7 @@ export default function PatternList() {
                         ? <Link to="#" tabIndex="0" onClick={() => modalDeactivatePattern(pattern)}>Desativar</Link>
                         : <Link to="#" tabIndex="0" onClick={() => modalActivePattern(pattern)}>Ativar</Link>
                       }
-                      <Link to={`/editarpadrao/${btoa(JSON.stringify(pattern))}`} tabIndex="0">Editar</Link>
+                      <button onClick={()=>{navigate("/editarpadrao",{state:pattern})}}>editar</button>
                     </div>
                 </div> 
               </div>

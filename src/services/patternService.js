@@ -1,16 +1,16 @@
 import { api } from "../lib/api/config";
 
-export async function getPadrao(id) {
-    try {
-      const response = await api.get(`/padrao/${id}`);
-      if(response.status !== 200) {
-        return { type: 'error', data: response.data};
-      }
-      return { type: 'success', data: response.data };
-    } catch (error) {
-      return { type: 'error', error };
+    export async function getPadrao(id) {
+        try {
+        const response = await api.get(`/padrao/${id}`);
+        if(response.status !== 200) {
+            return { type: 'error'};
+        }
+        return { type: 'success'};
+        } catch (error) {
+        return { type: 'error', error };
+        }
     }
-  }
   
   export async function getPadroes() {
     try {

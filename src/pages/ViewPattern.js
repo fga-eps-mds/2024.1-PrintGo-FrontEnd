@@ -7,7 +7,12 @@ import { useParams } from "react-router-dom";
 
 export default function ViewPattern() {
 
-  const { padrao } = useParams();
+  const { id } = useParams();
+  const pattern = {};
+  
+
+
+
 
   const infoLabels = {
     tipo: "Tipo",
@@ -27,19 +32,7 @@ export default function ViewPattern() {
     totalImpressoesColoridas: "Total de impressões color",
     totalGeral: "Total geral",
     enderecoIp: "Endereço de IP",
-  }
-
-  const [pattern, setPattern] = useState()
-
-  useEffect(() => {
-    try {
-      const patternString = atob(padrao);
-      const patternObject = JSON.parse(patternString);
-      setPattern(patternObject);
-    } catch (error) {
-      console.error("Error decoding Base64 string", error);
-    }
-  }, [padrao])
+  } 
 
   return (
     <>

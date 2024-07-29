@@ -7,14 +7,16 @@ import StatusDropdown from "../containers/StatusDropdown";
 import encodeSpecialChars from "../../utils/encode";
 
 export default function ContractForm() {
-  const [numero, setNumero] = useState('');
-  const [nomeGestor, setNomeGestor] = useState('');
-  const [descricao, setDescricao] = useState('');
-  const [dataInicio, setDataInicio] = useState(new Date(Date.now()).toISOString());
-  const [dataTermino, setdataTermino] = useState(new Date(Date.now()).toISOString());
+  const [numero, setNumero] = useState("");
+  const [nomeGestor, setNomeGestor] = useState("");
+  const [descricao, setDescricao] = useState("");
+  const [dataInicio, setDataInicio] = useState(
+    new Date(Date.now()).toISOString()
+  );
+  const [dataTermino, setdataTermino] = useState(
+    new Date(Date.now()).toISOString()
+  );
   const [ativo, setAtivo] = useState(false);
-
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,43 +26,44 @@ export default function ContractForm() {
       descricao,
       dataInicio: new Date(dataInicio).toISOString(),
       dataTermino: new Date(dataTermino).toISOString(),
-      ativo
+      ativo,
     };
     console.log("Form data:", formData);
 
     const response = await createContract(formData);
 
-    if(response.type === "success") {
-      toast.success("Contrato criado com sucesso!")
-      setTimeout(() => {
-        const encodedParam = encodeSpecialChars(formData.numero)
-        const encodedUrl = `/verContrato/${encodedParam}`;
-        console.log(encodedUrl)
-        window.location = encodedUrl
-      }, 1000);
-    } else {
-      if(response.error.response.status === 400){
-        toast.error("Este número de contrato ja existe!")
+    try {
+      if (response.type === "success") {
+        toast.success("Contrato criado com sucesso!");
+        setTimeout(() => {
+          const url = `/verContrato/${response.data.id}`;
+          window.location = url
+        }, 3000);
+      } else {
+        if (response.error.status === 400) {
+          toast.error("Este número de contrato ja existe!");
+        } else {
+          toast.error("Erro ao criar contrato!");
+        }
       }
-      else{
-        toast.error("Erro ao criar contrato!")
-      }
+    } catch (error) {
+      console.log("Erro ao buscar os contratos:", error);
+      toast.error("Erro ao obter os contratos");
     }
   };
 
   const navigateToContractList = () => {
-    window.location = "/listagemContrato"
+    window.location = "/listagemContrato";
   };
 
   const handleStatus = (e) => {
-    console.log("value", e.target.value)
-    if(e.target.value === "ativo"){
-      setAtivo(true)
+    console.log("value", e.target.value);
+    if (e.target.value === "ativo") {
+      setAtivo(true);
+    } else if (e.target.value === "inativo") {
+      setAtivo(false);
     }
-    else if(e.target.value === "inativo"){
-      setAtivo(false)
-    }
-  }
+  };
 
   return (
     <>
@@ -70,74 +73,78 @@ export default function ContractForm() {
           <h1 id="tituloCad">Cadastro de Contrato</h1>
         </div>
         <div className="formularioCad">
-        <form id="contratos-form">
-          <div className="contrato-status">
+          <form id="contratos-form">
+            <div className="contrato-status">
+              <label id="label">
+                Contrato
+                <input
+                  id="inputCampos"
+                  placeholder="Insira o n° do contrato"
+                  type="text"
+                  maxLength={50}
+                  value={numero}
+                  onChange={(e) => setNumero(e.target.value)}
+                ></input>
+              </label>
+              <StatusDropdown onChange={handleStatus} />
+            </div>
             <label id="label">
-              Contrato
+              Gestor do Contrato
               <input
                 id="inputCampos"
-                placeholder="Insira o n° do contrato"
+                placeholder="Insira o nome do gestor"
                 type="text"
-                maxLength={50}
-                value={numero}
-                onChange={(e) => setNumero(e.target.value)}
+                maxLength={255}
+                value={nomeGestor}
+                onChange={(e) => setNomeGestor(e.target.value)}
               ></input>
             </label>
-            <StatusDropdown onChange={handleStatus} />
-          </div>
-          <label id="label">
-            Gestor do Contrato
-            <input
-              id="inputCampos"
-              placeholder="Insira o nome do gestor"
-              type="text"
-              maxLength={255}
-              value={nomeGestor}
-              onChange={(e) => setNomeGestor(e.target.value)}
-            ></input>
-          </label>
-          <label id="label">
-            Descrição do Contrato (Processo)
-            <input
-              id="inputDescricao"
-              placeholder="Insira a descrição do contrato"
-              type="text"
-              maxLength={255}
-              value={descricao}
-              onChange={(e) => setDescricao(e.target.value)}
-            ></input>
-          </label>
-          <div id="inputData">
             <label id="label">
-              Data de Início
+              Descrição do Contrato (Processo)
               <input
-                className="inputDataInicio"
-                id="inputCampoDatas"
-                placeholder="dd/mm/aaaa"
-                type="date"
-                value={dataInicio}
-                onChange={(e) => setDataInicio(e.target.value)}
+                id="inputDescricao"
+                placeholder="Insira a descrição do contrato"
+                type="text"
+                maxLength={255}
+                value={descricao}
+                onChange={(e) => setDescricao(e.target.value)}
               ></input>
             </label>
-            <label className="campoDataTermino" id="label">
-              Data de Término
-              <input
-                className="inputDataInicio"
-                id="inputCampoDatas"
-                placeholder="dd/mm/aaaa"
-                type="date"
-                value={dataTermino}
-                onChange={(e) => setdataTermino(e.target.value)}
-              ></input>
-            </label>
-          </div>
-        </form>
-        </div>       
+            <div id="inputData">
+              <label id="label">
+                Data de Início
+                <input
+                  className="inputDataInicio"
+                  id="inputCampoDatas"
+                  placeholder="dd/mm/aaaa"
+                  type="date"
+                  value={dataInicio}
+                  onChange={(e) => setDataInicio(e.target.value)}
+                ></input>
+              </label>
+              <label className="campoDataTermino" id="label">
+                Data de Término
+                <input
+                  className="inputDataInicio"
+                  id="inputCampoDatas"
+                  placeholder="dd/mm/aaaa"
+                  type="date"
+                  value={dataTermino}
+                  onChange={(e) => setdataTermino(e.target.value)}
+                ></input>
+              </label>
+            </div>
+          </form>
+        </div>
         <div className="buttonAreaCad">
           <button id="botaoCadastro" type="submit" onClick={handleSubmit}>
             Cadastrar
           </button>
-          <button className="botaoAcessarLista" type="button" onClick={navigateToContractList}>
+          <button
+            className="botaoAcessarLista"
+            type="button"
+            onClick={navigateToContractList}
+          >
             Acessar Lista de Contratos
           </button>
         </div>

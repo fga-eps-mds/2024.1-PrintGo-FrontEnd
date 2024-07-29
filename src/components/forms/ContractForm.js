@@ -4,7 +4,7 @@ import Navbar from "../navbar/Navbar";
 import "../../style/components/contractForm.css";
 import { createContract } from "../../services/contractService";
 import StatusDropdown from "../containers/StatusDropdown";
-import encodeSpecialChars from "../utils/encode.js";
+import encodeSpecialChars from "../../utils/encode";
 
 export default function ContractForm() {
   const [numero, setNumero] = useState('');

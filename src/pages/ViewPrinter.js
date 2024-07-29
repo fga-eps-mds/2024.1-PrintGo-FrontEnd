@@ -106,6 +106,10 @@ const dataRetiradaValue = mockPrinterData.status === "Ativo" ? "Equipamento aind
     navigate('/listimpressora');
   };
 
+  const handleEditButton = () => {
+    window.location = `/editimpressora/${id}`
+  };
+
   return (
     <>
       <Navbar />
@@ -262,6 +266,7 @@ const dataRetiradaValue = mockPrinterData.status === "Ativo" ? "Equipamento aind
             type="success"
             size="medium"
             text="Editar"
+            onClick={handleEditButton}
           />
 
           <Button

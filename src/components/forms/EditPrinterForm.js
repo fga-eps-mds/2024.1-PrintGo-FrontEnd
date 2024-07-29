@@ -1,180 +1,428 @@
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import "../../style/components/editPrinterForms.css";
-import elipse6 from '../../assets/elipse6.svg';
-import { getPrinterSchema } from "../utils/YupSchema";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import PropTypes from 'prop-types';
-import { getUnidades } from "../../services/unidadeService";
-import { editImpressora, getPadroes } from "../../services/printerService";
-import { formatDate } from "../../utils/utils";
-import { toast } from "react-toastify";
+import React, {useEffect, useState} from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import '../../style/pages/viewPrinter.css';
+import "../../style/components/registerPrinterForms.css";
+import Navbar from "../navbar/Navbar";
+import ViewDataContainer from '../containers/ViewDataContainer.js';
+import SmallInfoCard from '../cards/SmallInfoCard.js';
+import BigInfoCard from '../cards/BigInfoCard.js';
+import Button from '../Button.js';
+import { getPrinterById } from '../../services/printerService.js';
+import InputContainer from '../containers/InputContainer.js';
+import SelectContainer from '../containers/SelectContainer.js';
+import { getLocalizacao } from "../../services/printerService";
+import DateContainer from '../containers/DateContainer.js';
 
-const fieldLabels = {
-  padrao_id: 'Padrão',
-  ip: 'IP',
-  numeroSerie: 'Número de Série',
-  codigoLocadora: 'Código da Locadora',
-  contadorInstalacao: 'Contador de Instalação',
-  dataInstalacao: 'Data de Instalação',
-  contadorRetiradas: 'Contador de Retirada',
-  dataContadorRetirada: 'Data de Retirada',
-  ultimoContador: 'Último Contador',
-  dataUltimoContador: 'Data do Último Contador',
-  unidadePai: 'Unidade Pai',
-  unidadeId: 'Unidade Filho',
+// Mock de dados da impressora
+const mockPrinterData = {
+  equipamento: "Impressora XYZ",
+  numeroSerie: "123456789",
+  modelo: "Modelo ABC",
+  localizacao: "Goias",
+  contrato: "Contrato XYZ-123",
+  enderecoIp: "192.168.0.1",
+  dentroDaRede: "Sim",
+  dataInstalacao: "2023-01-15",
+  dataRetirada: "2024-01-15",
+  status: "Ativo",
+  marca: "Marca ABC",
+  cidade: "Cidade XYZ",
+  regional: "Regional 1",
+  subestacao: "Subestação A"
 };
+
+// Função para codificar um objeto em Base64
+function encodeToBase64(obj) {
+  return btoa(JSON.stringify(obj));
+}
+
+// Codificar os dados da impressora
+const encodedPrinterData = encodeToBase64(mockPrinterData);
+
+console.log(encodedPrinterData); // A string codificada para usar na URL
 
 export default function EditPrinterForm() {
 
-  const { printer } = useParams();
+  const [printerData, setPrinterData] = useState({
+    numContrato: '',
+    numSerie: '',
+    enderecoIp: '',
+    estaNaRede: false,
+    dataInstalacao: '',
+    dataRetirada: null,
+    ativo: false,
+    contadorInstalacaoPB: 0,
+    contadorInstalacaoCor: 0,
+    contadorAtualPB: 0,
+    contadorAtualCor: 0,
+    contadorRetiradaPB: 0,
+    contadorRetiradaCor: 0,
+    localizacao: '',
+    modeloId: '',
+    cidade: '',
+    regional: '',
+    subestacao: ''
+});
+const [numSerie, setNumSerie] = useState('');
+const [selectedContrato, setSelectedContrato] = useState('');
+const [localizacoes, setLocalizacoes] = useState([]);
+const [marcas, setMarcas] = useState([]);
+const [contratos, setContratos] = useState([]);
+const [enderecoIP, setEnderecoIP] = useState('');
+const [selectedDentroRede, setSelectedDentroRede] = useState('Sim');
+const yesNo = ["Sim", "Não"];
+const [dataInstalacao, setDataInstalacao] = useState('');
+const [status, setStatus] = useState('Ativo');
+const [selectedCidade, setSelectedCidade] = useState('');
+const [workstations, setWorkstations] = useState([]);
+const [selectedWorkstation, setSelectedWorkstation] = useState('');
+const [subWorkstations, setSubWorkstations] = useState([]);
+const [selectedSubWorkstation, setSelectedSubWorkstation] = useState('');
 
-  const navigate = useNavigate();
-  const printerObject = JSON.parse(atob(printer));
+const {id} = useParams()
 
-  const [unidadeList, setUnidadeList] = useState([]);
-  const [padroes, setPadroes] = useState([]);
-  const [unidadesFilha, setUnidadesFilhas] = useState([]);
-  const [padrao, setPadrao] = useState(printerObject.padrao_id);
-  const [unidade, setUnidade] = useState(printerObject.unidadeId);
-  const [inicializou, setInicializou] = useState(false);	
-
-  const editPrinterSchema = getPrinterSchema(fieldLabels);
-  const { register, setValue, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm({
-    resolver: yupResolver(editPrinterSchema),
-    mode: "onSubmit"
-  });
-
-  useEffect( () => {
-    async function setData() {
-        const [dataUnidades, dataPadrao] = await Promise.all([
-          getUnidades(),
-          getPadroes(),
-        ]);
-            
-        if (dataUnidades.type ==='success' && dataUnidades.data) {
-          setUnidadeList(dataUnidades.data);
-          setUnidadesFilhas(dataUnidades.data);
-        }
-        if (dataPadrao.type ==='success' && dataPadrao.data) {
-          setPadroes(dataPadrao.data);
-        }
-    }
-    setData();
-  }, []);
-
-  useEffect(() => {
-    if (padroes.length > 0 && unidadeList.length > 0 && !inicializou) {
-      Object.entries(printerObject).forEach(([key, value]) => {
-        if (key.includes('data')) {
-          value = formatDate(value);
-        }
-        setValue(key, value);
-      });
-      setInicializou(true);
-    }
-  }, [setValue, printerObject]);
-
-  const handleWorkstationChange = (event) => {
-    if (event.target.value) {
-
-        const selectedUnit = unidadeList.find(uni => uni.id === event.target.value);
-        if (selectedUnit) {
-            const combinedList = [selectedUnit, ...selectedUnit.child_workstations];
-            setUnidadesFilhas(combinedList);
-        } else {
-            setUnidadesFilhas([]);
-        }
-    } else {
-        setUnidadesFilhas([]);
-    }
+useEffect(() => {
+  const fetchLocalizacoes = async () => {
+      try {
+          const response = await getLocalizacao();
+          setLocalizacoes(response.data);
+      } catch (error) {
+          console.error('Erro ao buscar localizações:', error);
+      }
   };
 
+  const fetchMarcas = async () => {
+      try {
+          const data = [
+              {
+                  marca: 'HP',
+                  modelos: ['Model A', 'Model B', 'Model C']
+              },
+              {
+                  marca: 'Canon',
+                  modelos: ['Model X', 'Model Y']
+              }
+          ];
+          setMarcas(data);
+      } catch (error) {
+          console.error('Erro ao buscar marcas:', error);
+      }
+  };
 
-  const onSubmit = async (data) => {
-    data.padrao_id = padrao;
-    data.unidadeId = unidade;
-    data.dataInstalacao =  new Date(data.dataInstalacao).toISOString();
-    data.dataContadorRetirada =  new Date(data.dataContadorRetirada).toISOString();
-    data.dataUltimoContador =  new Date(data.dataUltimoContador).toISOString();
-    const response = await editImpressora(data);
-    if (response.type === "success") {
-      toast.success("Impressora editada com sucesso!");
-      setTimeout(() => {
-        reset();
-        navigate("/impressorascadastradas");
-    }, 1000);
-    } else {
-      toast.error("Erro ao editar impressora!");
-    }
+  const fetchContratos = async () => {
+      try {
+          const data = [
+              'A1B2C3D4',
+              'E5F6G7H8',
+              'I9J0K1L2',
+              'M3N4O5P6',
+              'Q7R8S9T0',
+              'U1V2W3X4',
+              'Y5Z6A7B8',
+              'C9D0E1F2'
+          ];
+          setContratos(data);
+      } catch (error) {
+          console.error('Erro ao buscar contratos:', error);
+      }
+  };
+
+  fetchMarcas();
+  fetchContratos();
+  fetchLocalizacoes();
+}, []);
+
+useEffect(() => {
+  const fetchData = async () => {
+      const response = await getPrinterById(id);
+      if (response.type === 'success') {
+          const { localizacao, ...restData } = response.data;
+          const [cidade, regional, subestacao] = localizacao.split(';');
+
+          setPrinterData({
+              ...restData,
+              cidade: cidade || '',
+              regional: regional || '',
+              subestacao: subestacao || ''
+          });
+      }
+  };
+  fetchData();
+}, [id]);
+
+const handleNumSerieChange = (newValue) => {
+  setNumSerie(newValue);
+};
+
+const handleContratoChange = (event) => {
+  setSelectedContrato(event.target.value);
+};
+
+const handleEnderecoIPChange = (newValue) => {
+  setEnderecoIP(newValue);
+};
+
+const handleStatusChange = (event) => {
+  const newStatus = event.target.value;
+  setStatus(newStatus);
+};
+
+const handleDentroRedeChange = (event) => {
+  const value = event.target.value;
+  setSelectedDentroRede(value);
+
+  if (value === "Não") {
+      setEnderecoIP('');
   }
+};
+
+const handleLocalizacaoChange = (event) => {
+  const cidadeSelecionada = event.target.value;
+  setSelectedCidade(cidadeSelecionada);
+
+  const localizacao = localizacoes.find(m => m.name === cidadeSelecionada);
+  setWorkstations(localizacao ? localizacao.workstations : []);
+  setSubWorkstations([]);
+
+  setSelectedWorkstation('');
+};
+
+const handleWorkstationChange = (event) => {
+  const workstationSelecionada = event.target.value;
+  setSelectedWorkstation(workstationSelecionada);
+
+  const subworkstations = workstations.find(m => m.name === workstationSelecionada);
+  setSubWorkstations(subworkstations ? subworkstations.child_workstations : []);
+};
+
+const handleSubWorkstationChange = (event) => {
+  const workstationSelecionada = event.target.value;
+  setSelectedSubWorkstation(workstationSelecionada);
+};
+
+const dataRetiradaClass = mockPrinterData.status === "Ativo" ? "inactive-field" : "";
+const dataRetiradaValue = mockPrinterData.status === "Ativo" ? "Equipamento ainda ativo" : mockPrinterData.dataRetirada;
+
+  // Labels dos campos de informação
+  const infoLabels = {
+    equipamento: "Equipamento",
+    numeroSerie: "Número de série",
+    modelo: "Modelo",
+    localizacao: "Localização",
+    contrato: "Contrato",
+    enderecoIp: "Endereço IP",
+    dentroDaRede: "Dentro da rede",
+    dataInstalacao: "Data de instalação",
+    dataRetirada: "Data de retirada",
+    status: "Status",
+    marca: "Marca",
+    cidade: "Cidade",
+    regional: "Regional",
+    subestacao: "Subestação"
+  };
+
+  const navigate = useNavigate();
+
+  const handleExitForm = () => {
+    navigate('/listimpressora');
+  };
+
+  const handleEditButton = () => {
+    navigate('/editimpressora');
+  };
+
+  const enderecoIPClass = selectedDentroRede === "Não" ? "disabled" : "";
 
   return (
-    <div id="editPrinter-card">
-    
-      <Link id="link-back" to="/impressorascadastradas"> 
-      
-      Voltar</Link>
-     
-      <header id="form-header">
-        Editar impressora
-      </header>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div id="input-group">
-          {Object.entries(fieldLabels).map(([key, label]) => (
-            <div id="input-line" key={key}>
-              <div id="input-line" key={key}>
-              <div id="input-box">
-                <label>
-                  {label.charAt(0).toUpperCase() + label.slice(1)}
-                  <span>*</span>
-                </label>
-                {key === "padrao_id" ? (
-                  <select {...register(key)} onChange={(e) => setPadrao(e.target.value)} data-testid="padrao-select">
-                    {padroes.map(option => (
-                      <option key={option.id} value={option.id} >
-                        {option.tipo}, {option.marca}, {option.modelo}
-                      </option>
-                    ))}
-                  </select>                      
-                ) : key === "unidadePai" ? (
-                  <select onChange={handleWorkstationChange} data-testid="unidadePai-select">
-                    {unidadeList.map(option => (
-                      <option key={option.id} value={option.id}>
-                        {option.name}
-                      </option>
-                    ))}
-                  </select>
-                ) : key === "unidadeId" ? (
-                  <select {...register(key)} onChange={(e) => setUnidade(e.target.value)} data-testid="unidadeFilha-select">
-                    {unidadesFilha.map(option => (
-                      <option key={option.id} value={option.id}>
-                        {option.name}
-                      </option>
-                    ))}
-                  </select>
-                ) : (
-                  <input
-                    {...register(key)}
-                    type={key.includes('data') ? 'date': key === "ultimoContador" || key === "contadorRetiradas" || key === "contadorInstalacao" ? 'number' : 'text'}
-                    placeholder={label.charAt(0).toUpperCase() + label.slice(1)}
-                  />
-                )}
-                <span>{errors[key]?.message}</span>
-              </div>
-            </div>
-            </div>
-          ))}
+    <>
+      <div id="view-printer-data">
+        <div className="header-container">
+          <span className="form-title">Editar Equipamento</span>
+          <div className="info-cards-container" style={{ gap: '2rem' }}>
+            <SmallInfoCard
+              className="grey-info-card"
+              title="Último contador"
+              imageSrc={require('../../assets/green-calendar.png')}
+              info="25/07/2024"
+            />
+            <SmallInfoCard
+              className="grey-info-card"
+              title="Tempo Ativo"
+              imageSrc={require('../../assets/green-calendar.png')}
+              info="20 dias"
+            />
+            <SmallInfoCard
+              className="blue-info-card"
+              title="Versão do Firmware"
+              imageSrc={require('../../assets/processor.png')}
+              info="1.9.2"
+            />
+          </div>
         </div>
-        <div id="buttons">
-          <button className="form-button" type="button" id="cancelar-bnt">CANCELAR</button>
-          <button className="form-button" type="submit" id="editar-bnt" disabled={isSubmitting}>EDITAR</button>
+        <div className="printer-field">
+          <div className='info-field'>
+            <ViewDataContainer
+              id="nome-equipamento"
+              className="large-view"
+              labelName={infoLabels.equipamento}
+              value={printerData.numSerie}
+            />
+
+            <ViewDataContainer
+              id="marca-equipamento"
+              className="large-view"
+              labelName={infoLabels.marca}
+              value={printerData.modeloId}
+            />
+
+            <ViewDataContainer
+              id="modelo-equipamento"
+              className="large-view"
+              labelName={infoLabels.modelo}
+              value={printerData.modeloId}
+            />
+
+            <InputContainer
+              label="Número de série"
+              placeholder="Insira número de série"
+              value={printerData.numSerie}
+              onChange={handleNumSerieChange}
+              className="lg"
+              
+            />
+
+            <SelectContainer
+              id="contrato"
+              name="contrato"
+              options={contratos}
+              className="lg-select"
+              label="Contrato"
+              onChange={handleContratoChange}
+              value={printerData.numContrato}
+            />
+
+            <div className="container" style={{ gap: '5rem' }}>
+              <InputContainer
+                label="Endereço IP"
+                placeholder="Insira o endereço IP"
+                value={printerData.enderecoIp}
+                onChange={handleEnderecoIPChange}
+                className={`md ${enderecoIPClass}`}
+                disabled={selectedDentroRede === "Não"}
+              />
+
+              <SelectContainer
+                id="dentroRede"
+                name="dentroRede"
+                options={yesNo}
+                className="lg-select"
+                label="Dentro da rede"
+                onChange={handleDentroRedeChange}
+                value={printerData.estaNaRede ? "Sim" : "Não"}
+               />
+            </div>
+
+            <DateContainer
+              label="Data de Instalação"
+              value={new Date(printerData.dataInstalacao).toLocaleString()}
+              onChange={(e) => setDataInstalacao(e.target.value)}
+              className="md"
+            />
+
+            <div className="container" style={{ gap: '5rem' }}>
+              <DateContainer
+                label="Data de Retirada"
+                value={dataRetiradaValue}
+                onChange={(e) => setDataInstalacao(e.target.value)}
+                className="md"
+              />
+
+              <SelectContainer
+                id="status"
+                name="status"
+                options={["Ativo", "Inativo"]}
+                className="lg-select"
+                label="Status"
+                onChange={handleStatusChange}
+                value={printerData.ativo ? "Ativo" : "Inativo"}
+              />
+            </div>
+          </div>
+          <div className='cards-field'> 
+            <BigInfoCard
+              title="Impressões totais"
+              info={printerData.contadorAtualPB + printerData.contadorAtualCor}
+            />
+            <BigInfoCard
+              title="Contador Atual"
+              info={printerData.contadorInstalacaoCor + printerData.contadorInstalacaoPB}
+            />
+            <BigInfoCard
+              title="Impressões Preto e Branco"
+              info={printerData.contadorAtualPB}
+            />
+            <BigInfoCard
+              title="Impressões Coloridas"
+              info={printerData.contadorAtualCor}
+            />
+            <BigInfoCard
+              title="Digitalizações totais"
+              info="80"
+            />
+          </div>
         </div>
-      </form>
-      <div className="elipse-signup">
-        <img alt="elipse" src={elipse6} />
+        
+        <div className="form-separator"> Localização </div>
+        <div className="container" style={{ gap: '5rem' }}>
+          <SelectContainer
+            id="cidade"
+            name="cidade"
+            options={localizacoes.map(m => m.name)}
+            className="md-select"
+            label="Cidade"
+            onChange={handleLocalizacaoChange}
+            value={printerData.cidade}                        
+          />
+
+          <SelectContainer
+            id="workstation"
+            name="workstation"
+            options={workstations.map(m => m.name)}
+            className="lg-select"
+            label="Regional"
+            onChange={handleWorkstationChange}
+            value={printerData.subestacao}
+          />
+
+          <SelectContainer
+            id="subworkstation"
+            name="subworkstation"
+            options={subWorkstations.map(m => m.name)}
+            className="lg-select"
+            label="Subestação"
+            onChange={handleSubWorkstationChange}
+            value={printerData.subestacao}
+          />
+        </div>
+        <div className="space"></div>
+        <div className="container">
+          <Button
+            type="success"
+            size="medium"
+            text="Editar"
+            onClick={handleEditButton}
+          />
+
+          <Button
+            type="info"
+            size="medium"
+            text="Acessar Lista de Equipamentos"
+            onClick={handleExitForm}
+          />
+        </div>
+        
+        <div className="space"></div>
       </div>
-    </div>
+    </>
   );
 }

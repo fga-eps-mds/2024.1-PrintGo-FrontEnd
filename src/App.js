@@ -32,6 +32,7 @@ function App() {
           <Route element={<PrivateRoutes />}>
             <Route path="/editarusuario/:id" element={<EditUserPage/>}/>
             <Route path="/listimpressora" element={<ListEquipment/>}/>
+            <Route path="/editimpressora/:id" element={<EditPrinter/>}/>
             <Route path="/visualizarimpressora/:id" element={<ViewPrinter/>}/>
             <Route path="/mudarsenha" element={<ChangePassword />} />
             <Route path="/cadastroimpressora" element={<RegisterPrinter />} />

@@ -2,7 +2,7 @@ import { api } from "../lib/api/config";
 
     export async function getPadrao(id) {
         try {
-        const response = await api.get(`/padrao/${id}`);
+        const response = await api.get(`/printer/padrao/${id}`);
         if(response.status !== 200) {
             return { type: 'error'};
         }
@@ -14,7 +14,7 @@ import { api } from "../lib/api/config";
   
   export async function getPadroes() {
     try {
-      const response = await api.get('/padrao');
+      const response = await api.get('/printer/padrao');
       if(response.status !== 200) {
         return { type: 'error', data: response.data};
       }
@@ -27,7 +27,7 @@ import { api } from "../lib/api/config";
   export async function togglePattern(id) {
   
     try {
-      const response = await api.patch(`/padrao/toggle/${id}`);
+      const response = await api.patch(`/printer/padrao/toggle/${id}`);
       if(response.status !== 200) {
         return { type: 'error'};
       }
@@ -40,7 +40,7 @@ import { api } from "../lib/api/config";
   
   export const createPadraoImpressora = async (printerPattern) => {
     try {
-      const response = await api.post('/padrao/create', printerPattern);
+      const response = await api.post('/printer/padrao/create', printerPattern);
       if(response.status !== 201) {
         return { type: 'error', data: response.data};
       }
@@ -52,7 +52,7 @@ import { api } from "../lib/api/config";
   
   export const editPadrao = async (pattern, id) => {
     try {
-      const response = await api.put(`/padrao/${id}`, pattern);
+      const response = await api.put(`/printer/padrao/${id}`, pattern);
       
       if (response.status !== 200) {
         return { type: 'error', data: response.data };

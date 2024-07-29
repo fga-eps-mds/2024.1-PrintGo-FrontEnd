@@ -72,8 +72,7 @@ export default function EditPatternForm() {
     <div id="printer-pattern-signup-card" data-testid="printer-pattern-signup-card">
       <h2 id="printer-pattern-form-header">Edição de padrão de impressora</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div id="printer-pattern-input-group">
-          <div id="printer-pattern-input-box">
+      
             <div id="printer-pattern-fields">
               {Object.entries(fieldLabels).filter(([key]) => key !== "snmp").map(([key, label]) => (
                 <div id="printer-pattern-input-line" key={key}>
@@ -88,6 +87,12 @@ export default function EditPatternForm() {
                   <span>{errors[key]?.message}</span>
                 </div>
               ))}
+              <div id="inputCheckBox">
+                <label>Equipamento Colorido? </label>
+                  <input type="checkbox"></input>
+               
+                
+              </div>
             </div>
 
             <div id="printer-pattern-snmp-fields">
@@ -96,7 +101,6 @@ export default function EditPatternForm() {
                 <div id="snmp-fields-input-line" key={key}>
                   <label>
                     {label}
-                    <span>*</span>
                   </label>
                   <input
                     {...register(key)}
@@ -106,8 +110,8 @@ export default function EditPatternForm() {
                 </div>
               ))}
             </div>
-          </div>
-        </div>
+          
+
         <div id="printer-pattern-buttons">
           <button className="printer-pattern-form-button" type="button" id="cancelar-bnt">
             <Link to="/padroescadastrados">

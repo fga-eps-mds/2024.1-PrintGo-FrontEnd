@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../components/navbar/Navbar.js";
 import "../style/components/readContractForm.css";
 import { useParams, useNavigate } from "react-router-dom";
-import { getContract } from "../services/contractService.js";
+import { getContractById } from "../services/contractService.js";
 import { toast } from "react-toastify";
 
 const ViewContract = () => {
     const { id } = useParams();
+    console.log(id)
     const [numero, setNumero] = useState();
     const [nomeGestor, setNomeGestor] = useState();
     const [descricao, setDescricao] = useState();
@@ -27,7 +28,7 @@ const ViewContract = () => {
     useEffect(() => {
       const fetchContract = async () => {
         try {
-          const response = await getContract(paramNumero);
+          const response = await getContractById(id);
           if (response.type === "success") {
             setNumero(response.data.numero);
             setNomeGestor(response.data.nomeGestor);
@@ -45,7 +46,7 @@ const ViewContract = () => {
         }
       }
       fetchContract();
-    }, [paramNumero])
+    }, [id])
 
     return (
       <>

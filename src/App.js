@@ -39,7 +39,7 @@ function App() {
             <Route path="/visualizarimpressora/:printerData" element={<ViewPrinter/>}/>
             <Route path="/listapadroes" element={<PatternList />} />
             <Route path="/padroescadastrados" element={<PatternList />} />
-            <Route path="/visualizarpadrao/:padrao" element={<ViewPattern />} />
+            <Route path="/visualizarpadrao" element={<ViewPattern />} />
             <Route element={<AdminRoutes/>}>
               <Route path="/listausuarios" element={<UsersList />} />
               <Route path="/cadastro" element={<CreateUserPage />} />

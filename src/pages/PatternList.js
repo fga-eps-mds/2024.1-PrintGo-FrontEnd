@@ -164,12 +164,12 @@ export default function PatternList() {
               
               <div className="patternlist-model">
                 <h4>
-                  <Link 
-                    to={`/visualizarpadrao/${btoa(JSON.stringify(pattern))}`}
+                  <span 
+                    onClick={()=>{navigate("/visualizarpadrao", {state:pattern})}}
                     style={{ color: pattern.ativo ? '' : 'gray' }}
                    >
                     Padrão: {pattern.marca} - {pattern.modelo}- {pattern.tipo}
-                   </Link>
+                   </span>
                 </h4>
                 {!pattern.ativo && <h5>Desativado</h5>}
               </div>

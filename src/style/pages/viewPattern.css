@@ -80,7 +80,7 @@
 
 .viewpattern-info-box {
     display: flex;
-    width: 50%;
+    width: 30%;
     flex-direction: column;
     margin-bottom: 12px;
     box-sizing: border-box;

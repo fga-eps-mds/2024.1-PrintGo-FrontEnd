@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../components/navbar/Navbar.js";
 import "../style/components/readContractForm.css";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getContract } from "../services/contractService.js";
 import { toast } from "react-toastify";
-
-/* const mockContract = [
-    { id: 1, numero: "09/2001 SSP", nomeGestor: "João Augusto", descricao: "Impressoras laser mono." , dataInicio: "01/01/2024", dataTermino: "28/07/2024"},
-]; */
 
 const ViewContract = () => {
     const {numero : paramNumero } = useParams();
@@ -17,9 +13,12 @@ const ViewContract = () => {
     const [dataInicio, setDataInicio] = useState();
     const [dataTermino, setDataTermino] = useState();
     const [ativo, setAtivo] = useState();
+    const [contract, setContract] = useState({})
+
+    const navigate = useNavigate();
     
     const navigateToEditContractListForm = () => {
-        window.location = "/editarContrato"
+      navigate("/editarContrato", { state: { contract } });
     };
     const navigateToContractListForm = () => {
         window.location = "/listagemContrato"
@@ -36,6 +35,7 @@ const ViewContract = () => {
             setDataInicio(response.data.dataInicio);
             setDataTermino(response.data.dataTermino);
             setAtivo(response.data.ativo);
+            setContract(response.data)
           } else {
             toast.error("Erro ao obter o contrato");
           }

@@ -31,21 +31,22 @@ function Modal({ setOpenModal, title, bodytext, onConfirm }) {
             textColor="white" 
             bgColor="#BF1B1B"
             borderColor="#BF1B1B"
+           
+            text="Cancelar"
             onClick={() => {
               setOpenModal(false);
             }}
           >
-
-            Cancelar
           </Button>
 
           <Button
             textColor="white"
-            bgColor="#036"
+            text="Confirmar"
+            bgColor="#4be567"
             borderColor="#036"
             onClick={onConfirm}
           >
-            Confirmar
+            
           </Button>
         </div>
       </div>

@@ -7,7 +7,8 @@ import { getPrinterSchema } from "../utils/YupSchema";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { getUnidades } from "../../services/unidadeService";
-import { editImpressora, getPadroes } from "../../services/printerService";
+import { editImpressora } from "../../services/printerService";
+import { getPadroes } from "../../services/patternService";
 import { formatDate } from "../../utils/utils";
 import { toast } from "react-toastify";
 

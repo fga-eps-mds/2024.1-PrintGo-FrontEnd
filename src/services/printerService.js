@@ -1,5 +1,6 @@
 import { api } from '../lib/api/config';
 
+//printer:
 export async function getPrinters() {
   try {
 
@@ -26,30 +27,6 @@ export async function getLocalizacao() {
   }
 }
 
-export async function getPadrao(id) {
-  try {
-    const response = await api.get(`/printer/padrao/${id}`);
-    if(response.status !== 200) {
-      return { type: 'error', data: response.data};
-    }
-    return { type: 'success', data: response.data };
-  } catch (error) {
-    return { type: 'error', error };
-  }
-}
-
-export async function getPadroes() {
-  try {
-    const response = await api.get('/printer/padrao');
-    if(response.status !== 200) {
-      return { type: 'error', data: response.data};
-    }
-    return { type: 'success', data: response.data };
-  } catch (error) {
-    return { type: 'error', error };
-  }
-}
-
 export async function togglePrinter(id, status) {
   const data = {
     id,
@@ -66,24 +43,6 @@ export async function togglePrinter(id, status) {
     return { type: 'error', error };
   }
 }
-
-export async function togglePattern(id, status) {
-  const data = {
-    id,
-    status
-  }
-
-  try {
-    const response = await api.patch(`/printer/padrao/${id}`, data);
-    if(response.status !== 200) {
-      return { type: 'error', data: response.data};
-    }
-    return { type: 'success', data: response.data };
-  } catch (error) {
-    return { type: 'error', error };
-  }
-}
-
 export const createImpressora = async (printer) => {
   try {
     const response = await api.post('/impressora/', printer);
@@ -120,47 +79,3 @@ export const editImpressora = async (printer) => {
     return { type: 'error', error };
   }
 };
-
-export const createPadraoImpressora = async (printerPattern) => {
-  try {
-    const response = await api.post('/printer/padrao/create', printerPattern);
-    if(response.status !== 201) {
-      return { type: 'error', data: response.data};
-    }
-    return { type: 'success', data: response.data};
-  } catch (error) {
-    return { type: 'error', error };
-  }
-};
-
-export const editPadrao = async (pattern) => {
-  try {
-    const data = {
-      tipo: pattern.tipo,
-      marca: pattern.marca,
-      modelo: pattern.modelo,
-      modeloImpressora: pattern.modeloImpressora,
-      numeroSerie: pattern.numeroSerie,
-      versaoFirmware: pattern.versaoFirmware,
-      tempoAtivoSistema: pattern.tempoAtivoSistema,
-      totalDigitalizacoes: pattern.totalDigitalizacoes,
-      totalCopiasPB: pattern.totalCopiasPB,
-      totalCopiasColoridas: pattern.totalCopiasColoridas,
-      totalImpressoesPb: pattern.totalImpressoesPb,
-      totalImpressoesColoridas: pattern.totalImpressoesColoridas,
-      totalGeral: pattern.totalGeral,
-      enderecoIp: pattern.enderecoIp,
-    }
-    
-    const response = await api.patch(`/printer/padrao/${pattern.id}`, data);
-    
-    if (response.status !== 200) {
-      return { type: 'error', data: response.data };
-    }
-    
-    return { type: 'success', data: response.data };
-    
-  } catch (error) {
-    return { type: 'error', error };
-  }
-}

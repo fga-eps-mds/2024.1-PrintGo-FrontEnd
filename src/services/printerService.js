@@ -2,16 +2,16 @@ import { api } from '../lib/api/config';
 
 export async function getPrinters() {
   try {
-
-    const response = await api.get('/printer/impressora');
-    if(response.status !== 200) {
-      return { type: 'error', data: response.data};
+    const response = await api.get('/printer');
+    if (response.status !== 200) {
+      return { type: 'error', data: response.data };
     }
-    return { type: 'success', data: response.data};
+    return { type: 'success', data: response.data.data };
   } catch (error) {
     return { type: 'error', error };
   }
 }
+
 
 export async function getLocalizacao() {
   try {

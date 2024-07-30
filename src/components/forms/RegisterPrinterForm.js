@@ -5,13 +5,15 @@ import SelectContainer from '../containers/SelectContainer';
 import InputContainer from '../containers/InputContainer';
 import DateContainer from '../containers/DateContainer';
 import NumberContainer from '../containers/NumberContainer';
+import ViewDataContainer from "../containers/ViewDataContainer";
 import { toast } from "react-toastify";
 import Button from '../Button';
 import { createImpressora, getLocalizacao } from "../../services/printerService";
+import { getPadroes } from "../../services/patternService";
+import { getContract } from "../../services/contractService";
 
 export default function RegisterPrinterForm() {
     const [marcas, setMarcas] = useState([]);
-    const [modelos, setModelos] = useState([]);
     const [contratos, setContratos] = useState([]);
     const [selectedContrato, setSelectedContrato] = useState('');
     const [selectedMarca, setSelectedMarca] = useState('');
@@ -48,34 +50,17 @@ export default function RegisterPrinterForm() {
 
         const fetchMarcas = async () => {
             try {
-                const data = [
-                    {
-                        marca: 'HP',
-                        modelos: ['Model A', 'Model B', 'Model C']
-                    },
-                    {
-                        marca: 'Canon',
-                        modelos: ['Model X', 'Model Y']
-                    }
-                ];
-                setMarcas(data);
+                const response = await getPadroes();
+                setMarcas(response.data);
             } catch (error) {
-                console.error('Erro ao buscar marcas:', error);
+                console.error('Erro ao buscar padrões:', error);
             }
         };
 
         const fetchContratos = async () => {
             try {
-                const data = [
-                    'A1B2C3D4',
-                    'E5F6G7H8',
-                    'I9J0K1L2',
-                    'M3N4O5P6',
-                    'Q7R8S9T0',
-                    'U1V2W3X4',
-                    'Y5Z6A7B8',
-                    'C9D0E1F2'
-                ];
+                const response = await getContract();
+                const data = response.data.data.map(c => c.numero);
                 setContratos(data);
             } catch (error) {
                 console.error('Erro ao buscar contratos:', error);
@@ -138,7 +123,6 @@ export default function RegisterPrinterForm() {
                 };
 
                 const res = await createImpressora(data);
-                console.log(res)
                 if (res.type == "error") {
                     toast.error(res.error.response.data.message);
                 } else {
@@ -167,11 +151,7 @@ export default function RegisterPrinterForm() {
         setSelectedMarca(marcaSelecionada);
 
         const marca = marcas.find(m => m.marca === marcaSelecionada);
-        setModelos(marca ? marca.modelos : []);
-    };
-
-    const handleModeloChange = (event) => {
-        setSelectedModelo(event.target.value);
+        setSelectedModelo(marca ? marca.modelo : 'Selecione uma marca');
     };
 
     const handleEnderecoIPChange = (newValue) => {
@@ -266,15 +246,12 @@ export default function RegisterPrinterForm() {
                 />
 
                 <div className="container" style={{ gap: '5rem' }}>
-                    <SelectContainer
-                        id="modelo"
-                        name="modelo"
-                        options={modelos}
-                        className="md-select"
-                        label="Modelo"
-                        onChange={handleModeloChange}
+                    <ViewDataContainer
+                        id="marca-equipamento"
+                        name="marca-equipamento"
+                        className="small-view"
+                        labelName={"Modelo"}
                         value={selectedModelo}
-                        error={errors.modelo}
                     />
 
                     <InputContainer

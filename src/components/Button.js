@@ -21,13 +21,7 @@ const Button = ({ type, size, text, onClick, bgColor }) => {
 
     return (
         <button className={buttonClass} onClick={onClick} 
-        style={
-            {background: bgColor,
-             width:"150px",
-             height:"50px",
-             borderRadius:"25px",
-             color:"white"}}>
-
+        style={ {background: bgColor}}>
             {text}
         </button>
     );

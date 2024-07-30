@@ -63,7 +63,7 @@ export default function PatternList() {
         
         if (data.type === 'success') {
           setModalOpen(false);
-          selectedPattern.ativo? toast.success("Padão destivado com sucesso"): toast.success("Padão reativado com sucesso")
+          selectedPattern.ativo? toast.success("Padrão destivado com sucesso"): toast.success("Padrão reativado com sucesso")
           setTimeout(() => {
             window.location.reload()
           }, 1000);
@@ -139,7 +139,7 @@ export default function PatternList() {
               
               <Input 
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder={"Pesquisar Padão"}
+                placeholder={"Pesquisar Padrão"}
               />
 
              

@@ -36,7 +36,7 @@ export default function ContractForm() {
       if (response.type === "success") {
         toast.success("Contrato criado com sucesso!");
         setTimeout(() => {
-          const url = `/verContrato/${response.data.id}`;
+          const url = `/verContrato/${response.data.data.id}`;
           window.location = url
         }, 3000);
       } else {

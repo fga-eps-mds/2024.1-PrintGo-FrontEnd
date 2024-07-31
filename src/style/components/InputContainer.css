@@ -1,0 +1,49 @@
+.input-container {
+    height: 39px;
+}
+
+.input-label{
+    padding-top: 20px;
+}
+
+.input-field {
+    border-radius: 10px;
+    border: 2px solid #0D3D6D;
+    font-size: 18px;
+    outline: none;
+    transition: border-color 0.3s ease;
+    margin: 0px;
+    padding: 6.5px;
+    box-sizing: border-box;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.input-error {
+    border: 2px solid red;
+}
+
+
+.input-field::placeholder {
+    color: #D3D3D3;
+}
+
+.input-field.md {
+    width: 250px;
+}
+
+.input-field.lg {
+    width: 350px;
+}
+
+.input-field:focus {
+    border-color: #0D3D6D;
+}
+
+.disabled {
+    background-color: #6C6C6C;
+    color: #6C6C6C;
+}
+
+.disabled::placeholder {
+    color: grey;
+}

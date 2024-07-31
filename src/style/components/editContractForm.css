@@ -1,0 +1,92 @@
+#padraoPagina{
+    color: #0D3D6D;
+    margin-left: 100px;
+    margin-top: 50px;
+}
+
+#titulo{
+    border-bottom: #0D3D6D;
+    border-bottom-style: solid;
+    width: fit-content;
+    padding-bottom: 15px;
+}
+
+#label{
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    margin-bottom: 40px;
+    font-size: 25px;
+}
+
+.ContratoStatus{
+    display: flex;
+    justify-content: space-between;
+    width: 61vw;
+
+}
+
+
+#inputData{
+    display: flex;
+}
+
+#inputDescricao{
+    width: 900px;
+    margin-top: 5px;
+    height: 35px;
+    border-radius: 10px;
+    border-color: #0D3D6D;
+    border-style: solid;
+    padding-left: 20px;
+}
+
+#inputCampos{
+    margin-top: 5px;
+    height: 35px;
+    border-radius: 10px;
+    border-color: #0D3D6D;
+    border-style: solid;
+    padding-inline: 20px;
+}
+
+::placeholder{
+    font-size: 18px;
+    opacity: 0.6;
+    font-family: Jost;
+}
+
+.campoDataTermino{
+    margin-left: 105px;
+}
+
+.botaoSalvar{
+    background-color: #006633;
+    height: 40px;
+    width: 20vw;
+    color: white;
+    font-size: 20px;
+    border-radius: 20px;
+    border-style: none;
+    font-family: Jost;
+    font-weight: 700;
+}
+
+.botaoCancelar{
+    background-color: red;
+    height: 40px;
+    width: 10vw;
+    margin-left: 100px;
+    font-size: 20px;
+    border-radius: 20px;
+    color: white;
+    border-style: none;
+    font-weight: 700;
+    font-family: Jost;
+}
+
+.inputDataInicio{
+    font-size: 18px;
+    opacity: 0.6;
+    font-family: Jost;
+}

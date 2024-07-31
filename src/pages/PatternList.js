@@ -1,13 +1,16 @@
 import React, { useState, useMemo, useEffect } from "react";
 import "../style/pages/patternList.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Search from '../assets/Search.svg';
 import Filter from '../assets/Filter.svg';
 import Engine from '../assets/engine.svg';
 import Input from '../components/Input'; 
 import Modal from '../components/ui/Modal';
 import Navbar from "../components/navbar/Navbar";
-import { getPadroes, togglePattern } from "../services/printerService";
+import { getPadroes, togglePattern } from "../services/patternService";
+import { toast } from "react-toastify";
+
+
 
 export default function PatternList() {
 
@@ -18,6 +21,7 @@ export default function PatternList() {
   const [modalBodytext, setModalBodytext] = useState('');
   const [selectedPattern, setSelectedPattern] = useState();
   const [patterns, setPatterns] = useState([]);
+  const navigate = useNavigate();
 
   useEffect( () => {
     async function fetchData() {
@@ -54,17 +58,15 @@ export default function PatternList() {
   async function patternToggle() {
     try {
       if (selectedPattern) {
-        const data = await togglePattern(selectedPattern.id, selectedPattern.status);
+        const data = await togglePattern(selectedPattern.id);
         console.log(data);
         
         if (data.type === 'success') {
-          const pattern = patterns.find(pattern => pattern.id === selectedPattern.id);
-          if (pattern.status === 'ATIVO') {
-            pattern.status = 'DESATIVADO';
-          } else {
-            pattern.status = 'ATIVO';
-          }
           setModalOpen(false);
+          selectedPattern.ativo? toast.success("Padrão destivado com sucesso"): toast.success("Padrão reativado com sucesso")
+          setTimeout(() => {
+            window.location.reload()
+          }, 1000);
         }
       } else {
         console.error("Pattern not selected");
@@ -85,9 +87,12 @@ export default function PatternList() {
       return 'Desativadas';
     }
   }
+/*
 
+*/
   //filtros para busca de impressora
-  const filteredPatterns = useMemo(() => {
+  
+  const filteredPatterns= useMemo(() => {
     return patterns.filter(pattern => {
       const searchLower = search.toLowerCase();
       const {
@@ -104,14 +109,13 @@ export default function PatternList() {
       );
     }).filter(pattern => {
       return filter === 'all' ||
-             (filter === 'active' && pattern.status === "ATIVO") ||
-             (filter === 'deactivated' && pattern.status === "DESATIVADO");
+             (filter === 'active' && pattern.ativo) ||
+             (filter === 'deactivated' && !pattern.ativo);
     });
   }, [patterns, search, filter]);
 
   return (
     <>
-
       {modalOpen && (
         <Modal 
           setOpenModal={setModalOpen} 
@@ -132,10 +136,13 @@ export default function PatternList() {
             </div>
             
             <div className="patternlist-header-search-filter">
-              <Input
+              
+              <Input 
                 onChange={(e) => setSearch(e.target.value)}
+                placeholder={"Pesquisar Padrão"}
               />
-              <img alt="Search" src={Search} />
+
+             
 
               <div className="patternlist-filter">
                 <img alt="" src={Filter} className="patternlist-filter"></img>
@@ -152,28 +159,29 @@ export default function PatternList() {
           </div>
 
           {filteredPatterns.map(pattern => (
-            <div key={pattern.id_padrao} className="patternlist-pattern" style={{ color: pattern.status === "ATIVO" ? '' : 'gray' }}>
+            <div key={pattern.id} className="patternlist-pattern" style={{ color: pattern.ativo ? '' : 'gray' }}>
+              
               <div className="patternlist-model">
                 <h4>
-                  <Link 
-                    to={`/visualizarpadrao/${btoa(JSON.stringify(pattern))}`}
-                    style={{ color: pattern.status === "ATIVO" ? '' : 'gray' }}
+                  <span 
+                    onClick={()=>{navigate("/visualizarpadrao", {state:pattern})}}
+                    style={{ color: pattern.ativo ? '' : 'gray' }}
                    >
-                    Padrão {pattern.marca} - {pattern.modelo} - {pattern.tipo}
-                   </Link>
+                    Padrão: {pattern.marca} - {pattern.modelo}- {pattern.tipo}
+                   </span>
                 </h4>
-                {pattern.status === 'DESATIVADO' && <h5>Desativado</h5>}
+                {!pattern.ativo && <h5>Desativado</h5>}
               </div>
               
               <div className="patternlist-engine">
                 <img alt="" src={Engine}/>
                 <div className="patternlist-engine-dropdown">
                     <div  className="patternlist-pattern-dropdown">
-                      {pattern.status === "ATIVO"
+                      {pattern.ativo
                         ? <Link to="#" tabIndex="0" onClick={() => modalDeactivatePattern(pattern)}>Desativar</Link>
                         : <Link to="#" tabIndex="0" onClick={() => modalActivePattern(pattern)}>Ativar</Link>
                       }
-                      <Link to={`/editarpadrao/${btoa(JSON.stringify(pattern))}`} tabIndex="0">Editar</Link>
+                      <a onClick={()=>{navigate("/editarpadrao",{state:pattern})}}>Editar</a>
                     </div>
                 </div> 
               </div>

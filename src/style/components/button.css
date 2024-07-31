@@ -1,24 +1,51 @@
 .button {
-    width: 17vw;
-    height: 8vh;
-    padding: 10px 20px;
-    border-radius: 60px;
+    border: none;
+    border-radius: 25px;
+    color: #fff;
     cursor: pointer;
-    color: var(--text-color);
-    background-color: var(--bg-color);
-    border: 2px solid var(--border-color);
-    font-style:normal ;
-    font-family: inherit;
-    font-size: 20px;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 1px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    font-size: 16px;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    font-weight: 600;
+    font-family: Jost;
+}
+.button-icon {
+    background-color: #00000000;
+    color: #000000;
 }
 
-.button:hover{
-    filter: brightness(85%);
+.button-success {
+    background-color: #28a745;
+    border-color: #28a745;
 }
-  
 
+.button-error {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.button-info {
+    background-color: #D9D9D9;
+    border-color: #D9D9D9;
+    color: #003366;
+}
+
+.button-warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
+}
+
+.button-small {
+    font-size: 14px;
+    padding: 5px 10px;
+}
+
+.button-medium {
+    font-size: 16px;
+    padding: 10px 20px;
+}
+
+.button-large {
+    font-size: 18px;
+    padding: 15px 30px;
+}

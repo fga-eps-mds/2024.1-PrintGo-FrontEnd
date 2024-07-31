@@ -1,0 +1,63 @@
+.date-container,
+.number-container {
+    height: 39px;
+}
+
+.date-container-form{
+    padding-top: 20px;
+}
+
+.date-field,
+.number-field {
+    border-radius: 4px;
+    border: 2px solid #0D3D6D;
+    font-size: 18px;
+    outline: none;
+    transition: border-color 0.3s ease;
+    margin: 0px;
+    padding: 6.5px;
+    box-sizing: border-box;
+}
+
+.input-error {
+    border-color: red !important;
+    border-radius: 4px;
+    border: 2px solid #0D3D6D;
+    font-size: 18px;
+    outline: none;
+    transition: border-color 0.3s ease;
+    margin: 0px;
+    padding: 6.5px;
+    box-sizing: border-box;
+}
+
+.date-field::placeholder,
+.number-field::placeholder {
+    color: #D3D3D3;
+}
+
+.date-field.md,
+.number-field.md,
+.input-error.md {
+    width: 250px;
+}
+
+.date-field.lg,
+.number-field.lg,
+.input-error.lg {
+    width: 350px;
+}
+
+.date-field:focus,
+.number-field:focus {
+    border-color: #0D3D6D;
+}
+
+.disabled {
+    background-color: #6C6C6C;
+    color: #6C6C6C;
+}
+
+.disabled::placeholder {
+    color: grey;
+}

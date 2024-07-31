@@ -8,34 +8,6 @@ import BigInfoCard from "../components/cards/BigInfoCard.js";
 import Button from "../components/Button.js";
 import { getPrinterById } from '../services/printerService.js';
 
-// Mock de dados da impressora
-const mockPrinterData = {
-    equipamento: "Impressora XYZ",
-    numeroSerie: "123456789",
-    modelo: "Modelo ABC",
-    localizacao: "Goias",
-    contrato: "Contrato XYZ-123",
-    enderecoIp: "192.168.0.1",
-    dentroDaRede: "Sim",
-    dataInstalacao: "2023-01-15",
-    dataRetirada: "2024-01-15",
-    status: "Ativo",
-    marca: "Marca ABC",
-    cidade: "Cidade XYZ",
-    regional: "Regional 1",
-    subestacao: "Subestação A"
-};
-
-// Função para codificar um objeto em Base64
-function encodeToBase64(obj) {
-    return btoa(JSON.stringify(obj));
-}
-
-// Codificar os dados da impressora
-const encodedPrinterData = encodeToBase64(mockPrinterData);
-
-console.log(encodedPrinterData); // A string codificada para usar na URL
-
 export default function ViewPrinter() {
 
     const [printerData, setPrinterData] = useState({
@@ -61,26 +33,32 @@ export default function ViewPrinter() {
 
     const { id } = useParams()
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         const fetchData = async () => {
-            const response = await getPrinterById(id);
-            if (response.type === 'success') {
-                const { localizacao, ...restData } = response.data;
-                const [cidade, regional, subestacao] = localizacao.split(';');
+            try {
+                const response = await getPrinterById(id);
+                if (response.type === 'success') {
+                    const { localizacao, ...restData } = response.data;
+                    const [cidade, regional, subestacao] = localizacao.split(';');
+                    console.log(restData.dataInstalacao);
 
-                setPrinterData({
-                    ...restData,
-                    cidade: cidade || '',
-                    regional: regional || '',
-                    subestacao: subestacao || ''
-                });
+                    setPrinterData({
+                        ...restData,
+                        cidade: cidade || '',
+                        regional: regional || '',
+                        subestacao: subestacao || ''
+                    });
+                }
+            } catch (error) {
+                console.log(error);
             }
         };
         fetchData();
     }, [id]);
 
-    const dataRetiradaClass = mockPrinterData.status === "Ativo" ? "inactive-field" : "";
-    const dataRetiradaValue = mockPrinterData.status === "Ativo" ? "Equipamento ainda ativo" : mockPrinterData.dataRetirada;
+    const dataRetiradaClass = printerData.status === "Ativo" ? "inactive-field" : "";
 
     // Labels dos campos de informação
     const infoLabels = {
@@ -96,11 +74,9 @@ export default function ViewPrinter() {
         status: "Status",
         marca: "Marca",
         cidade: "Cidade",
-        regional: "Regional",
-        subestacao: "Subestação"
+        regional: "Posto de trabalho",
+        subestacao: "Subposto de trabalho"
     };
-
-    const navigate = useNavigate();
 
     const handleExitForm = () => {
         navigate('/listimpressora');
@@ -109,6 +85,11 @@ export default function ViewPrinter() {
     const handleEditButton = () => {
         window.location = `/editimpressora/${id}`
     };
+
+    const formatDate = (date) => {
+        if (!date) return '';
+        return (date.split('T')[0]);
+    }
 
     return (
         <>
@@ -140,17 +121,10 @@ export default function ViewPrinter() {
                 <div className="printer-field">
                     <div className='info-field'>
                         <ViewDataContainer
-                            id="nome-equipamento"
+                            id="nserie-equipamento"
                             className="large-view"
-                            labelName={infoLabels.equipamento}
+                            labelName={infoLabels.numeroSerie}
                             value={printerData.numSerie}
-                        />
-
-                        <ViewDataContainer
-                            id="marca-equipamento"
-                            className="large-view"
-                            labelName={infoLabels.marca}
-                            value={printerData.modeloId}
                         />
 
                         <ViewDataContainer
@@ -158,13 +132,6 @@ export default function ViewPrinter() {
                             className="large-view"
                             labelName={infoLabels.modelo}
                             value={printerData.modeloId}
-                        />
-
-                        <ViewDataContainer
-                            id="nserie-equipamento"
-                            className="large-view"
-                            labelName={infoLabels.numeroSerie}
-                            value={printerData.numSerie}
                         />
 
                         <ViewDataContainer
@@ -194,7 +161,7 @@ export default function ViewPrinter() {
                             id="data-instalacao-equipamento"
                             className="large-view"
                             labelName={infoLabels.dataInstalacao}
-                            value={new Date(printerData.dataInstalacao).toLocaleString()}
+                            value={formatDate(printerData.dataInstalacao)}
                         />
 
                         <div className="container" style={{ gap: '5rem' }}>
@@ -202,7 +169,7 @@ export default function ViewPrinter() {
                                 id="data-retirada-equipamento"
                                 className={`large-view ${dataRetiradaClass}`}
                                 labelName={infoLabels.dataRetirada}
-                                value={dataRetiradaValue}
+                                value={printerData.dataRetirada ? new Date(printerData.dataRetirada).toLocaleString() : "Equipamento ainda ativo"}
                             />
 
                             <ViewDataContainer
@@ -241,21 +208,21 @@ export default function ViewPrinter() {
                 <div className="container" style={{ gap: '5rem' }}>
                     <ViewDataContainer
                         id="cidade-equipamento"
-                        className={`large-view`}
+                        className={`medium-view`}
                         labelName={infoLabels.cidade}
                         value={printerData.cidade}
                     />
 
                     <ViewDataContainer
                         id="regional-equipamento"
-                        className="large-view"
+                        className="medium-view"
                         labelName={infoLabels.regional}
                         value={printerData.regional}
                     />
 
                     <ViewDataContainer
                         id="subestacao-equipamento"
-                        className="large-view"
+                        className="medium-view"
                         labelName={infoLabels.subestacao}
                         value={printerData.subestacao}
                     />

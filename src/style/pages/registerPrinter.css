@@ -1,18 +1,16 @@
 #registerPrinter-container {
-  padding-left: 300px;
-  padding-top: 50px;
-  display: flow-root;
-  padding-right: 200px;
-  align-items: center;
+    padding-top: 50px;
+    width: 80%;
+    margin: 0 auto;
 }
 
 #registerPrinter-container img {
-  margin-left: 4vw;
-  width: 45vw;
+    margin-left: 4vw;
+    width: 45vw;
 }
 
 @media (max-width: 900px) {
-  #registerPrinter-container img {
-    display: auto;
-  }
+    #registerPrinter-container img {
+        display: auto;
+    }
 }

@@ -9,7 +9,7 @@ export default function EditPrinterPage() {
   return (
     <>
       <Navbar />
-      <div id="editPrinter-container">
+      <div>
         <EditPrinterForm/>
       </div>
     </>

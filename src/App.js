@@ -35,7 +35,6 @@ function App() {
         <Routes>
           <Route element={<PrivateRoutes />}>
             <Route path="/editarusuario/:id" element={<EditUserPage/>}/>
-            <Route path="/listimpressora" element={<ListEquipment/>}/>
             <Route path="/editimpressora/:id" element={<EditPrinter/>}/>
             <Route path="/visualizarimpressora/:id" element={<ViewPrinter/>}/>
             <Route path="/mudarsenha" element={<ChangePassword />} />
@@ -43,7 +42,7 @@ function App() {
             {/* <Route path="/editarimpressora/:printer" element={<EditPrinter />} /> */}
             <Route path="/padraoimpressora" element={<PatternPrinter />} />
             <Route path="/editarpadrao" element={<EditPattern />} />
-            <Route path="/impressorascadastradas" element={<PrintersList />} />
+            <Route path="/impressorascadastradas" element={<ListEquipment />} />
             <Route path="/visualizarimpressora/:printerData" element={<ViewPrinter/>}/>
             <Route path="/listapadroes" element={<PatternList />} />
             <Route path="/padroescadastrados" element={<PatternList />} />

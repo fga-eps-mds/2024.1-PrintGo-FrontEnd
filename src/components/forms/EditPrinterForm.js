@@ -251,7 +251,7 @@ export default function EditPrinterForm() {
     const navigate = useNavigate();
 
     const handleExitForm = () => {
-        navigate('/listimpressora');
+        navigate('/impressorascadastradas');
     };
 
     const validateForm = () => {

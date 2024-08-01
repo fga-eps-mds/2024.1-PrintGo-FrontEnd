@@ -108,10 +108,6 @@ export default function EditPrinterForm() {
 
                 setMarcas(marcas);
                 setModelos(modelos);
-
-                console.log('Marcas:', marcas); // Depuração
-                console.log('Modelos:', modelos); // Depuração
-
             } catch (error) {
                 console.error('Erro ao buscar padrões:', error);
             }
@@ -177,7 +173,6 @@ export default function EditPrinterForm() {
 
     const handleAtivoChange = (event) => {
         const newStatus = event.target.value;
-        console.log('newStatus:', newStatus);
         setPrinterData((prevData) => ({
             ...prevData,
             ativo: newStatus === "Ativo",
@@ -216,10 +211,12 @@ export default function EditPrinterForm() {
 
         const subworkstations = workstations.find(m => m.name === workstationSelecionada);
         setSubWorkstations(subworkstations ? subworkstations.child_workstations.map(m => m.name) : []);
+        setSelectedSubWorkstation('');
     };
 
     const handleSubWorkstationChange = (event) => {
         const workstationSelecionada = event.target.value;
+        console.log(workstationSelecionada);
         setSelectedSubWorkstation(workstationSelecionada);
     };
 
@@ -254,7 +251,7 @@ export default function EditPrinterForm() {
     const navigate = useNavigate();
 
     const handleExitForm = () => {
-        navigate('/listimpressora');
+        navigate('/impressorascadastradas');
     };
 
     const validateForm = () => {
@@ -266,8 +263,7 @@ export default function EditPrinterForm() {
         if (!selectedWorkstation) newErrors.workstation = 'Regional é obrigatória';
         if (!printerData.dataInstalacao) newErrors.dataInstalacao = 'Data de instalação é obrigatória';
         if (!selectedMarca) newErrors.marca = 'Marca é obrigatória';
-        if (!printerData.modeloId) newErrors.marca = 'Marca é obrigatória';
-        if (!printerData.modeloId) newErrors.modelo = 'Modelo é obrigatório';
+        if (!selectedModelo) newErrors.modelo = 'Modelo é obrigatório';
         if (!printerData.enderecoIp && printerData.estaNaRede) newErrors.enderecoIP = 'Endereço IP é obrigatório';
         if (!printerData.ativo) {
             if (!printerData.dataRetirada) newErrors.dataRetirada = 'Data de retirada é obrigatória';
@@ -284,8 +280,10 @@ export default function EditPrinterForm() {
                 return;
             }
 
+            console.log(selectedSubWorkstation);
             let data = {
                 ...printerData,
+                modeloId: selectedModelo,
                 localizacao: `${selectedCidade};${selectedWorkstation};${selectedSubWorkstation}`,
                 ...(printerData.dataRetirada !== "" && { dataRetirada: printerData.dataRetirada }),
             };

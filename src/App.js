@@ -27,6 +27,7 @@ import ContractForm from "./components/forms/ContractForm";
 import EditContractForm from "./components/forms/EditContractForm";
 import ContractList from "./pages/ContractList";
 import ViewContract from "./pages/ViewContract";
+import AuditPrinter from "./pages/AuditPrinter";
 
 function App() {
   return (
@@ -34,16 +35,17 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<PrivateRoutes />}>
-            <Route path="/editarusuario/:id" element={<EditUserPage/>}/>
-            <Route path="/editimpressora/:id" element={<EditPrinter/>}/>
-            <Route path="/visualizarimpressora/:id" element={<ViewPrinter/>}/>
+            <Route path="/editarusuario/:id" element={<EditUserPage />} />
+            <Route path="/editimpressora/:id" element={<EditPrinter />} />
+            <Route path="/visualizarimpressora/:id" element={<ViewPrinter />} />
             <Route path="/mudarsenha" element={<ChangePassword />} />
             <Route path="/cadastroimpressora" element={<RegisterPrinter />} />
+            <Route path="/auditoria" element={<AuditPrinter />} />
             {/* <Route path="/editarimpressora/:printer" element={<EditPrinter />} /> */}
             <Route path="/padraoimpressora" element={<PatternPrinter />} />
             <Route path="/editarpadrao" element={<EditPattern />} />
             <Route path="/impressorascadastradas" element={<ListEquipment />} />
-            <Route path="/visualizarimpressora/:printerData" element={<ViewPrinter/>}/>
+            <Route path="/visualizarimpressora/:printerData" element={<ViewPrinter />} />
             <Route path="/listapadroes" element={<PatternList />} />
             <Route path="/padroescadastrados" element={<PatternList />} />
             <Route path="/visualizarpadrao" element={<ViewPattern />} />
@@ -51,7 +53,7 @@ function App() {
             <Route path="/editarContrato" element={<EditContractForm />} />
             <Route path="/listagemContrato" element={<ContractList />} />
             <Route path="/verContrato/:id" element={<ViewContract />} />
-            <Route element={<AdminRoutes/>}>
+            <Route element={<AdminRoutes />}>
               <Route path="/listausuarios" element={<UsersList />} />
               <Route path="/cadastro" element={<CreateUserPage />} />
             </Route>
@@ -60,7 +62,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/contato" element={<Contact />} />
           <Route path="/quemsomos" element={<AboutUs />} />
-          <Route path="/recuperarSenha" element={<RecoverPasswordPage/>} />
+          <Route path="/recuperarSenha" element={<RecoverPasswordPage />} />
           <Route path="/esqueciMinhaSenha" element={<ForgottenPasswordPage />} />
         </Routes>
       </BrowserRouter>

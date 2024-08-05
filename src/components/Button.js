@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import '../style/components/button.css';
 
-const Button = ({ type, size, text, onClick, bgColor }) => {
+const Button = ({ type, size, text, onClick, bgColor, disabled }) => {
     const typeClasses = {
         success: 'button-success',
         error: 'button-error',
@@ -17,11 +17,11 @@ const Button = ({ type, size, text, onClick, bgColor }) => {
         large: 'button-large',
     };
 
-    const buttonClass = `button ${typeClasses[type] || 'button-info'} ${sizeClasses[size] || 'button-medium'}`;
+    const buttonClass = `button ${typeClasses[type] || 'button-info'} ${sizeClasses[size] || 'button-medium'} ${disabled ? "disabled" : ' '}`;
 
     return (
-        <button className={buttonClass} onClick={onClick} 
-        style={ {background: bgColor}}>
+        <button className={buttonClass} onClick={onClick}
+            style={{ background: bgColor }}>
             {text}
         </button>
     );
@@ -33,11 +33,13 @@ Button.propTypes = {
     text: PropTypes.string.isRequired,
     bgColor: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
+    disabled: PropTypes.bool.isRequired,
 };
 
 Button.defaultProps = {
     type: 'info',
     size: 'medium',
+    disabled: false
 };
 
 export default Button;

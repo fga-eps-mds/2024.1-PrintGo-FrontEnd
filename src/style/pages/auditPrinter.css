@@ -1,0 +1,29 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    margin-top: 2rem;
+    border-bottom-style: solid; 
+    border-color: #0D3D6D;
+
+}
+
+.search-bar{
+    display: flex;
+    gap: 10%;
+    width: 60%;
+    justify-content: end;
+}
+
+.page{
+    width: 80vw;
+    margin: 0 auto;
+}
+
+.search-select{
+    padding-top: 0;
+    margin-bottom: 70px;
+    width: 300px;
+    height: 40px;
+}
+

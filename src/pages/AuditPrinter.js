@@ -4,7 +4,8 @@ import Navbar from "../components/navbar/Navbar";
 import Button from "../components/Button.js";
 import SelectContainer from '../components/containers/SelectContainer.js';
 import '../style/pages/auditPrinter.css';
-
+import ItemBox from '../components/containers/ItemBox.js';
+import AuditBox from '../components/containers/AuditBox.js';
 
 export default function AuditPrinter() {
     const [contratos, setContratos] = useState([]);
@@ -39,6 +40,24 @@ export default function AuditPrinter() {
                             containerStyle="search-select"
                         />
                     </div>
+                </div>
+                <div className='columns'>
+                    <h2 className='equipamento'>Equipamentos</h2>
+                    <h2 className='cont-atual'>Cont.Atual</h2>
+                    <h2 className='cont-loc'>Cont.Locadora</h2>
+                    <h2 className='tot-printgo'>Tot.Impressões PrintGo</h2>
+                    <h2 className='tot-loc'>Tot.Impressões Locadora</h2>
+                </div>
+                <div>
+                    <AuditBox />
+                    <AuditBox />
+                    <AuditBox />
+                    <AuditBox />
+                    <AuditBox />
+                    <AuditBox />
+                    <AuditBox />
+                    <AuditBox />
+                    <AuditBox />
                 </div>
             </div>
         </>

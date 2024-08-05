@@ -27,3 +27,44 @@
     height: 40px;
 }
 
+.columns{
+    color: #006633;
+    display: flex;
+    margin-right: 130px;
+    text-align: center;
+}
+
+.equipamento{
+    border-right-style: solid;
+    border-color: #D9D9D9;
+    width: 20%;
+}
+
+.cont-atual{
+    border-right-style: solid;
+    border-color: #D9D9D9;
+    width: 20%;
+    text-align: center;
+}
+
+.cont-loc{
+    border-right-style: solid;
+    border-color: #D9D9D9;
+    width: 20%;
+    text-align: center;
+}
+
+.tot-loc{
+    border-right-style: solid;
+    border-color: #D9D9D9;
+    width: 20%;
+    text-align: center;
+
+}
+.tot-printgo{
+    border-right-style: solid;
+    border-color: #D9D9D9;
+    width: 20%;
+    text-align: center;
+
+}

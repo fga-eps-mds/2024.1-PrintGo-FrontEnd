@@ -1,0 +1,53 @@
+.box{
+    display: flex;
+    border-style: solid;
+    border-radius: 20px;
+    border-color: #003366;
+    border-width: 2px;
+    margin-bottom: 30px;
+}
+
+.equipamento-box{
+    width: 20%;
+    text-align: center;
+    color: #003366;
+}
+
+.cont-atual-box{
+    width: 20%;
+    text-align: center;
+    color: #006633;
+}
+
+.cont-loc-box{
+    width: 20%;
+    text-align: center;
+    color: #006633;
+}
+
+.tot-printgo-box{
+    width: 20%;
+    text-align: center;
+    color: #006633;
+}
+
+.tot-loc-box{
+    width: 20%;
+    text-align: center;
+    color: #006633;
+}
+
+.report{
+    width: 130px;
+    border-style: none;
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+    height: auto;
+    background-color: #006633;
+    cursor: pointer;
+}
+
+.report-image{
+    height: 50px;
+}
+

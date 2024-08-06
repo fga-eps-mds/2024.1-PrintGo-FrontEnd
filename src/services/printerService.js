@@ -82,7 +82,8 @@ export const editImpressora = async (printer) => {
 
 export async function getPrintersByContract(contractNumber) {
     try {
-        const response = await api.get(`/printer/contract/${contractNumber}`);
+        const encodedContractNumber = encodeURIComponent(contractNumber);
+        const response = await api.get(`/printer/report/contract/${encodedContractNumber}`);
         if (response.status !== 200) {
             return { type: 'error', data: response.data };
         }

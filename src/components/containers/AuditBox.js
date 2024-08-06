@@ -3,22 +3,19 @@ import PropTypes from "prop-types";
 import "../../style/components/auditBox.css";
 import imageButton from "../../assets/report.png"
 
-const AuditBox = ({ equipamento, contadorAtual, contadorLoc, totLoc, totPrintgo, onClick, marginError }) => {
+const AuditBox = ({ equipamento, contadorAtual, contadorLoc, totPrintgo, totLoc, onClick, marginError }) => {
     let errorClass = "";
-    if (contadorAtual - contadorLoc > marginError || totPrintgo - totLoc > marginError) {
+    if (Math.abs(contadorAtual - contadorLoc) > marginError || Math.abs(totPrintgo - totLoc) > marginError) {
         errorClass = "box-error";
-    } 
-
-    console.log(errorClass);
-    console.log(marginError);
+    }
 
     return (
         <div className={`box ${errorClass}`}>
             <h2 className="equipamento-box">{equipamento}</h2>
             <h2 className="cont-atual-box">{contadorAtual}</h2>
             <h2 className="cont-loc-box">{contadorLoc}</h2>
-            <h2 className="tot-loc-box">{totLoc}</h2>
             <h2 className="tot-printgo-box">{totPrintgo}</h2>
+            <h2 className="tot-loc-box">{totLoc}</h2>
             <button className="report" onClick={onClick}>
                 <img src={imageButton} alt="Button" className="report-image" />
             </button>

@@ -58,7 +58,8 @@ export default function AuditPrinter() {
             if (response.type === 'error') {
                 throw new Error(response.error);
             }
-            setPrinters(response.data);
+            console.log(response.data.data);
+            setPrinters(response.data.data);
         } catch (error) {
             console.error('Erro ao buscar impressoras:', error);
             toast.error('Erro ao buscar impressoras!');
@@ -106,18 +107,26 @@ export default function AuditPrinter() {
                     </div>
                 ))}
                 <div>
-                    {printers.map(printer => (
-                        <AuditBox
-                            key={printer.id}
-                            equipamento={printer.numSerie}
-                            contadorAtual={printer.contadorAtualPB + printer.contadorAtualCor}
-                            contadorLoc={printer.contadorLocadora}
-                            totPrintgo={printer.contadorAtualPB + printer.contadorAtualCor + printer.contadorInstalacaoPB + printer.contadorInstalacaoCor + printer.contadorRetiraPB + printer.contadorRetiraCor}
-                            totLoc={printer.contadorLocadoraTotal}
-                            onClick={handleGeneratePrinterPDF(printer.id)}
-                            marginError={marginError}
-                        />
-                    ))}
+                    {printers.map(printer => {
+                        const relatorioLocadora = printer.relatorioLocadora || {
+                            contadorPB: 0,
+                            contadorCor: 0,
+                            contadorTotal: 10
+                        };
+
+                        return (
+                            <AuditBox
+                                key={printer.id}
+                                equipamento={printer.numSerie}
+                                contadorAtual={printer.contadorAtualPB + printer.contadorAtualCor}
+                                contadorLoc={relatorioLocadora.contadorPB + relatorioLocadora.contadorCor}
+                                totPrintgo={printer.contadorAtualPB + printer.contadorAtualCor + printer.contadorInstalacaoPB + printer.contadorInstalacaoCor + printer.contadorRetiradaPB + printer.contadorRetiradaCor}
+                                totLoc={relatorioLocadora.contadorTotal}
+                                onClick={handleGeneratePrinterPDF(printer.id)}
+                                marginError={marginError}
+                            />
+                        );
+                    })}
                 </div>
             </div>
         </>

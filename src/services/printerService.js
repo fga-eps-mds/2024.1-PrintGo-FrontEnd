@@ -79,3 +79,43 @@ export const editImpressora = async (printer) => {
         return { type: 'error', error };
     }
 };
+
+export async function getPrintersByContract(contractNumber) {
+    try {
+        const response = await api.get(`/printer/contract/${contractNumber}`);
+        if (response.status !== 200) {
+            return { type: 'error', data: response.data };
+        }
+        return { type: 'success', data: response.data };
+    } catch (error) {
+        return { type: 'error', error };
+    }
+}
+
+export async function generatePrinterPDF(printerId) {
+    try {
+        const response = await api.get(`/printer/report/${printerId}`, { responseType: 'blob' });
+        if (response.status !== 200) {
+            return { type: 'error', data: response.data };
+        }
+
+        const pdfBlob = new Blob([response.data], { type: "application/pdf" });
+        const url = window.URL.createObjectURL(pdfBlob);
+        const tempLink = document.createElement("a");
+        tempLink.href = url;
+        tempLink.setAttribute(
+            "download",
+            `printer-report-${printerId}-${new Date().toISOString()}.pdf`
+        );
+
+        document.body.appendChild(tempLink);
+        tempLink.click();
+
+        document.body.removeChild(tempLink);
+        window.URL.revokeObjectURL(url);
+
+        return { type: 'success' };
+    } catch (error) {
+        return { type: 'error', error };
+    }
+}

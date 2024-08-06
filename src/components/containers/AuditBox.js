@@ -1,20 +1,25 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import "../../style/components/auditBox.css";
-import { FaToggleOn, FaToggleOff, FaPencil, FaMagnifyingGlass } from "react-icons/fa6";
-import Button from "../Button";
 import imageButton from "../../assets/report.png"
 
-const AuditBox = ({ equipamento, contadorAtual, contadorLoc, totLoc, totPrintgo }) => {
+const AuditBox = ({ equipamento, contadorAtual, contadorLoc, totLoc, totPrintgo, onClick, marginError }) => {
+    let errorClass = "";
+    if (contadorAtual - contadorLoc > marginError || totPrintgo - totLoc > marginError) {
+        errorClass = "box-error";
+    } 
+
+    console.log(errorClass);
+    console.log(marginError);
 
     return (
-        <div className="box">
+        <div className={`box ${errorClass}`}>
             <h2 className="equipamento-box">{equipamento}</h2>
             <h2 className="cont-atual-box">{contadorAtual}</h2>
             <h2 className="cont-loc-box">{contadorLoc}</h2>
             <h2 className="tot-loc-box">{totLoc}</h2>
             <h2 className="tot-printgo-box">{totPrintgo}</h2>
-            <button className="report">
+            <button className="report" onClick={onClick}>
                 <img src={imageButton} alt="Button" className="report-image" />
             </button>
         </div>
@@ -29,14 +34,12 @@ AuditBox.propTypes = {
     totPrintgo: PropTypes.number,
     totLoc: PropTypes.number,
     ativo: PropTypes.bool,
-    onReadClick: PropTypes.func,
-    onEditClick: PropTypes.func,
-    onToggleClick: PropTypes.func,
+    onClick: PropTypes.func,
+    marginError: PropTypes.number,
 };
 
 AuditBox.defaultProps = {
-    equipamento: "Default Equipamento",
-    contadorAtual: 170,
+    contadorAtual: 0,
     contadorLoc: 0,
     totPrintgo: 0,
     totLoc: 0,

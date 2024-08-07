@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import ItemBox from "../containers/ItemBox";
 import { getPrinters } from "../../services/printerService";
 import "../../style/components/listEquipment.css";
-import { FaWindows } from "react-icons/fa6";
 import Navbar from "../navbar/Navbar";
+import Search from "../../assets/Search.svg";
+import Input from "../Input";
 
 const mockPrinters = [
   {
@@ -29,6 +30,12 @@ const mockPrinters = [
 ];
 
 const ListEquipment = () => {
+  const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState("all");
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalTitle, setModalTitle] = useState("");
+  const [modalBodytext, setModalBodytext] = useState("");
+  const [selectedPrinter, setSelectedPrinter] = useState(null);
   const [printers, setPrinters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -67,6 +74,19 @@ const ListEquipment = () => {
   return (
     <>
       <Navbar />
+
+      <div className="listEquipment-header">
+        <h1>Equipamentos cadastradas</h1>
+
+        <div className="search-filter">
+          <Input
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Pesquisar Equipamento"
+          />
+          <img alt="Search" src={Search} />
+        </div>
+      </div>
+
       <div className="equipment-list">
         {printers.map((printer) => (
           <ItemBox

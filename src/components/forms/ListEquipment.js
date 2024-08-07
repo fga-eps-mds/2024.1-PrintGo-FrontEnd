@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import ItemBox from "../containers/ItemBox";
 import { getPrinters } from "../../services/printerService";
 import "../../style/components/listEquipment.css";
 import Navbar from "../navbar/Navbar";
 import Search from "../../assets/Search.svg";
 import Input from "../Input";
+import { useNavigate } from "react-router-dom";
 
 const mockPrinters = [
   {
@@ -40,6 +41,8 @@ const ListEquipment = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     /*
     const fetchData = async () => {
@@ -58,14 +61,18 @@ const ListEquipment = () => {
     setPrinters(mockPrinters);
     setLoading(false);
   }, []);
-
-  const handleEditClick = (id) => {
-    window.location = `/visualizarimpressora/${id}`;
-  };
-
   const handleToggleClick = (id) => {
     console.log(`Toggle button clicked for equipment ID: ${id}`);
   };
+
+  const filteredPrinters = useMemo(() => {
+    return printers.filter((printer) => {
+      const searchLower = search.toLowerCase();
+      const { numeroSerie } = printer;
+
+      return search === "" || numeroSerie.toLowerCase().includes(searchLower);
+    });
+  }, [printers, search, filter]);
 
   if (loading) return <p>Loading...</p>;
   if (error)
@@ -88,11 +95,11 @@ const ListEquipment = () => {
       </div>
 
       <div className="equipment-list">
-        {printers.map((printer) => (
+        {filteredPrinters.map((printer) => (
           <ItemBox
             key={printer.id}
-            label={`Printer ${printer.id}`}
-            onEditClick={() => handleEditClick(printer.id)}
+            label={printer.numeroSerie}
+            onEditClick={() => navigate(`/visualizarimpressora/${printer.id}`)}
             onToggleClick={() => handleToggleClick(printer.id)}
           />
         ))}

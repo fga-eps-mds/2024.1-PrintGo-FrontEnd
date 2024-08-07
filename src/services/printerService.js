@@ -95,7 +95,7 @@ export async function getPrintersByContract(contractNumber) {
 
 export async function generatePrinterPDF(printerId) {
     try {
-        const response = await api.get(`/printer/report/${printerId}`, { responseType: 'blob' });
+        const response = await api.get(`/printer/report/month/${printerId}`, { responseType: 'blob' });
         if (response.status !== 200) {
             return { type: 'error', data: response.data };
         }

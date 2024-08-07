@@ -3,6 +3,7 @@ import ItemBox from "../containers/ItemBox";
 import { getPrinters } from "../../services/printerService";
 import "../../style/components/listEquipment.css";
 import { FaWindows } from "react-icons/fa6";
+import Navbar from "../navbar/Navbar";
 
 const ListEquipment = () => {
     const [printers, setPrinters] = useState([]);
@@ -35,16 +36,17 @@ const ListEquipment = () => {
     if (error) return <p>Error loading data: {error.message || 'Unknown error'}</p>;
 
     return (
+        
+        <><Navbar />
         <div className="equipment-list">
             {printers.map((printer) => (
                 <ItemBox
                     key={printer.id}
                     label={`Printer ${printer.id}`}
                     onEditClick={() => handleEditClick(printer.id)}
-                    onToggleClick={() => handleToggleClick(printer.id)}
-                />
+                    onToggleClick={() => handleToggleClick(printer.id)} />
             ))}
-        </div>
+        </div></>
     );
 };
 

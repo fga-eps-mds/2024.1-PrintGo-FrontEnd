@@ -15,6 +15,7 @@ const Button = ({ type, size, text, onClick, bgColor, disabled }) => {
         small: 'button-small',
         medium: 'button-medium',
         large: 'button-large',
+        adaptive: 'button-adaptive',
     };
 
     const buttonClass = `button ${typeClasses[type] || 'button-info'} ${sizeClasses[size] || 'button-medium'} ${disabled ? "disabled" : ' '}`;
@@ -29,7 +30,7 @@ const Button = ({ type, size, text, onClick, bgColor, disabled }) => {
 
 Button.propTypes = {
     type: PropTypes.oneOf(['success', 'error', 'info', 'warning', 'icon']),
-    size: PropTypes.oneOf(['small', 'medium', 'large']),
+    size: PropTypes.oneOf(['small', 'medium', 'large', 'adaptive']),
     text: PropTypes.string.isRequired,
     bgColor: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,

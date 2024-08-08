@@ -6,6 +6,7 @@ const AddContador = () => {
   const [cidade, setCidade] = useState("");
   const [postoTrabalho, setPostoTrabalho] = useState("");
   const [subpostoTrabalho, setSubpostoTrabalho] = useState("");
+  const [equipamento, setEquipamento] = useState(""); // Novo estado
 
   return (
     <>
@@ -22,25 +23,32 @@ const AddContador = () => {
               <label>Cidade</label>
               <select value={cidade} onChange={(e) => setCidade(e.target.value)}>
                 <option value="">Selecione </option>
-                {/* Adicione mais opções conforme necessário */}
+                {/* Onde Será adicionado as opções do Selection */}
               </select>
             </div>
             <div className="campo">
               <label>Posto de Trabalho</label>
               <select value={postoTrabalho} onChange={(e) => setPostoTrabalho(e.target.value)}>
                 <option value="">Selecione </option>
-                {/* Adicione mais opções conforme necessário */}
+                {/* Onde Será adicionado as opções do Selection */}
               </select>
             </div>
             <div className="campo">
               <label>Subposto de Trabalho</label>
               <select value={subpostoTrabalho} onChange={(e) => setSubpostoTrabalho(e.target.value)}>
                 <option value="">Selecione </option>
-                {/* Adicione mais opções conforme necessário */}
+                {/* Onde Será adicionado as opções do Selection */}
               </select>
             </div>
           </div>
           <div className="fields-underline"></div>
+          <div className="campo equipamento">
+            <label>Equipamento Associado</label>
+            <select value={equipamento} onChange={(e) => setEquipamento(e.target.value)}>
+              <option value="">Selecione </option>
+              {/* Onde Será adicionado as opções do Selection */}
+            </select>
+          </div>
         </div>
       </div>
     </>

@@ -95,8 +95,8 @@
   margin-top: 20px; 
 }
 
-.campo.equipamento select, .campo.quantidade input {
-  max-width: 300px; 
+.campo.equipamento select, .campo.quantidade input, .campo.data input {
+  max-width: 270px; 
 }
 
 

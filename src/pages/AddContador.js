@@ -1,24 +1,28 @@
 import React from 'react';
+import '../style/pages/addcontador.css';
+
+
+
+
+
 
 const AddContador = () => {
   return (
-    <div>
+    <div className="add-contador-container">
       <h1>Adicionar Impressão</h1>
-      <form>
+      <form className="add-contador-form">
         <label>
           Nome do Documento:
           <input type="text" name="documentName" />
         </label>
-        <br />
         <label>
           Quantidade de Cópias:
           <input type="number" name="copies" />
         </label>
-        <br />
         <button type="submit">Adicionar</button>
       </form>
     </div>
   );
 };
 
-export default AddContador
+export default AddContador;

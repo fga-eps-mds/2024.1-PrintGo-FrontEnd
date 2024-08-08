@@ -17,6 +17,7 @@ const mockPrinters = [
     status: "ATIVO",
     contadorInstalacao: 1500,
     dataUltimoContador: "2024-06-15",
+    localizacao: "DF",
   },
   {
     id: 2,
@@ -27,6 +28,7 @@ const mockPrinters = [
     status: "DESATIVADO",
     contadorInstalacao: 200,
     dataUltimoContador: "2024-06-16",
+    localizacao: "Goiás",
   },
 ];
 
@@ -42,6 +44,8 @@ const ListEquipment = () => {
   const [error, setError] = useState(null);
   const [selectedEquipment, setSelectedEquipment] = useState(""); // Adicionado para filtro de Equipamento
   const [selectedModel, setSelectedModel] = useState(""); // Adicionado para filtro de Modelo
+  const [selectedSerialNumber, setSelectedSerialNumber] = useState(""); // Adicionado para filtro de Número de Série
+  const [selectedLocation, setSelectedLocation] = useState(""); // Adicionado para filtro de Localização
 
   const navigate = useNavigate();
 
@@ -71,13 +75,15 @@ const ListEquipment = () => {
   const filteredPrinters = useMemo(() => {
     return printers.filter((printer) => {
       const searchLower = search.toLowerCase();
-      const { numeroSerie, padrao } = printer;
+      const { numeroSerie, padrao, localizacao } = printer;
       const matchesSearch = search === "" || numeroSerie.toLowerCase().includes(searchLower);
       const matchesEquipment = selectedEquipment === "" || padrao.tipo === selectedEquipment; // Adicionado filtro de Equipamento
       const matchesModel = selectedModel === "" || padrao.modelo === selectedModel; // Adicionado filtro de Modelo
-      return matchesSearch && matchesEquipment && matchesModel;
+      const matchesSerialNumber = selectedSerialNumber === "" || numeroSerie === selectedSerialNumber; // Adicionado filtro de Número de Série
+      const matchesLocation = selectedLocation === "" || localizacao === selectedLocation; // Adicionado filtro de Localização
+      return matchesSearch && matchesEquipment && matchesModel && matchesSerialNumber && matchesLocation;
     });
-  }, [printers, search, selectedEquipment, selectedModel]); // Adicionado selectedEquipment e selectedModel
+  }, [printers, search, selectedEquipment, selectedModel, selectedSerialNumber, selectedLocation]); // Adicionado selectedSerialNumber e selectedLocation
 
   if (loading) return <p>Loading...</p>;
   if (error)
@@ -99,7 +105,7 @@ const ListEquipment = () => {
         </div>
       </div>
 
-      {/* Adicionado filtros de Equipamento e Modelo */}
+      {/* Adicionado filtros de Equipamento, Modelo, Número de Série e Localização */}
       <div className="listEquipment-container">
         <div className="filters">
           <div className="filter">
@@ -111,7 +117,7 @@ const ListEquipment = () => {
               <option value="">Todos</option>
               <option value="LaserJet">LaserJet</option>
               <option value="InkJet">InkJet</option>
-              {/* Adicione outras opções conforme necessário */}
+              {/* Adicionado de acordo com os dados do mock */}
             </select>
           </div>
           <div className="filter">
@@ -123,7 +129,31 @@ const ListEquipment = () => {
               <option value="">Todos</option>
               <option value="P1102">P1102</option>
               <option value="MG2522">MG2522</option>
-              {/* Adicione outras opções conforme necessário */}
+              {/* Adicionado de acordo com os dados do mock */}
+            </select>
+          </div>
+          <div className="filter"> {/* Adicionado filtro de Número de Série */}
+            <label>Número de Série</label>
+            <select
+              value={selectedSerialNumber}
+              onChange={(e) => setSelectedSerialNumber(e.target.value)}
+            >
+              <option value="">Todos</option>
+              <option value="SN123456">SN123456</option>
+              <option value="SN654321">SN654321</option>
+              {/* Adicionado de acordo com os dados do mock */}
+            </select>
+          </div>
+          <div className="filter"> {/* Adicionado filtro de Localização */}
+            <label>Localização</label>
+            <select
+              value={selectedLocation}
+              onChange={(e) => setSelectedLocation(e.target.value)}
+            >
+              <option value="">Todos</option>
+              <option value="DF">DF</option>
+              <option value="Goiás">Goiás</option>
+              {/* Adicionado de acordo com os dados do mock */}
             </select>
           </div>
         </div>

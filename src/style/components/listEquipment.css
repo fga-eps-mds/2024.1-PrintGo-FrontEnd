@@ -78,3 +78,28 @@
   font-size: 16px;
   border: 2px solid #003366;
 }
+
+
+.add-equipment-button-container {
+  display: flex;
+  justify-content: flex-start; /* Alinha o botão à esquerda */
+  padding: 20px; /* Adicionado padding para espaçamento */
+}
+
+.add-equipment-button {
+  background-color: #006633; 
+  color: #ffffff; 
+  border: none;
+  padding: 20px 40px;
+  font-size: 20px;
+  border-radius: 50px; 
+  cursor: pointer;
+  font-family: 'Jost', sans-serif; 
+  font-weight: bold; 
+  margin-top: 160px; 
+  margin-left: 75px; 
+}
+
+.add-equipment-button:hover {
+  background-color: #004d26; /* Cor do botão ao passar o mouse */
+}

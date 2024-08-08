@@ -169,6 +169,13 @@ const ListEquipment = () => {
           ))}
         </div>
       </div>
+      
+      {/* Adicionado botão de Cadastrar Novo Equipamento */}
+      <div className="add-equipment-button-container">
+        <button className="add-equipment-button" onClick={() => navigate('/cadastroimpressora')}>
+          Cadastrar Novo Equipamento
+        </button>
+      </div>
     </>
   );
 };

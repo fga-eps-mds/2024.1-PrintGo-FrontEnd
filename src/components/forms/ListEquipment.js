@@ -40,6 +40,8 @@ const ListEquipment = () => {
   const [printers, setPrinters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedEquipment, setSelectedEquipment] = useState(""); // Adicionado para filtro de Equipamento
+  const [selectedModel, setSelectedModel] = useState(""); // Adicionado para filtro de Modelo
 
   const navigate = useNavigate();
 
@@ -61,6 +63,7 @@ const ListEquipment = () => {
     setPrinters(mockPrinters);
     setLoading(false);
   }, []);
+
   const handleToggleClick = (id) => {
     console.log(`Toggle button clicked for equipment ID: ${id}`);
   };
@@ -68,11 +71,13 @@ const ListEquipment = () => {
   const filteredPrinters = useMemo(() => {
     return printers.filter((printer) => {
       const searchLower = search.toLowerCase();
-      const { numeroSerie } = printer;
-
-      return search === "" || numeroSerie.toLowerCase().includes(searchLower);
+      const { numeroSerie, padrao } = printer;
+      const matchesSearch = search === "" || numeroSerie.toLowerCase().includes(searchLower);
+      const matchesEquipment = selectedEquipment === "" || padrao.tipo === selectedEquipment; // Adicionado filtro de Equipamento
+      const matchesModel = selectedModel === "" || padrao.modelo === selectedModel; // Adicionado filtro de Modelo
+      return matchesSearch && matchesEquipment && matchesModel;
     });
-  }, [printers, search, filter]);
+  }, [printers, search, selectedEquipment, selectedModel]); // Adicionado selectedEquipment e selectedModel
 
   if (loading) return <p>Loading...</p>;
   if (error)
@@ -94,15 +99,45 @@ const ListEquipment = () => {
         </div>
       </div>
 
-      <div className="equipment-list">
-        {filteredPrinters.map((printer) => (
-          <ItemBox
-            key={printer.id}
-            label={printer.numeroSerie}
-            onEditClick={() => navigate(`/visualizarimpressora/${printer.id}`)}
-            onToggleClick={() => handleToggleClick(printer.id)}
-          />
-        ))}
+      {/* Adicionado filtros de Equipamento e Modelo */}
+      <div className="listEquipment-container">
+        <div className="filters">
+          <div className="filter">
+            <label>Equipamento</label>
+            <select
+              value={selectedEquipment}
+              onChange={(e) => setSelectedEquipment(e.target.value)}
+            >
+              <option value="">Todos</option>
+              <option value="LaserJet">LaserJet</option>
+              <option value="InkJet">InkJet</option>
+              {/* Adicione outras opções conforme necessário */}
+            </select>
+          </div>
+          <div className="filter">
+            <label>Modelo</label>
+            <select
+              value={selectedModel}
+              onChange={(e) => setSelectedModel(e.target.value)}
+            >
+              <option value="">Todos</option>
+              <option value="P1102">P1102</option>
+              <option value="MG2522">MG2522</option>
+              {/* Adicione outras opções conforme necessário */}
+            </select>
+          </div>
+        </div>
+
+        <div className="equipment-list">
+          {filteredPrinters.map((printer) => (
+            <ItemBox
+              key={printer.id}
+              label={printer.numeroSerie}
+              onEditClick={() => navigate(`/visualizarimpressora/${printer.id}`)}
+              onToggleClick={() => handleToggleClick(printer.id)}
+            />
+          ))}
+        </div>
       </div>
     </>
   );

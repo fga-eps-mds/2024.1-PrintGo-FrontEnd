@@ -3,37 +3,40 @@
   flex-direction: column;
   gap: 10px; /* Space between items */
   padding: 15px 30px 0px 30px; /* Optional padding around the list */
+  flex: 1; /* Adicionado para flexibilidade */
 }
+
 .listEquipment-header {
   display: flex;
-  margin: 0px 30px 0px 30px;
+  justify-content: space-between; /* Alterado para espaçar o título e o filtro de busca */
+  align-items: center; /* Alterado para centralizar verticalmente */
+  margin: 0px 30px 20px 30px; /* Ajuste de margem para o título */
   border-bottom: 3px solid #003366;
-  align-items: end;
 }
+
 .listEquipment-header h1 {
   font-weight: 400;
   font-size: 48px;
   color: #0d3d6d;
-  text-align: justify;
-  text-justify: inherit;
+  text-align: left; /* Ajustado para alinhamento à esquerda */
   margin-bottom: 5px;
 }
 
 .search-filter {
   display: flex;
-  justify-content: end;
   align-items: center;
-  flex: 1;
+  position: relative; /* Alterado para posicionar o ícone dentro do input */
 }
 
 .search-filter img {
   position: absolute;
-  z-index: 1;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
   background-color: #ffffff;
-  margin-right: 10px;
-  margin-bottom: 10px;
   height: 25px;
 }
+
 .search-filter input {
   height: 5vh;
   width: 20vw;
@@ -41,5 +44,37 @@
   padding-left: 10px;
   font-size: 20px;
   border: 2px solid #003366;
-  margin-bottom: 15px;
+  padding-right: 40px; /* Adicionado para espaço do ícone */
+}
+
+.listEquipment-container {
+  display: flex;
+  padding: 30px; /* Adicionado padding para espaçamento */
+}
+
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Espaço entre os filtros */
+  margin-right: 20px; /* Espaço à direita para separar dos itens */
+}
+
+.filter {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter label {
+  margin-bottom: 5px;
+  font-size: 16px;
+  color: #0d3d6d;
+}
+
+.filter select {
+  height: 5vh;
+  width: 15vw;
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 16px;
+  border: 2px solid #003366;
 }

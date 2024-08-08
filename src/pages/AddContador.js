@@ -7,7 +7,7 @@ const AddContador = () => {
   const [postoTrabalho, setPostoTrabalho] = useState("");
   const [subpostoTrabalho, setSubpostoTrabalho] = useState("");
   const [equipamento, setEquipamento] = useState(""); 
-  const [quantidadeImpressoes, setQuantidadeImpressoes] = useState(""); // Novo estado
+  const [quantidadeImpressoes, setQuantidadeImpressoes] = useState(""); 
 
   return (
     <>

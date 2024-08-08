@@ -1,57 +1,76 @@
 .box{
     display: flex;
-    border-style: solid;
-    border-radius: 20px;
-    border-color: #003366;
-    border-width: 2px;
-    margin-bottom: 30px;
+    outline: 1px solid #D9D9D9;
+    border-radius: 18px;
 }
 
 .equipamento-box{
     width: 20%;
     text-align: center;
     color: #003366;
+    font-size: medium;
+    border-right-style: solid;
+    border-color: #D9D9D9;
 }
 
 .cont-atual-box{
     width: 20%;
     text-align: center;
     color: #006633;
+    font-size: medium;
+    border-right-style: solid;
+    border-color: #D9D9D9;
 }
 
 .cont-loc-box{
     width: 20%;
     text-align: center;
     color: #006633;
+    font-size: medium;
+    border-right-style: solid;
+    border-color: #D9D9D9;
 }
 
 .tot-printgo-box{
     width: 20%;
     text-align: center;
     color: #006633;
+    font-size: medium;
+    border-right-style: solid;
+    border-color: #D9D9D9;
 }
 
 .tot-loc-box{
     width: 20%;
     text-align: center;
     color: #006633;
+    font-size: medium;
+    border-right-style: solid;
+    border-color: #D9D9D9;
 }
 
 .report{
-    width: 130px;
     border-style: none;
-    border-top-right-radius: 18px;
-    border-bottom-right-radius: 18px;
-    height: auto;
     background-color: #006633;
     cursor: pointer;
+    border-radius: 10px;
+    padding: 7px;
 }
 
 .report-image{
-    height: 50px;
+    height: 20px;
 }
 
 .box-error{
     border-color: #FF0000;
+}
+
+.button-space{
+    display: flex;
+    width: 7%;
+
+    align-items: center;
+    justify-content: center;
+    
 }
 

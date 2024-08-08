@@ -100,13 +100,14 @@ export default function AuditPrinter() {
                         <h2 className='cont-loc'>Cont.Locadora</h2>
                         <h2 className='tot-printgo'>Tot.Impressões PrintGo</h2>
                         <h2 className='tot-loc'>Tot.Impressões Locadora</h2>
+                        <h2 className='space-report'>Relatório</h2>
                     </div>
                 ) : (
                     <div>
                         <h2>Por favor, selecione outro contrato ou verifique se o contrato possui impressoras cadastradas</h2>
                     </div>
                 ))}
-                <div>
+                <div className='container-auditbox'>
                     {printers.map(printer => {
                         const relatorioLocadora = printer.relatorioLocadora || {
                             contadorPB: 0,

@@ -16,9 +16,11 @@ const AuditBox = ({ equipamento, contadorAtual, contadorLoc, totPrintgo, totLoc,
             <h2 className="cont-loc-box">{contadorLoc}</h2>
             <h2 className="tot-printgo-box">{totPrintgo}</h2>
             <h2 className="tot-loc-box">{totLoc}</h2>
-            <button className="report" onClick={onClick}>
-                <img src={imageButton} alt="Button" className="report-image" />
-            </button>
+            <div className="button-space">
+                <button className="report" onClick={onClick}>
+                    <img src={imageButton} alt="Button" className="report-image" />
+                </button>
+            </div> 
         </div>
 
     );

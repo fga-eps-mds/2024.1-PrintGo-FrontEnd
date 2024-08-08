@@ -27,6 +27,7 @@ import ContractForm from "./components/forms/ContractForm";
 import EditContractForm from "./components/forms/EditContractForm";
 import ContractList from "./pages/ContractList";
 import ViewContract from "./pages/ViewContract";
+import AddContador from "./pages/AddContador";
 
 function App() {
   return (
@@ -51,6 +52,7 @@ function App() {
             <Route path="/editarContrato" element={<EditContractForm />} />
             <Route path="/listagemContrato" element={<ContractList />} />
             <Route path="/verContrato/:id" element={<ViewContract />} />
+            <Route path="/addContador" element={<AddContador />} /> 
             <Route element={<AdminRoutes/>}>
               <Route path="/listausuarios" element={<UsersList />} />
               <Route path="/cadastro" element={<CreateUserPage />} />

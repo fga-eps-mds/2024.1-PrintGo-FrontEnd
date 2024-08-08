@@ -7,7 +7,7 @@ const AddContador = () => {
     <>
       <Navbar />
       <div className="add-contador-header">
-        <h1>Equipamentos cadastradas</h1>
+        <h1>Registro de Impressões</h1>
 
        
         </div>

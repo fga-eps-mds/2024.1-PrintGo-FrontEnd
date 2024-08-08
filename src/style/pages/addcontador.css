@@ -9,7 +9,7 @@
   display: flex;
   margin: 0px 30px;
   border-bottom: 3px solid #003366;
-  align-items: flex-end; /* 'end' não é um valor válido, substituído por 'flex-end' */
+  align-items: flex-end; 
 }
 
 .add-contador-header h1 {
@@ -78,3 +78,25 @@
 .campo.equipamento select {
   max-width: 300px; 
 }
+
+.campo select, .campo input {
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 18px;
+  width: 100%;
+  max-width: 270px; 
+}
+
+.campo label {
+  font-size: 18px;
+  margin-bottom: 5px;
+  color: #0d3d6d;
+  margin-top: 20px; 
+}
+
+.campo.equipamento select, .campo.quantidade input {
+  max-width: 300px; 
+}
+
+

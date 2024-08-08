@@ -49,3 +49,13 @@
     font-size: 18px;
     padding: 15px 30px;
 }
+
+.disabled{
+    cursor: not-allowed;
+}
+
+.button-adaptive{
+    font-size: 18px;
+    padding: 15px 30px;
+    width: 100%;
+}

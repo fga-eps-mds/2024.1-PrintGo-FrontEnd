@@ -6,7 +6,8 @@ import ViewDataContainer from "../components/containers/ViewDataContainer";
 import SmallInfoCard from "../components/cards/SmallInfoCard.js";
 import BigInfoCard from "../components/cards/BigInfoCard.js";
 import Button from "../components/Button.js";
-import { getPrinterById } from '../services/printerService.js';
+import { getPrinterById, generatePrinterPDF } from '../services/printerService.js';
+import { toast } from "react-toastify";
 
 export default function ViewPrinter() {
 
@@ -91,6 +92,20 @@ export default function ViewPrinter() {
         return (date.split('T')[0]);
     }
 
+    const handleReportGenerate = async () => {
+        try {
+            const response = await generatePrinterPDF(id);
+            if (response.type === 'error') {
+                throw new Error(response.error);
+            }
+            toast.success('PDF gerado com sucesso!');
+        } catch (error) {
+            console.error('Erro ao gerar PDF:', error);
+            toast.error('Erro ao gerar PDF!');
+        }
+    };
+
+
     return (
         <>
             <Navbar />
@@ -100,9 +115,9 @@ export default function ViewPrinter() {
                     <div className="info-cards-container" style={{ gap: '2rem' }}>
                         <SmallInfoCard
                             className="grey-info-card"
-                            title="Último contador"
+                            title="Último Relatório"
                             imageSrc={require('../assets/green-calendar.png')}
-                            info="25/07/2024"
+                            info="06/08/2024"
                         />
                         <SmallInfoCard
                             className="grey-info-card"
@@ -181,6 +196,12 @@ export default function ViewPrinter() {
                         </div>
                     </div>
                     <div className='cards-field'>
+                        <Button
+                            type="success"
+                            size="adaptive"
+                            text="Gerar Relatório"
+                            onClick={handleReportGenerate}
+                        />                    
                         <BigInfoCard
                             title="Impressões totais"
                             info={printerData.contadorAtualPB + printerData.contadorAtualCor}

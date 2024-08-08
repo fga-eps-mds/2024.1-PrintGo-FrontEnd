@@ -16,6 +16,7 @@ const NumberContainer = ({ id, name, value, onChange, className, label, disabled
                     onChange={onChange}
                     disabled={disabled}
                     placeholder="Insira"
+                    min="0"
                 />
             </div>
         </div>

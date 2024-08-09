@@ -1,4 +1,5 @@
 module.exports = {
+    setupFilesAfterEnv: ['./src/setupTests.js'],
     testMatch: ["**/__tests__/**/*.js", "**/?(*.)+(spec|test).js"],
     testPathIgnorePatterns: ["/node_modules/"],
     transform: {

@@ -7,30 +7,6 @@ import Search from "../../assets/Search.svg";
 import Input from "../Input";
 import { useNavigate } from "react-router-dom";
 
-const mockPrinters = [
-  {
-    id: 1,
-    codigoLocadora: "LOC123",
-    ip: "192.168.1.10",
-    padrao: { marca: "HP", tipo: "LaserJet", modelo: "P1102" },
-    numeroSerie: "SN123456",
-    status: "ATIVO",
-    contadorInstalacao: 1500,
-    dataUltimoContador: "2024-06-15",
-    localizacao: "DF",
-  },
-  {
-    id: 2,
-    codigoLocadora: "LOC124",
-    ip: "192.168.1.11",
-    padrao: { marca: "Canon", tipo: "InkJet", modelo: "MG2522" },
-    numeroSerie: "SN654321",
-    status: "DESATIVADO",
-    contadorInstalacao: 200,
-    dataUltimoContador: "2024-06-16",
-    localizacao: "Goiás",
-  },
-];
 
 const ListEquipment = () => {
   const [search, setSearch] = useState("");
@@ -50,7 +26,7 @@ const ListEquipment = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    /*
+    
     const fetchData = async () => {
       const response = await getPrinters();
       if (response.type === "success") {
@@ -63,9 +39,8 @@ const ListEquipment = () => {
  
     fetchData();
     
-    */
-    setPrinters(mockPrinters);
-    setLoading(false);
+    
+   
   }, []);
 
   const handleToggleClick = (id) => {

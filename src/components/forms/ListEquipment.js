@@ -26,22 +26,20 @@ const ListEquipment = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    
-    const fetchData = async () => {
-      const response = await getPrinters();
-      if (response.type === "success") {
-        setPrinters(response.data);
-      } else {
-        setError(response.error || response.data);
-      }
-      setLoading(false);
-    };
- 
-    fetchData();
-    
-    
+    verprinter() 
+    setLoading(false)  
    
   }, []);
+
+  const verprinter = async () => {const response= await getPrinters ()
+    if (response.type === "success" ) { 
+      setPrinters(response.data)
+    } 
+
+    else {
+      setError(response.error)
+    }
+    }    
 
   const handleToggleClick = (id) => {
     console.log(`Toggle button clicked for equipment ID: ${id}`);
@@ -137,7 +135,7 @@ const ListEquipment = () => {
           {filteredPrinters.map((printer) => (
             <ItemBox
               key={printer.id}
-              label={printer.numeroSerie}
+              label={printer.numSerie}
               onEditClick={() => navigate(`/visualizarimpressora/${printer.id}`)}
               onToggleClick={() => handleToggleClick(printer.id)}
             />

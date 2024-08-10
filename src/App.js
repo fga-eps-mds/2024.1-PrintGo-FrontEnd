@@ -26,6 +26,7 @@ import ContractForm from "./components/forms/ContractForm";
 import EditContractForm from "./components/forms/EditContractForm";
 import ContractList from "./pages/ContractList";
 import ViewContract from "./pages/ViewContract";
+import UpdateRoutine from "./pages/EditCounterRoutine";
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
             <Route path="/cadastrarContrato" element={<ContractForm />} />
             <Route path="/editarContrato" element={<EditContractForm />} />
             <Route path="/listagemContrato" element={<ContractList />} />
+            <Route path="/definirRotina" element={<UpdateRoutine />} />
             <Route path="/verContrato/:id" element={<ViewContract />} />
             <Route element={<AdminRoutes/>}>
               <Route path="/listausuarios" element={<UsersList />} />

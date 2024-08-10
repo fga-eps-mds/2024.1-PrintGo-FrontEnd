@@ -1,6 +1,10 @@
 import React, { useEffect, useMemo, useState } from "react";
 import ItemBox from "../containers/ItemBox";
-import { getPrinters } from "../../services/printerService";
+import {
+  editImpressora,
+  getPrinters,
+  togglePrinter,
+} from "../../services/printerService";
 import "../../style/components/listEquipment.css";
 import Navbar from "../navbar/Navbar";
 import Search from "../../assets/Search.svg";
@@ -9,11 +13,6 @@ import { useNavigate } from "react-router-dom";
 
 const ListEquipment = () => {
   const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState("all");
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalTitle, setModalTitle] = useState("");
-  const [modalBodytext, setModalBodytext] = useState("");
-  const [selectedPrinter, setSelectedPrinter] = useState(null);
   const [printers, setPrinters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -36,10 +35,6 @@ const ListEquipment = () => {
     } else {
       setError(response.error);
     }
-  };
-
-  const handleToggleClick = (id) => {
-    console.log(`Toggle button clicked for equipment ID: ${id}`);
   };
 
   const filteredPrinters = useMemo(() => {
@@ -75,7 +70,6 @@ const ListEquipment = () => {
   if (loading) return <p>Loading...</p>;
   if (error)
     return <p>Error loading data: {error.message || "Unknown error"}</p>;
-
   return (
     <>
       <Navbar />
@@ -165,7 +159,7 @@ const ListEquipment = () => {
               onEditClick={() =>
                 navigate(`/visualizarimpressora/${printer.id}`)
               }
-              onToggleClick={() => handleToggleClick(printer.id)}
+              printer={printer}
             />
           ))}
         </div>

@@ -5,7 +5,7 @@ import "../../style/components/SelectContainer.css";
 const SelectContainer = ({ id, name, options, className, label, onChange, value, error }) => {
     return (
         <div className={`select-container`}>
-            <span className="form-subtitle">{label}</span>
+            <label htmlFor={id} className="form-subtitle">{label}</label>
             <div>
                 <select
                     id={id}

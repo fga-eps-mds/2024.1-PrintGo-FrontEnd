@@ -7,7 +7,6 @@ import Search from "../../assets/Search.svg";
 import Input from "../Input";
 import { useNavigate } from "react-router-dom";
 
-
 const ListEquipment = () => {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
@@ -26,20 +25,18 @@ const ListEquipment = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    verprinter() 
-    setLoading(false)  
-   
+    verprinter();
+    setLoading(false);
   }, []);
 
-  const verprinter = async () => {const response= await getPrinters ()
-    if (response.type === "success" ) { 
-      setPrinters(response.data)
-    } 
-
-    else {
-      setError(response.error)
+  const verprinter = async () => {
+    const response = await getPrinters();
+    if (response.type === "success") {
+      setPrinters(response.data);
+    } else {
+      setError(response.error);
     }
-    }    
+  };
 
   const handleToggleClick = (id) => {
     console.log(`Toggle button clicked for equipment ID: ${id}`);
@@ -48,15 +45,32 @@ const ListEquipment = () => {
   const filteredPrinters = useMemo(() => {
     return printers.filter((printer) => {
       const searchLower = search.toLowerCase();
-      const { numeroSerie, padrao, localizacao } = printer;
-      const matchesSearch = search === "" || numeroSerie.toLowerCase().includes(searchLower);
-      const matchesEquipment = selectedEquipment === "" || padrao.tipo === selectedEquipment; // Adicionado filtro de Equipamento
-      const matchesModel = selectedModel === "" || padrao.modelo === selectedModel; // Adicionado filtro de Modelo
-      const matchesSerialNumber = selectedSerialNumber === "" || numeroSerie === selectedSerialNumber; // Adicionado filtro de Número de Série
-      const matchesLocation = selectedLocation === "" || localizacao === selectedLocation; // Adicionado filtro de Localização
-      return matchesSearch && matchesEquipment && matchesModel && matchesSerialNumber && matchesLocation;
+      const { numSerie, modeloId, localizacao } = printer;
+      const matchesSearch =
+        search === "" || numSerie.toLowerCase().includes(searchLower);
+      const matchesEquipment =
+        selectedEquipment === "" || numSerie === selectedEquipment; // Adicionado filtro de Equipamento
+      const matchesModel = selectedModel === "" || modeloId === selectedModel; // Adicionado filtro de Modelo
+      const matchesSerialNumber =
+        selectedSerialNumber === "" || numSerie === selectedSerialNumber; // Adicionado filtro de Número de Série
+      const matchesLocation =
+        selectedLocation === "" || localizacao === selectedLocation; // Adicionado filtro de Localização
+      return (
+        matchesSearch &&
+        matchesEquipment &&
+        matchesModel &&
+        matchesSerialNumber &&
+        matchesLocation
+      );
     });
-  }, [printers, search, selectedEquipment, selectedModel, selectedSerialNumber, selectedLocation]); // Adicionado selectedSerialNumber e selectedLocation
+  }, [
+    printers,
+    search,
+    selectedEquipment,
+    selectedModel,
+    selectedSerialNumber,
+    selectedLocation,
+  ]); // Adicionado selectedSerialNumber e selectedLocation
 
   if (loading) return <p>Loading...</p>;
   if (error)
@@ -88,9 +102,11 @@ const ListEquipment = () => {
               onChange={(e) => setSelectedEquipment(e.target.value)}
             >
               <option value="">Todos</option>
-              <option value="LaserJet">LaserJet</option>
-              <option value="InkJet">InkJet</option>
-              {/* Adicionado de acordo com os dados do mock */}
+              {printers.map((printer) => (
+                <option value={printer.numSerie} key={printer.id}>
+                  {printer.numSerie}
+                </option>
+              ))}
             </select>
           </div>
           <div className="filter">
@@ -100,33 +116,43 @@ const ListEquipment = () => {
               onChange={(e) => setSelectedModel(e.target.value)}
             >
               <option value="">Todos</option>
-              <option value="P1102">P1102</option>
-              <option value="MG2522">MG2522</option>
-              {/* Adicionado de acordo com os dados do mock */}
+              {printers.map((printer) => (
+                <option value={printer.modelo} key={printer.id}>
+                  {printer.modeloId}
+                </option>
+              ))}
             </select>
           </div>
-          <div className="filter"> {/* Adicionado filtro de Número de Série */}
+          <div className="filter">
+            {" "}
+            {/* Adicionado filtro de Número de Série */}
             <label>Número de Série</label>
             <select
               value={selectedSerialNumber}
               onChange={(e) => setSelectedSerialNumber(e.target.value)}
             >
               <option value="">Todos</option>
-              <option value="SN123456">SN123456</option>
-              <option value="SN654321">SN654321</option>
-              {/* Adicionado de acordo com os dados do mock */}
+              {printers.map((printer) => (
+                <option value={printer.numSerie} key={printer.id}>
+                  {printer.numSerie}
+                </option>
+              ))}
             </select>
           </div>
-          <div className="filter"> {/* Adicionado filtro de Localização */}
+          <div className="filter">
+            {" "}
+            {/* Adicionado filtro de Localização */}
             <label>Localização</label>
             <select
               value={selectedLocation}
               onChange={(e) => setSelectedLocation(e.target.value)}
             >
               <option value="">Todos</option>
-              <option value="DF">DF</option>
-              <option value="Goiás">Goiás</option>
-              {/* Adicionado de acordo com os dados do mock */}
+              {printers.map((printer) => (
+                <option value={printer.localizacao} key={printer.id}>
+                  {printer.localizacao}
+                </option>
+              ))}
             </select>
           </div>
         </div>
@@ -136,16 +162,21 @@ const ListEquipment = () => {
             <ItemBox
               key={printer.id}
               label={printer.numSerie}
-              onEditClick={() => navigate(`/visualizarimpressora/${printer.id}`)}
+              onEditClick={() =>
+                navigate(`/visualizarimpressora/${printer.id}`)
+              }
               onToggleClick={() => handleToggleClick(printer.id)}
             />
           ))}
         </div>
       </div>
-      
+
       {/* Adicionado botão de Cadastrar Novo Equipamento */}
       <div className="add-equipment-button-container">
-        <button className="add-equipment-button" onClick={() => navigate('/cadastroimpressora')}>
+        <button
+          className="add-equipment-button"
+          onClick={() => navigate("/cadastroimpressora")}
+        >
           Cadastrar Novo Equipamento
         </button>
       </div>

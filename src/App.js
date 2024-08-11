@@ -12,7 +12,6 @@ import RegisterPrinter from "./pages/RegisterPrinter";
 import EditPrinter from "./pages/EditPrinter";
 import PatternPrinter from "./pages/PatternPrinter";
 import EditPattern from "./pages/EditPattern";
-import PrintersList from "./pages/PrintersList";
 import ViewPrinter from "./pages/ViewPrinter";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';

@@ -39,21 +39,6 @@ describe('PatternPrinterPage', () => {
         jest.clearAllMocks();
     });
 
-    const createPatternData = {
-        "tipo": 'Laser',
-        "marca": 'HP',
-        "modelo": 'Modelo123',
-        "colorido": true,
-        "oidModelo": "1.3.6.1.2.1.1.9.1.3.4",
-        "oidNumeroSerie": "1.3.6.1.2.1.1.9.1.3.8",
-        "oidFirmware": "1.3.6.1.2.1.1.9.1.3.12",
-        "oidTempoAtivo": "1.3.6.1.2.1.1.9.1.1.27",
-        "oidDigitalizacoes": null,
-        "oidCopiasPB": "1.3.6.1.2.1.1.9.1.1.12",
-        "oidCopiasCor": "1.3.6.1.2.1.1.9.1.1.14",
-        "oidTotalGeral": "1.3.6.1.2.1.1.9.1.1.15"
-    }
-
     it('changes input fields', () => {
         render(<PatternPrinter />);
 

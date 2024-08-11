@@ -5,7 +5,7 @@ import "../../style/components/InputContainer.css";
 const InputContainer = ({ label, placeholder, value, onChange, className, error }) => {
     return (
         <div className={`input-label`}>
-            <span className="form-subtitle">{label}</span>
+            <label htmlFor={label} className="form-subtitle">{label}</label>
             <div className="input-container">
                 <input
                     id={label}

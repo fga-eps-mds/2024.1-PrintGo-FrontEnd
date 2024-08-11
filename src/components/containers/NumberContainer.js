@@ -5,7 +5,7 @@ import "../../style/components/NumberContainer.css";
 const NumberContainer = ({ id, name, value, onChange, className, label, disabled, error }) => {
     return (
         <div className='number-container-form'>
-            <span className="form-subtitle">{label}</span>
+            <label htmlFor={id} className="form-subtitle">{label}</label>
             <div>
                 <input
                     id={id}

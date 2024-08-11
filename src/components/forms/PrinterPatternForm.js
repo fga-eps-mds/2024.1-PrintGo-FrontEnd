@@ -69,7 +69,6 @@ export default function PrinterPatternForm() {
     const onSubmit = async (e) => {
       e.preventDefault();
       const data = createData()
-      console.log(data)
       const response = await createPadraoImpressora(data)
       if(response.type === "success") {
         toast.success("Padrao de impressora criado com sucesso!")

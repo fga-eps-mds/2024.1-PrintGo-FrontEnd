@@ -68,17 +68,17 @@ export default function ViewPattern() {
               <div className="viewpattern-info-line">
                 {Object.entries(infoLabels).map(([key, label]) => (
                   <div key={key} className="viewpattern-info-box">
-                    <label>{label}</label>
-                    <p>{pattern[key]}</p>
+                    <label htmlFor={key}>{label}</label>
+                    <p data-testid={key}>{pattern[key]}</p>
                   </div>
                 ))}
                   <div className="viewpattern-info-box">
                     <label>É Colorido?</label>
-                    <p>{pattern.colorido?"Sim":"Não"}</p>
+                    <p data-testid="colorido">{pattern.colorido?"Sim":"Não"}</p>
                   </div>
                   <div className="viewpattern-info-box">
                     <label>Esta ativo?</label>
-                    <p>{pattern.ativo?"Sim":"Não"}</p>
+                    <p data-testid="ativo">{pattern.ativo?"Sim":"Não"}</p>
                   </div>
               </div>
 
@@ -87,7 +87,7 @@ export default function ViewPattern() {
                 {Object.entries(oidLabels).map(([key, label]) => (
                   <div key={key} className="viewpattern-oid-box">
                     <label>{label}:</label>
-                    <p>{pattern[key]}</p>
+                    <p data-testid={key}>{pattern[key]}</p>
                   </div>
                 ))}
               </div>

@@ -44,7 +44,6 @@ function App() {
             <Route path="/editarpadrao" element={<EditPattern />} />
             <Route path="/impressorascadastradas" element={<ListEquipment />} />
             <Route path="/visualizarimpressora/:printerData" element={<ViewPrinter/>}/>
-            <Route path="/listapadroes" element={<PatternList />} />
             <Route path="/padroescadastrados" element={<PatternList />} />
             <Route path="/visualizarpadrao" element={<ViewPattern />} />
             <Route path="/cadastrarContrato" element={<ContractForm />} />

@@ -1,5 +1,6 @@
 import Navbar from "../components/navbar/Navbar";
 import React, {useState} from "react";
+import "../style/components/editCounterRoutine.css";
 
 export default function UpdateRoutine() {
 
@@ -24,59 +25,74 @@ export default function UpdateRoutine() {
   return (
     <>
       <Navbar />
-      <div className="tituloRotina">
-        <h1>Editar Rotina de Registro Automático</h1>
-      </div>
-      <div>
-        <label>Regional</label>
-        <select id="Regiao">
-          <option>Escolha um opção</option>
-          <option>Exemplo 1</option>
-          <option>Exemplo 2</option>
-        </select>
-      </div>
-      <div>
-        <label>Rotina de Registro</label>
-        <select id="Rotina" value={routine} onChange={handleRoutineChange}>
-          <option value={""}>Escolha um opção</option>
-          <option value={"Diariamente"}>Diariamente</option>
-          <option value={"Semanalmente"}>Semanalmente</option>
-          <option value={"Mensalmente"}>Mensalmente</option>
-        </select>
-      </div>
-      {showChosenOption && (
-        <div className="routineOptions">
-          {routine === "Diariamente" && (
-            <div className="dailyOption">
-              <label>Diariamente</label>
-              <label>Digite o horário</label>
-              <input placeholder="00:00"></input>
-            </div>
-          )}
-
-          {routine === "Semanalmente" && (
-            <div className="weeklyOption">
-              <label>Semanalmente</label>
-              <label>Digite o horário</label>
-              <input placeholder="00:00"></input>
-              <label>Escolha o dia da semana</label>
-            </div>
-          )}
-
-          {routine === "Mensalmente" && (
-            <div className="monthlyOption">
-              <label>Digite o horário</label>
-              <input placeholder="00:00"></input>
-              <label>Digite o dia do mês</label>
-              <input placeholder="1-28"></input>
-            </div>
-          )}
+      <div className="page-Routine">
+        <div className="topRoutine">
+          <h1 id="titleRoutine">Editar Rotina de Registro Automático</h1>
         </div>
-      )}
-      <div>
-        <button>Editar</button>
-        <button>Cancelar</button>
-      </div>
+        <div className="midPage-Routine">
+          <label id="labelRoutine">Regional</label>
+          <select id="dropdownRoutine">
+            <option>Escolha uma opção</option>
+            <option>Exemplo 1</option>
+            <option>Exemplo 2</option>
+          </select>
+        </div>
+        <div className="bottomPage-Routine">
+          <div className="optionsRoutine">
+            <label id="labelRoutine">Rotina de Registro</label>
+            <select id="dropdownRoutine" value={routine} onChange={handleRoutineChange}>
+              <option value={""}>Escolha uma opção</option>
+              <option value={"Diariamente"}>Diariamente</option>
+              <option value={"Semanalmente"}>Semanalmente</option>
+              <option value={"Mensalmente"}>Mensalmente</option>
+            </select>
+          </div>
+        {showChosenOption && (
+          <div className="routineResults">
+            {routine === "Diariamente" && (
+              <div className="dailyOption">
+                <label id="labelRoutine">Diariamente</label>
+                <div id="smallboxRoutine">
+                  <label id="slabelRoutine">Escolha o horário:</label>
+                  <input placeholder="00:00" type="time" id="timeRoutine"></input>
+                </div>
+              </div>
+            )}
+
+            {routine === "Semanalmente" && (
+              <div className="weeklyOption">
+                <label id="labelRoutine">Semanalmente</label>
+                <div id="smallboxRoutine">
+                  <label id="slabelRoutine">Escolha o horário:</label>
+                  <input placeholder="00:00" type="time" id="timeRoutine"></input>    
+                </div>
+                <div id="smallboxRoutine">
+                  <label id="slabelRoutine">Escolha o dia:</label>
+                </div>
+              </div>
+            )}
+
+            {routine === "Mensalmente" && (
+              <div className="monthlyOption">
+                <label id="labelRoutine">Mensalmente</label>
+                <div id="smallboxRoutine">
+                  <label id="slabelRoutine">Escolha o horário:</label>
+                  <input placeholder="00:00" type="time" id="timeRoutine"></input>
+                </div>
+                <div id="smallboxRoutine">
+                  <label id="slabelRoutine">Digite o dia do mês:</label>
+                  <input placeholder="1-28" type="number" min="1" max="28" id="dayRoutine"></input>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+        </div>
+        <div className="buttons-Routine">
+          <button id="addRoutine">Adicionar Rotina</button>
+          <button id="cancelEditRoutine">Cancelar</button>
+        </div>
+      </div>      
     </>
   );
 }

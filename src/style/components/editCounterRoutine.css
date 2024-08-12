@@ -132,3 +132,32 @@
     cursor: pointer;
     font-weight: 600;
 }
+
+.weekDayOptions{
+    display: flex;
+    width: 20px;
+    margin-left: -50px;
+    margin-top: 6px;
+}
+
+.weekDayRoutine{
+    display: inline-flex;
+    font-weight: 500;
+    margin-right: 5px;
+    background-color: #70757a;
+    align-items: center;
+    justify-content: center;
+    width: 23px;
+    height: 23px;
+    font-size: 13px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-sizing: border-box;
+    -webkit-box-align: center;
+    -webkit-box-pack: center;
+}
+
+.selectedDay{
+    background-color: #0D3D6D;
+    color: white;
+}

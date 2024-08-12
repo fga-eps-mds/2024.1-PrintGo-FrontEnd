@@ -1,5 +1,5 @@
 import Navbar from "../components/navbar/Navbar";
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import "../style/components/editCounterRoutine.css";
 
 export default function UpdateRoutine() {
@@ -19,9 +19,21 @@ export default function UpdateRoutine() {
       setShowChosenOption(true);
     } else {
       setShowChosenOption(false);
-    }
-  };
+    }}
 
+    useEffect(() => {
+      if (routine === "Semanalmente") {
+        const buttons = document.querySelectorAll('.weekDayRoutine');
+  
+        buttons.forEach(button => {
+          button.addEventListener('click', () => {
+            buttons.forEach(btn => btn.classList.remove('selectedDay')); 
+            button.classList.add('selectedDay'); 
+          });
+        });
+      }
+    }, [routine]);
+  
   return (
     <>
       <Navbar />
@@ -68,6 +80,29 @@ export default function UpdateRoutine() {
                 </div>
                 <div id="smallboxRoutine">
                   <label id="slabelRoutine">Escolha o dia:</label>
+                  <div className="weekDayOptions">
+                    <span>
+                      <div className="weekDayRoutine" role="checkbox">D</div>
+                    </span>
+                    <span>
+                      <div className="weekDayRoutine" role="checkbox">S</div>
+                    </span>
+                    <span>
+                      <div className="weekDayRoutine" role="checkbox">T</div>
+                    </span>
+                    <span>
+                      <div className="weekDayRoutine" role="checkbox">Q</div>
+                    </span>
+                    <span>
+                      <div className="weekDayRoutine" role="checkbox">Q</div>
+                    </span>
+                    <span>
+                      <div className="weekDayRoutine" role="checkbox">S</div>
+                    </span>
+                    <span>
+                      <div className="weekDayRoutine" role="checkbox">S</div>
+                    </span>
+                  </div>
                 </div>
               </div>
             )}

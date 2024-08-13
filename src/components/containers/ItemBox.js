@@ -5,7 +5,7 @@ import { FaToggleOn, FaToggleOff, FaPencil } from "react-icons/fa6";
 import Button from "../Button";
 import { editImpressora } from "../../services/printerService";
 
-const ItemBox = ({ label, onEditClick, printer }) => {
+const ItemBox = ({ label, onEditClick, onSerialClick, printer }) => {
   const [isToggled, setIsToggled] = useState(printer.ativo);
 
   const handleToggleClick = async () => {
@@ -21,7 +21,15 @@ const ItemBox = ({ label, onEditClick, printer }) => {
   return (
     <div className="item-box">
       <div className="overlap-group">
-        <div className="text-wrapper">{label}</div>
+        {/* Deixa o número de série clicável */}
+        <div className="text-wrapper">
+          <span
+            onClick={onSerialClick} 
+            style={{ cursor: "pointer" }} 
+          >
+            {label}
+          </span>
+        </div>
         <div className="edit">
           <Button
             className="edit"
@@ -53,12 +61,14 @@ const ItemBox = ({ label, onEditClick, printer }) => {
 ItemBox.propTypes = {
   label: PropTypes.string,
   onEditClick: PropTypes.func,
+  onSerialClick: PropTypes.func, 
   printer: PropTypes.object,
 };
 
 ItemBox.defaultProps = {
   label: "Default Label",
   onEditClick: () => console.log("Edit button clicked"),
+  onSerialClick: () => console.log("Serial number clicked"), 
   printer: {},
 };
 

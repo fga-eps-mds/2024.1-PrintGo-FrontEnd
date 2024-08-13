@@ -16,10 +16,10 @@ const ListEquipment = () => {
   const [printers, setPrinters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedEquipment, setSelectedEquipment] = useState(""); // Adicionado para filtro de Equipamento
-  const [selectedModel, setSelectedModel] = useState(""); // Adicionado para filtro de Modelo
-  const [selectedSerialNumber, setSelectedSerialNumber] = useState(""); // Adicionado para filtro de Número de Série
-  const [selectedLocation, setSelectedLocation] = useState(""); // Adicionado para filtro de Localização
+  const [selectedEquipment, setSelectedEquipment] = useState(""); 
+  const [selectedModel, setSelectedModel] = useState(""); 
+  const [selectedSerialNumber, setSelectedSerialNumber] = useState(""); 
+  const [selectedLocation, setSelectedLocation] = useState(""); 
 
   const navigate = useNavigate();
 
@@ -44,12 +44,12 @@ const ListEquipment = () => {
       const matchesSearch =
         search === "" || numSerie.toLowerCase().includes(searchLower);
       const matchesEquipment =
-        selectedEquipment === "" || numSerie === selectedEquipment; // Adicionado filtro de Equipamento
-      const matchesModel = selectedModel === "" || modeloId === selectedModel; // Adicionado filtro de Modelo
+        selectedEquipment === "" || numSerie === selectedEquipment; 
+      const matchesModel = selectedModel === "" || modeloId === selectedModel; 
       const matchesSerialNumber =
-        selectedSerialNumber === "" || numSerie === selectedSerialNumber; // Adicionado filtro de Número de Série
+        selectedSerialNumber === "" || numSerie === selectedSerialNumber; 
       const matchesLocation =
-        selectedLocation === "" || localizacao === selectedLocation; // Adicionado filtro de Localização
+        selectedLocation === "" || localizacao === selectedLocation; 
       return (
         matchesSearch &&
         matchesEquipment &&
@@ -157,8 +157,9 @@ const ListEquipment = () => {
               key={printer.id}
               label={printer.numSerie}
               onEditClick={() =>
-                navigate(`/visualizarimpressora/${printer.id}`)
+                navigate(`/editimpressora/${printer.id}`)
               }
+              onSerialClick={() => navigate(`/visualizarimpressora/${printer.id}`)} 
               printer={printer}
             />
           ))}

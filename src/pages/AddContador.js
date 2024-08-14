@@ -29,7 +29,7 @@ const AddContador = () => {
       }
     };
 
-    const fetchContracts = async () => {
+    const fetchEquipamentos = async () => {
       try {
         const [dataEquipamentos] = await Promise.all([
             getPrinters()
@@ -43,7 +43,7 @@ const AddContador = () => {
       }
     };
     fetchLocalizacoes();
-    fetchContracts();
+    fetchEquipamentos();
   }, []);
 
   const handleRegistrar = () => {
@@ -62,7 +62,7 @@ const AddContador = () => {
 
     const localizacao = localizacoes.find(m => m.name === cidadeSelecionada);
     setWorkstations(localizacao ? localizacao.workstations : []);
-    setSubworkstations([]);
+    setSubworkstations([]); 
 };
 
 const handleWorkstationChange = (event) => {

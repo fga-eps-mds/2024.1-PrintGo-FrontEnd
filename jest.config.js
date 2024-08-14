@@ -6,7 +6,7 @@ module.exports = {
       "^.+\\.(js|jsx)$": "babel-jest",
       "^.+\\.svg$": "<rootDir>/fileTransform.js", // Adicione esta linha
     },
-    moduleFileExtensions: ["js", "json", "jsx", "node", "svg"], // Adicione "svg" aqui
+    moduleFileExtensions: ["js", "json", "jsx", "node"],
     moduleNameMapper: {
       "^@/(.*)$": "<rootDir>/src/$1",
       "\\.(css|less|scss)$": "identity-obj-proxy",

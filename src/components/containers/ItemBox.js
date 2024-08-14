@@ -3,27 +3,9 @@ import PropTypes from "prop-types";
 import "../../style/components/itemBox.css";
 import { FaToggleOn, FaToggleOff, FaPencil } from "react-icons/fa6";
 import Button from "../Button";
-import { editImpressora } from "../../services/printerService";
-import { toast } from "react-toastify";
 
-const ItemBox = ({ label, onEditClick, onSerialClick, printer }) => {
+const ItemBox = ({ label, onEditClick, onToggleClick, onSerialClick, printer }) => {
   const [isToggled, setIsToggled] = useState(printer.ativo);
-
-  const onToggleClick = async () => {
-    let data = {
-      ...printer,
-      ativo: !printer.ativo,
-      dataRetirada: new Date(),
-    };
-    const res = await editImpressora(data);
-    if (res.type === "success") {
-      toast.success(
-        `Equipamento: ${printer.numSerie} ${
-          isToggled ? "desativado" : "ativado"
-        }!`
-      );
-    }
-  };
 
   const handleToggleClick = async () => {
     setIsToggled((prevState) => !prevState);
@@ -76,6 +58,7 @@ const ItemBox = ({ label, onEditClick, onSerialClick, printer }) => {
 ItemBox.propTypes = {
   label: PropTypes.string,
   onEditClick: PropTypes.func,
+  onToggleClick: PropTypes.func,
   onSerialClick: PropTypes.func,
   printer: PropTypes.object,
 };
@@ -83,6 +66,7 @@ ItemBox.propTypes = {
 ItemBox.defaultProps = {
   label: "Default Label",
   onEditClick: () => console.log("Edit button clicked"),
+  onToggleClick: () => console.log("Toggle button clicked"),
   onSerialClick: () => console.log("Serial number clicked"),
   printer: {},
 };

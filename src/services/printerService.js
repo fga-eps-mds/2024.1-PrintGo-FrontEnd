@@ -55,7 +55,7 @@ export const editImpressora = async (printer) => {
     if (response.status !== 200) {
       return { type: "error", data: response.data };
     }
-    return { type: "success", data: response.data };
+    return { type: "success", data: response.data.data };
   } catch (error) {
     return { type: "error", error };
   }

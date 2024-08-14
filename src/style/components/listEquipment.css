@@ -28,12 +28,12 @@
   position: relative; /* Alterado para posicionar o ícone dentro do input */
 }
 
-.search-filter img {
+.search-filter svg {
   position: absolute;
   right: 15px;
-  top: 50%;
+  top: 59%;
   transform: translateY(-50%);
-  background-color: #ffffff;
+  background-color: #ffffff00;
   height: 25px;
 }
 

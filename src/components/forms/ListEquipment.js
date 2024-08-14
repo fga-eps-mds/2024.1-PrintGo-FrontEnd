@@ -2,24 +2,24 @@ import React, { useEffect, useMemo, useState } from "react";
 import ItemBox from "../containers/ItemBox";
 import {
   editImpressora,
-  getPrinters,
-  togglePrinter,
+  getPrinters
 } from "../../services/printerService";
 import "../../style/components/listEquipment.css";
 import Navbar from "../navbar/Navbar";
-import Search from "../../assets/Search.svg";
 import Input from "../Input";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { FaMagnifyingGlass } from "react-icons/fa6";
 
 const ListEquipment = () => {
   const [search, setSearch] = useState("");
   const [printers, setPrinters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedEquipment, setSelectedEquipment] = useState(""); 
-  const [selectedModel, setSelectedModel] = useState(""); 
-  const [selectedSerialNumber, setSelectedSerialNumber] = useState(""); 
-  const [selectedLocation, setSelectedLocation] = useState(""); 
+  const [selectedEquipment, setSelectedEquipment] = useState("");
+  const [selectedModel, setSelectedModel] = useState("");
+  const [selectedSerialNumber, setSelectedSerialNumber] = useState("");
+  const [selectedLocation, setSelectedLocation] = useState("");
 
   const navigate = useNavigate();
 
@@ -44,12 +44,12 @@ const ListEquipment = () => {
       const matchesSearch =
         search === "" || numSerie.toLowerCase().includes(searchLower);
       const matchesEquipment =
-        selectedEquipment === "" || numSerie === selectedEquipment; 
-      const matchesModel = selectedModel === "" || modeloId === selectedModel; 
+        selectedEquipment === "" || numSerie === selectedEquipment;
+      const matchesModel = selectedModel === "" || modeloId === selectedModel;
       const matchesSerialNumber =
-        selectedSerialNumber === "" || numSerie === selectedSerialNumber; 
+        selectedSerialNumber === "" || numSerie === selectedSerialNumber;
       const matchesLocation =
-        selectedLocation === "" || localizacao === selectedLocation; 
+        selectedLocation === "" || localizacao === selectedLocation;
       return (
         matchesSearch &&
         matchesEquipment &&
@@ -67,6 +67,30 @@ const ListEquipment = () => {
     selectedLocation,
   ]); // Adicionado selectedSerialNumber e selectedLocation
 
+  const handleToggleClick = async (printer) => {
+    const updatedPrinter = {
+      ...printer,
+      ativo: !printer.ativo,
+      dataRetirada: new Date(),
+    };
+
+    const res = await editImpressora(updatedPrinter);
+    if (res.type === "success" && res.data) {
+      toast.success(
+        `Equipamento: ${res.data.numSerie} ${res.data.ativo ? "ativado" : "desativado"
+        }!`
+      );
+
+      setPrinters((prevPrinters) =>
+        prevPrinters.map((p) =>
+          p.id === res.data.id ? res.data : p
+        )
+      );
+    } else {
+      toast.error("Failed to update the equipment status.");
+    }
+  };
+
   if (loading) return <p>Loading...</p>;
   if (error)
     return <p>Error loading data: {error.message || "Unknown error"}</p>;
@@ -82,7 +106,7 @@ const ListEquipment = () => {
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Pesquisar Equipamento"
           />
-          <img alt="Search" src={Search} />
+          <FaMagnifyingGlass />
         </div>
       </div>
 
@@ -159,7 +183,8 @@ const ListEquipment = () => {
               onEditClick={() =>
                 navigate(`/editimpressora/${printer.id}`)
               }
-              onSerialClick={() => navigate(`/visualizarimpressora/${printer.id}`)} 
+              onToggleClick={() => handleToggleClick(printer)}
+              onSerialClick={() => navigate(`/visualizarimpressora/${printer.id}`)}
               printer={printer}
             />
           ))}

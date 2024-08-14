@@ -9,24 +9,24 @@ export default function ViewPattern() {
   const location = useLocation();
 
   const altLocation = {
-      id:"",
-      marca: "",
-      modelo: "",
-      tipo: "",
-      colorido: false,
-      oidModelo:  "",
-      oidNumeroSerie: "",
-      oidFirmware:  "",
-      oidTempoAtivo:  "",
-      oidDigitalizacoes:  "",
-      oidCopiasPB:  "",
-      oidCopiasCor: "",
-      oidTotalGeral:  ""
-    }
-  
-  
+    id: "",
+    marca: "",
+    modelo: "",
+    tipo: "",
+    colorido: false,
+    oidModelo: "",
+    oidNumeroSerie: "",
+    oidFirmware: "",
+    oidTempoAtivo: "",
+    oidDigitalizacoes: "",
+    oidCopiasPB: "",
+    oidCopiasCor: "",
+    oidTotalGeral: ""
+  }
+
+
   const pattern = location.state || altLocation;
-  
+
 
 
 
@@ -45,8 +45,8 @@ export default function ViewPattern() {
     oidDigitalizacoes: "Total de digitalizações",
     oidCopiasPB: "Total de cópias P&B",
     oidCopiasCor: "Total de cópias color",
-    oidTotalGeral: "Total de impressões P&B",
-  } 
+    oidTotalGeral: "Total geral",
+  }
 
   return (
     <>
@@ -54,9 +54,9 @@ export default function ViewPattern() {
       <div className="viewpattern-container">
         <div className="viewpattern-card">
 
-          { pattern ? (
+          {pattern ? (
             <div className="viewpattern-info-group">
-              
+
               <header className="viewpattern-card-header">
                 <a href="/padroescadastrados">
                   <img alt="" src={voltar_vector}></img>
@@ -72,14 +72,14 @@ export default function ViewPattern() {
                     <p data-testid={key}>{pattern[key]}</p>
                   </div>
                 ))}
-                  <div className="viewpattern-info-box">
-                    <label>É Colorido?</label>
-                    <p data-testid="colorido">{pattern.colorido?"Sim":"Não"}</p>
-                  </div>
-                  <div className="viewpattern-info-box">
-                    <label>Esta ativo?</label>
-                    <p data-testid="ativo">{pattern.ativo?"Sim":"Não"}</p>
-                  </div>
+                <div className="viewpattern-info-box">
+                  <label>É Colorido?</label>
+                  <p>{pattern.colorido ? "Sim" : "Não"}</p>
+                </div>
+                <div className="viewpattern-info-box">
+                  <label>Esta ativo?</label>
+                  <p>{pattern.ativo ? "Sim" : "Não"}</p>
+                </div>
               </div>
 
               <div className="viewpattern-oid-line">
@@ -93,9 +93,9 @@ export default function ViewPattern() {
               </div>
 
             </div>
-            ) : (
-              <p id="viewpattern-loading-text">Carregando dados...</p>
-            )
+          ) : (
+            <p id="viewpattern-loading-text">Carregando dados...</p>
+          )
           }
         </div>
 

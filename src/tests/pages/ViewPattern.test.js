@@ -21,7 +21,7 @@ function render(ui, { route = '/', ...renderOptions } = {}) {
     return rtlRender(ui, { wrapper: Wrapper, ...renderOptions });
 }
 
-describe('ViewPrinter', () => {
+describe('ViewPattern', () => {
 
     beforeEach(() => {
         router.useNavigate.mockImplementation(jest.requireActual('react-router-dom').useNavigate);

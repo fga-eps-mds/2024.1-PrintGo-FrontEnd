@@ -74,11 +74,11 @@ export default function ViewPattern() {
                 ))}
                 <div className="viewpattern-info-box">
                   <label>É Colorido?</label>
-                  <p>{pattern.colorido ? "Sim" : "Não"}</p>
+                  <p data-testid="colorido">{pattern.colorido ? "Sim" : "Não"}</p>
                 </div>
                 <div className="viewpattern-info-box">
                   <label>Esta ativo?</label>
-                  <p>{pattern.ativo ? "Sim" : "Não"}</p>
+                  <p data-testid="ativo">{pattern.ativo ? "Sim" : "Não"}</p>
                 </div>
               </div>
 

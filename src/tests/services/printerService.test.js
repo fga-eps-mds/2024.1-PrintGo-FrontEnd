@@ -37,7 +37,7 @@ describe('printer endpoints', () => {
 
         const result = await createImpressora(printerData);
 
-        expect(api.post).toHaveBeenCalledWith('/printer/', printerData);
+        expect(api.post).toHaveBeenCalledWith('/printer', printerData);
         expect(result).toEqual({ type: 'success', data: 'some data' });
     });
 
@@ -46,7 +46,7 @@ describe('printer endpoints', () => {
 
         const result = await createImpressora(printerData);
 
-        expect(api.post).toHaveBeenCalledWith('/printer/', printerData);
+        expect(api.post).toHaveBeenCalledWith('/printer', printerData);
         expect(result).toEqual({ type: 'error', data: 'some data' });
     });
 
@@ -55,7 +55,7 @@ describe('printer endpoints', () => {
 
         const result = await createImpressora(printerData);
 
-        expect(api.post).toHaveBeenCalledWith('/printer/', printerData);
+        expect(api.post).toHaveBeenCalledWith('/printer', printerData);
         expect(result).toEqual({ type: 'error', error: new Error('error') });
     });
 
@@ -87,7 +87,7 @@ describe('printer endpoints', () => {
     });
 
     it('edits a printer successfully', async () => {
-        api.patch.mockResolvedValue({ status: 200, data: 'some data' });
+        api.patch.mockResolvedValue({ status: 200, data: {data: 'some data'}});
         
         const printerUpdateData = {id: 1, ...printerData};
 

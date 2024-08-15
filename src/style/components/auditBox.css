@@ -1,8 +1,8 @@
 .box{
     display: flex;
     border-style: solid;
-    border-width: 2px;
-    border-color: #D9D9D9;
+    border-width: 3px;
+    border-color: #0D3D6D;
     border-radius: 20px;
 }
 
@@ -15,40 +15,11 @@
     border-color: #D9D9D9;
 }
 
-.cont-atual-box{
-    width: 20%;
+.audit-box-element-report{
+    width: 13%;
     text-align: center;
-    color: #006633;
+    color: #003366;
     font-size: medium;
-    border-right-style: solid;
-    border-color: #D9D9D9;
-}
-
-.cont-loc-box{
-    width: 20%;
-    text-align: center;
-    color: #006633;
-    font-size: medium;
-    border-right-style: solid;
-    border-color: #D9D9D9;
-}
-
-.tot-printgo-box{
-    width: 20%;
-    text-align: center;
-    color: #006633;
-    font-size: medium;
-    border-right-style: solid;
-    border-color: #D9D9D9;
-}
-
-.tot-loc-box{
-    width: 20%;
-    text-align: center;
-    color: #006633;
-    font-size: medium;
-    border-right-style: solid;
-    border-color: #D9D9D9;
 }
 
 .report{

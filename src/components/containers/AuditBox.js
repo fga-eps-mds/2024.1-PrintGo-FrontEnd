@@ -18,7 +18,7 @@ const AuditBox = ({ equipamento, contadorCor, contadorPB, contadorLocPB, contado
             <h2 className="audit-box-element">{contadorLocPB}</h2>
             <h2 className="audit-box-element">{totPrintgo}</h2>
             <h2 className="audit-box-element">{totLoc}</h2>
-            <div className="audit-box-element">
+            <div className="audit-box-element-report">
                 <button className="report" onClick={onClick}>
                     <img src={imageButton} alt="Button" className="report-image" />
                 </button>

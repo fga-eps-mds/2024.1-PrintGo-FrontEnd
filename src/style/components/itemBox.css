@@ -1,40 +1,24 @@
-.box .overlap-group {
-    background-color: #ffffff;
-    border: 2px solid;
-    border-color: #003366;
-    border-radius: 20px;
-    height: 142px;
-    position: relative;
-    width: 1674px;
+.item-box {
+  display: flex;
 }
 
-.box .text-wrapper {
-    color: #003366;
-    font-family: "Jost-Regular", Helvetica;
-    font-size: 48px;
-    font-weight: 400;
-    height: 69px;
-    left: 48px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 34px;
+.item-box .overlap-group {
+  background-color: #ffffff;
+  border: 2px solid;
+  border-color: #003366;
+  border-radius: 20px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  flex: 1;
 }
 
-.box .edit {
-    height: 69px;
-    left: 1462px;
-    object-fit: cover;
-    position: absolute;
-    top: 34px;
-    width: 69px;
-}
-
-.box .toggle {
-    height: 69px;
-    left: 1554px;
-    object-fit: cover;
-    position: absolute;
-    top: 32px;
-    width: 93px;
+.item-box .text-wrapper {
+  color: #003366;
+  font-family: "Jost-Regular", Helvetica;
+  font-size: 48px;
+  font-weight: 400;
+  height: auto;
+  letter-spacing: 0;
+  flex: 1;
 }

@@ -12,7 +12,6 @@ import RegisterPrinter from "./pages/RegisterPrinter";
 import EditPrinter from "./pages/EditPrinter";
 import PatternPrinter from "./pages/PatternPrinter";
 import EditPattern from "./pages/EditPattern";
-import PrintersList from "./pages/PrintersList";
 import ViewPrinter from "./pages/ViewPrinter";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -41,12 +40,10 @@ function App() {
             <Route path="/mudarsenha" element={<ChangePassword />} />
             <Route path="/cadastroimpressora" element={<RegisterPrinter />} />
             <Route path="/auditoria" element={<AuditPrinter />} />
-            {/* <Route path="/editarimpressora/:printer" element={<EditPrinter />} /> */}
             <Route path="/padraoimpressora" element={<PatternPrinter />} />
             <Route path="/editarpadrao" element={<EditPattern />} />
             <Route path="/impressorascadastradas" element={<ListEquipment />} />
-            <Route path="/visualizarimpressora/:printerData" element={<ViewPrinter />} />
-            <Route path="/listapadroes" element={<PatternList />} />
+            <Route path="/visualizarimpressora/:printerData" element={<ViewPrinter/>}/>
             <Route path="/padroescadastrados" element={<PatternList />} />
             <Route path="/visualizarpadrao" element={<ViewPattern />} />
             <Route path="/cadastrarContrato" element={<ContractForm />} />

@@ -18,7 +18,7 @@ const AddContador = () => {
   const [selectedEquipamento, setSelectedEquipamento] = useState("");
   const [quantidadeImpressoesPB, setQuantidadeImpressoesPB] = useState(""); 
   const [quantidadeImpressoesCor, setQuantidadeImpressoesCor] = useState(""); 
-  const [dataContagem, setDataContagem] = useState("");
+  const [dataContador, setdataContador] = useState("");
   const [isColorido, setIsColorido] = useState(false); 
 
   const navigate = useNavigate(); 
@@ -83,7 +83,7 @@ const AddContador = () => {
         return;
     }
 
-    if (!dataContagem) {
+    if (!dataContador) {
       toast.error("Por favor, insira uma data válida.");
       return;
   }
@@ -92,7 +92,7 @@ const AddContador = () => {
         id: selectedEquipamento,
         contadorAtualPB: parseInt(quantidadeImpressoesPB, 10),
         contadorAtualCor: isColorido ? parseInt(quantidadeImpressoesCor, 10) : 0,
-        dataContagemManual: new Date(dataContagem).toISOString()
+        dataContador: new Date(dataContador).toISOString()
     };
 
     console.log("Dados enviados:", contadoresData);
@@ -244,8 +244,8 @@ const AddContador = () => {
             <label>Data</label>
             <input 
               type="date" 
-              value={dataContagem}
-              onChange={(e) => setDataContagem(e.target.value)} 
+              value={dataContador}
+              onChange={(e) => setdataContador(e.target.value)} 
             />
           </div>
         </div>

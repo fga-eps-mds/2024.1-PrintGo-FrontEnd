@@ -74,7 +74,7 @@ const AddContador = () => {
     }
 
     if (!quantidadeImpressoesPB || quantidadeImpressoesPB <= 0) {
-        toast.error("Por favor, insira uma quantidade válida de impressões em PB.");
+        toast.error("Por favor, insira uma quantidade válida de impressões em Preto e Branco.");
         return;
     }
 

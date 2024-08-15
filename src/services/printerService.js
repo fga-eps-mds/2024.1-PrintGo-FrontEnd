@@ -79,3 +79,15 @@ export const editImpressora = async (printer) => {
         return { type: 'error', error };
     }
 };
+export const addContadores = async (contadoresData) => {
+    try {
+        const { id, ...rest } = contadoresData;
+        const response = await api.patch(`/printer/contadores/${id}`, rest);
+        if (response.status !== 200) {
+            return { type: 'error', data: response.data };
+        }
+        return { type: 'success', data: response.data };
+    } catch (error) {
+        return { type: 'error', error };
+    }
+};

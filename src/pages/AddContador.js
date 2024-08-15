@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import '../style/pages/addcontador.css';
 import Navbar from '../components/navbar/Navbar';
-import { getPrinters, getLocalizacao } from "../services/printerService";
+import { getPrinters, getLocalizacao, addContadores } from "../services/printerService";
 import { toast } from "react-toastify";
 
 const AddContador = () => {
@@ -13,7 +13,7 @@ const AddContador = () => {
   const [postoTrabalho, setPostoTrabalho] = useState("");
   const [subpostoTrabalho, setSubpostoTrabalho] = useState("");
   const [equipamentos, setEquipamentos] = useState([]); 
-  const [selectedEquipamento, setSelectedEquipamento] = useState("")
+  const [selectedEquipamento, setSelectedEquipamento] = useState("");
   const [quantidadeImpressoes, setQuantidadeImpressoes] = useState(""); 
   const [data, setData] = useState(""); 
 
@@ -22,10 +22,10 @@ const AddContador = () => {
   useEffect(() => {
     const fetchLocalizacoes = async () => {
       try {
-          const response = await getLocalizacao();
-          setLocalizacoes(response.data);
+        const response = await getLocalizacao();
+        setLocalizacoes(response.data);
       } catch (error) {
-          console.error('Erro ao buscar localizações:', error);
+        console.error('Erro ao buscar localizações:', error);
       }
     };
 
@@ -46,9 +46,43 @@ const AddContador = () => {
     fetchEquipamentos();
   }, []);
 
-  const handleRegistrar = () => {
-    navigate('/visualizarimpressora/:id');
-  };
+  const handleRegistrar = async () => {
+    console.log("Equipamento selecionado:", selectedEquipamento);
+
+    if (!selectedEquipamento) {
+        toast.error("Por favor, selecione um equipamento.");
+        return;
+    }
+
+    if (!quantidadeImpressoes || quantidadeImpressoes <= 0) {
+        toast.error("Por favor, insira uma quantidade de impressões válida.");
+        return;
+    }
+
+    const contadoresData = {
+        id: selectedEquipamento,
+        contadorAtualPB: parseInt(quantidadeImpressoes, 10),
+        contadorAtualCor: 0 
+    };
+
+    console.log("Dados enviados:", contadoresData); 
+
+    try {
+        const response = await addContadores(contadoresData);
+        console.log('Resposta do backend:', response); 
+
+        if (response.type === 'success') {
+            toast.success("Contador registrado com sucesso!");
+            navigate(`/visualizarimpressora/${selectedEquipamento}`);
+        } else {
+            console.error('Erro recebido do backend:', response.error); 
+            toast.error("Erro ao registrar contador: " + (response.error || response.data));
+        }
+    } catch (error) {
+        console.error('Erro na requisição:', error); 
+        toast.error("Erro ao registrar contador: " + error.message);
+    }
+};
 
   const handleCancelar = () => {
     navigate('/impressorascadastradas');
@@ -63,20 +97,20 @@ const AddContador = () => {
     const localizacao = localizacoes.find(m => m.name === cidadeSelecionada);
     setWorkstations(localizacao ? localizacao.workstations : []);
     setSubworkstations([]); 
-};
+  };
 
-const handleWorkstationChange = (event) => {
-  const workstationSelecionada = event.target.value;
-  setPostoTrabalho(workstationSelecionada);
+  const handleWorkstationChange = (event) => {
+    const workstationSelecionada = event.target.value;
+    setPostoTrabalho(workstationSelecionada);
 
-  const subworkstations = workstations.find(m => m.name === workstationSelecionada);
-  setSubworkstations(subworkstations ? subworkstations.child_workstations : []);
-};
+    const subworkstations = workstations.find(m => m.name === workstationSelecionada);
+    setSubworkstations(subworkstations ? subworkstations.child_workstations : []);
+  };
 
-const handleSubWorkstationChange = (event) => {
-  const workstationSelecionada = event.target.value;
-  setSubpostoTrabalho(workstationSelecionada);
-};
+  const handleSubWorkstationChange = (event) => {
+    const workstationSelecionada = event.target.value;
+    setSubpostoTrabalho(workstationSelecionada);
+  };
 
   return (
     <>
@@ -135,17 +169,17 @@ const handleSubWorkstationChange = (event) => {
           <div className="fields-underline"></div>
           <div className="campo equipamentos">
             <label>Equipamento Associado</label>
-              <select
-                value={selectedEquipamento}
+            <select
+              value={selectedEquipamento}
                 onChange={(e) => setSelectedEquipamento(e.target.value)}
-              >
-                <option value="">Número de série</option>
-                {equipamentos.map((equipamento) => (
+            >
+              <option value="">Número de série</option>
+              {equipamentos.map((equipamento) => (
                   <option key={equipamento.id} value={equipamento.id}>
-                    {equipamento.numSerie}
-                  </option>
-                ))}
-              </select>
+                  {equipamento.numSerie}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="campo quantidade">
             <label>Quantidade de Impressões</label>

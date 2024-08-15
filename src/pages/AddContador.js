@@ -82,6 +82,11 @@ const AddContador = () => {
         toast.error("Por favor, insira uma quantidade válida de impressões coloridas.");
         return;
     }
+    
+    if (!dataContagem) {
+      toast.error("Por favor, insira uma data válida.");
+      return;
+  }
 
     const contadoresData = {
         id: selectedEquipamento,

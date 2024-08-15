@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import '../style/pages/addcontador.css';
 import Navbar from '../components/navbar/Navbar';
 import { getPrinters, getLocalizacao, addContadores } from "../services/printerService";
+import { getPadroes } from "../services/patternService";
 import { toast } from "react-toastify";
 
 const AddContador = () => {
@@ -18,6 +19,7 @@ const AddContador = () => {
   const [quantidadeImpressoesPB, setQuantidadeImpressoesPB] = useState(""); 
   const [quantidadeImpressoesCor, setQuantidadeImpressoesCor] = useState(""); 
   const [dataContagem, setDataContagem] = useState("");
+  const [isColorido, setIsColorido] = useState(false); 
 
   const navigate = useNavigate(); 
 
@@ -48,6 +50,23 @@ const AddContador = () => {
     fetchEquipamentos();
   }, []);
 
+  const handleEquipamentoChange = async (equipamentoId) => {
+    setSelectedEquipamento(equipamentoId);
+    const equipamento = equipamentos.find(e => e.id === parseInt(equipamentoId, 10));
+    
+    if (equipamento) {
+      const response = await getPadroes();
+      if (response.type === 'success' && response.data) {
+        const padrao = response.data.find(p => p.modelo === equipamento.modeloId);
+        if (padrao) {
+          setIsColorido(padrao.colorido);
+        }
+      } else {
+        console.error('Erro ao buscar o padrão da impressora:', response.error);
+      }
+    }
+  };
+
   const handleRegistrar = async () => {
     if (!selectedEquipamento) {
         toast.error("Por favor, selecione um equipamento.");
@@ -59,7 +78,7 @@ const AddContador = () => {
         return;
     }
 
-    if (!quantidadeImpressoesCor || quantidadeImpressoesCor < 0) {
+    if (isColorido && (!quantidadeImpressoesCor || quantidadeImpressoesCor < 0)) {
         toast.error("Por favor, insira uma quantidade válida de impressões coloridas.");
         return;
     }
@@ -67,7 +86,7 @@ const AddContador = () => {
     const contadoresData = {
         id: selectedEquipamento,
         contadorAtualPB: parseInt(quantidadeImpressoesPB, 10),
-        contadorAtualCor: parseInt(quantidadeImpressoesCor, 10),
+        contadorAtualCor: isColorido ? parseInt(quantidadeImpressoesCor, 10) : 0,
         dataContagemManual: new Date(dataContagem).toISOString()
     };
 
@@ -90,7 +109,7 @@ const AddContador = () => {
         console.error('Erro na requisição:', error);
         toast.error("Erro ao registrar contador: " + error.message);
     }
-};
+  };
 
   const handleCancelar = () => {
     navigate('/impressorascadastradas');
@@ -183,7 +202,7 @@ const AddContador = () => {
             <label>Equipamento Associado</label>
             <select
               value={selectedEquipamento}
-              onChange={(e) => setSelectedEquipamento(e.target.value)}
+              onChange={(e) => handleEquipamentoChange(e.target.value)}
             >
               <option value="">Número de série</option>
               {equipamentosFiltrados.map((equipamento) => (
@@ -212,6 +231,7 @@ const AddContador = () => {
                 onChange={(e) => setQuantidadeImpressoesCor(e.target.value)} 
                 min="0" 
                 step="1" 
+                disabled={!isColorido} 
               />
             </div>
           </div>

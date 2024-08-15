@@ -136,3 +136,16 @@ body {
   background-color: #D91919; 
   color: white;
 }
+
+
+.campo.quantidade input:disabled {
+  background-color: #f0f0f0; 
+  cursor: not-allowed; 
+  color: #999; 
+}
+
+
+.campo.quantidade input:disabled:hover {
+  border: 1px solid #ccc; 
+  box-shadow: 0 0 5px #ccc; 
+}

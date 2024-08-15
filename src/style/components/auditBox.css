@@ -1,7 +1,9 @@
 .box{
     display: flex;
-    outline: 1px solid #D9D9D9;
-    border-radius: 18px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #D9D9D9;
+    border-radius: 20px;
 }
 
 .equipamento-box{
@@ -68,7 +70,6 @@
 .button-space{
     display: flex;
     width: 7%;
-
     align-items: center;
     justify-content: center;
     

@@ -1,15 +1,16 @@
 module.exports = {
+    setupFilesAfterEnv: ['./src/setupTests.js'],
     testMatch: ["**/__tests__/**/*.js", "**/?(*.)+(spec|test).js"],
     testPathIgnorePatterns: ["/node_modules/"],
     transform: {
       "^.+\\.(js|jsx)$": "babel-jest",
       "^.+\\.svg$": "<rootDir>/fileTransform.js", // Adicione esta linha
     },
-    moduleFileExtensions: ["js", "json", "jsx", "node", "svg"], // Adicione "svg" aqui
+    moduleFileExtensions: ["js", "json", "jsx", "node"],
     moduleNameMapper: {
       "^@/(.*)$": "<rootDir>/src/$1",
       "\\.(css|less|scss)$": "identity-obj-proxy",
-      "axios": "axios/dist/node/axios.cjs"
+      '^axios$': require.resolve('axios'),
     },
     testEnvironment: "jsdom",
     

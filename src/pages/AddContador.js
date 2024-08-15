@@ -12,10 +12,11 @@ const AddContador = () => {
   const [cidade, setCidade] = useState("");
   const [postoTrabalho, setPostoTrabalho] = useState("");
   const [subpostoTrabalho, setSubpostoTrabalho] = useState("");
-  const [equipamentos, setEquipamentos] = useState([]); 
+  const [equipamentos, setEquipamentos] = useState([]);
+  const [equipamentosFiltrados, setEquipamentosFiltrados] = useState([]);
   const [selectedEquipamento, setSelectedEquipamento] = useState("");
   const [quantidadeImpressoes, setQuantidadeImpressoes] = useState(""); 
-  const [data, setData] = useState(""); 
+  const [dataContagem, setDataContagem] = useState("");
 
   const navigate = useNavigate(); 
 
@@ -36,7 +37,7 @@ const AddContador = () => {
         ]) 
         if (dataEquipamentos.type ==='success' && dataEquipamentos.data) {
           setEquipamentos(dataEquipamentos.data);
-          console.log(dataEquipamentos.data);
+          setEquipamentosFiltrados(dataEquipamentos.data)
         }
       } catch (error) {
         console.error('Erro ao obter lista de impressoras:', error);
@@ -47,7 +48,6 @@ const AddContador = () => {
   }, []);
 
   const handleRegistrar = async () => {
-    console.log("Equipamento selecionado:", selectedEquipamento);
 
     if (!selectedEquipamento) {
         toast.error("Por favor, selecione um equipamento.");
@@ -62,7 +62,8 @@ const AddContador = () => {
     const contadoresData = {
         id: selectedEquipamento,
         contadorAtualPB: parseInt(quantidadeImpressoes, 10),
-        contadorAtualCor: 0 
+        contadorAtualCor: 0,
+        dataContagemManual: new Date(dataContagem).toISOString()
     };
 
     console.log("Dados enviados:", contadoresData); 
@@ -73,7 +74,9 @@ const AddContador = () => {
 
         if (response.type === 'success') {
             toast.success("Contador registrado com sucesso!");
-            navigate(`/visualizarimpressora/${selectedEquipamento}`);
+            setTimeout(() => {
+              navigate(`/visualizarimpressora/${selectedEquipamento}`);
+            }, 3000);
         } else {
             console.error('Erro recebido do backend:', response.error); 
             toast.error("Erro ao registrar contador: " + (response.error || response.data));
@@ -92,24 +95,28 @@ const AddContador = () => {
     const cidadeSelecionada = event.target.value;
     setCidade(cidadeSelecionada);
 
-    console.log(cidade)
-
     const localizacao = localizacoes.find(m => m.name === cidadeSelecionada);
+
     setWorkstations(localizacao ? localizacao.workstations : []);
-    setSubworkstations([]); 
+
+    const filtered = equipamentos.filter((equipamento) => equipamento.localizacao.split(";")[0] === cidadeSelecionada);
+    setEquipamentosFiltrados(filtered)
   };
 
   const handleWorkstationChange = (event) => {
     const workstationSelecionada = event.target.value;
     setPostoTrabalho(workstationSelecionada);
-
-    const subworkstations = workstations.find(m => m.name === workstationSelecionada);
-    setSubworkstations(subworkstations ? subworkstations.child_workstations : []);
+    const workstation = workstations.find(m => m.name === workstationSelecionada);
+    setSubworkstations(workstation ? workstation.child_workstations : []);
+    const filtered = equipamentosFiltrados.filter((equipamento) => equipamento.localizacao.split(";")[1] === workstationSelecionada);
+    setEquipamentosFiltrados(filtered)
   };
 
   const handleSubWorkstationChange = (event) => {
-    const workstationSelecionada = event.target.value;
-    setSubpostoTrabalho(workstationSelecionada);
+    const subworkstationSelecionada = event.target.value;
+    setSubpostoTrabalho(subworkstationSelecionada);
+    const filtered = equipamentosFiltrados.filter((equipamento) => equipamento.localizacao.split(";")[2] === subworkstationSelecionada);
+    setEquipamentosFiltrados(filtered)
   };
 
   return (
@@ -138,21 +145,21 @@ const AddContador = () => {
               </select>
             </div>
             <div className="campo">
-              <label>Posto de Trabalho</label>
+              <label>Regional</label>
               <select
                 value={postoTrabalho}
                 onChange={(e) => handleWorkstationChange(e)}
               >
                 <option value="">Selecione o posto</option>
                 {workstations.map((workstation) => (
-                  <option key={workstation.id} value={workstation.id}>
+                  <option key={workstation.id} value={workstation.name}>
                     {workstation.name}
                   </option>
                 ))}
               </select>
             </div>
             <div className="campo">
-              <label>Subposto de Trabalho</label>
+              <label>Unidade</label>
               <select
                 value={subpostoTrabalho}
                 onChange={(e) => handleSubWorkstationChange(e)}
@@ -174,7 +181,7 @@ const AddContador = () => {
                 onChange={(e) => setSelectedEquipamento(e.target.value)}
             >
               <option value="">Número de série</option>
-              {equipamentos.map((equipamento) => (
+              {equipamentosFiltrados.map((equipamento) => (
                   <option key={equipamento.id} value={equipamento.id}>
                   {equipamento.numSerie}
                 </option>
@@ -195,8 +202,8 @@ const AddContador = () => {
             <label>Data</label>
             <input 
               type="date" 
-              value={data} 
-              onChange={(e) => setData(e.target.value)} 
+              value={dataContagem}
+              onChange={(e) => setDataContagem(e.target.value)} 
             />
           </div>
         </div>

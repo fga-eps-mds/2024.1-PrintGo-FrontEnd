@@ -39,15 +39,33 @@ export default function UpdateRoutine() {
       <Navbar />
       <div className="page-Routine">
         <div className="topRoutine">
-          <h1 id="titleRoutine">Editar Rotina de Registro Automático</h1>
+          <h1 id="titleRoutine"> Rotina de Registro Automático</h1>
         </div>
         <div className="midPage-Routine">
+          <div>
+          <label id="labelRoutine">Cidade</label>
+          <select id="dropdownRoutine">
+            <option>Escolha uma opção</option>
+            <option>Cidade 1</option>
+            <option>Cidade 2</option>
+          </select>
+          </div>
+          <div>
           <label id="labelRoutine">Regional</label>
           <select id="dropdownRoutine">
             <option>Escolha uma opção</option>
-            <option>Exemplo 1</option>
-            <option>Exemplo 2</option>
+            <option>Regional 1</option>
+            <option>Regional 2</option>
           </select>
+          </div>
+          <div>
+          <label id="labelRoutine">Unidade de Trabalho</label>
+          <select id="dropdownRoutine">
+            <option>Escolha uma opção</option>
+            <option>Unidade 1</option>
+            <option>Unidade 2</option>
+          </select>
+          </div>
         </div>
         <div className="bottomPage-Routine">
           <div className="optionsRoutine">
@@ -65,7 +83,11 @@ export default function UpdateRoutine() {
               <div className="dailyOption">
                 <label id="labelRoutine">Diariamente</label>
                 <div id="smallboxRoutine">
-                  <label id="slabelRoutine">Escolha o horário:</label>
+                  <label id="slabelRoutine">Escolha um horário:</label>
+                  <input placeholder="00:00" type="time" id="timeRoutine"></input>
+                </div>
+                <div id="smallboxRoutine">
+                  <label id="slabelRoutine">Escolha o intervalo:</label>
                   <input placeholder="00:00" type="time" id="timeRoutine"></input>
                 </div>
               </div>

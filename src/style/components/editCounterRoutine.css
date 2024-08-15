@@ -29,6 +29,7 @@
     margin-left: 100px;
     margin-top: 20px;
     margin-bottom: 30px;
+    display: flex;
 }
 
 .bottomPage-Routine{
@@ -107,7 +108,7 @@
 }
 
 #addRoutine{
-    background-color: #006633;
+    background-color: #0D3D6D;
     height: 6vh;
     width: 13vw;
     color: white;
@@ -158,6 +159,6 @@
 }
 
 .selectedDay{
-    background-color: #0D3D6D;
+    background-color: #006633;
     color: white;
 }

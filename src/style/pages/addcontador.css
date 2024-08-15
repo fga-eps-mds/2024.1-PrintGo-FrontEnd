@@ -75,6 +75,7 @@
   min-width: 300px;
   max-width: 950px;
 }
+
 .campo.equipamento select {
   max-width: 300px; 
 }
@@ -97,6 +98,12 @@
 
 .campo.equipamento select, .campo.quantidade input, .campo.data input {
   max-width: 270px; 
+}
+
+/* Alinhas os campos de quantidade*/
+.quantidade-impressao-section {
+  display: flex;
+  gap: 50px; 
 }
 
 body {
@@ -129,5 +136,3 @@ body {
   background-color: #D91919; 
   color: white;
 }
-
-

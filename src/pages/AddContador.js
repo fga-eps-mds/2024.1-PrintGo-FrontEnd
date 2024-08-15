@@ -15,7 +15,8 @@ const AddContador = () => {
   const [equipamentos, setEquipamentos] = useState([]);
   const [equipamentosFiltrados, setEquipamentosFiltrados] = useState([]);
   const [selectedEquipamento, setSelectedEquipamento] = useState("");
-  const [quantidadeImpressoes, setQuantidadeImpressoes] = useState(""); 
+  const [quantidadeImpressoesPB, setQuantidadeImpressoesPB] = useState(""); 
+  const [quantidadeImpressoesCor, setQuantidadeImpressoesCor] = useState(""); 
   const [dataContagem, setDataContagem] = useState("");
 
   const navigate = useNavigate(); 
@@ -37,7 +38,7 @@ const AddContador = () => {
         ]) 
         if (dataEquipamentos.type ==='success' && dataEquipamentos.data) {
           setEquipamentos(dataEquipamentos.data);
-          setEquipamentosFiltrados(dataEquipamentos.data)
+          setEquipamentosFiltrados(dataEquipamentos.data);
         }
       } catch (error) {
         console.error('Erro ao obter lista de impressoras:', error);
@@ -48,29 +49,33 @@ const AddContador = () => {
   }, []);
 
   const handleRegistrar = async () => {
-
     if (!selectedEquipamento) {
         toast.error("Por favor, selecione um equipamento.");
         return;
     }
 
-    if (!quantidadeImpressoes || quantidadeImpressoes <= 0) {
-        toast.error("Por favor, insira uma quantidade de impressões válida.");
+    if (!quantidadeImpressoesPB || quantidadeImpressoesPB <= 0) {
+        toast.error("Por favor, insira uma quantidade válida de impressões em PB.");
+        return;
+    }
+
+    if (!quantidadeImpressoesCor || quantidadeImpressoesCor < 0) {
+        toast.error("Por favor, insira uma quantidade válida de impressões coloridas.");
         return;
     }
 
     const contadoresData = {
         id: selectedEquipamento,
-        contadorAtualPB: parseInt(quantidadeImpressoes, 10),
-        contadorAtualCor: 0,
+        contadorAtualPB: parseInt(quantidadeImpressoesPB, 10),
+        contadorAtualCor: parseInt(quantidadeImpressoesCor, 10),
         dataContagemManual: new Date(dataContagem).toISOString()
     };
 
-    console.log("Dados enviados:", contadoresData); 
+    console.log("Dados enviados:", contadoresData);
 
     try {
         const response = await addContadores(contadoresData);
-        console.log('Resposta do backend:', response); 
+        console.log('Resposta do backend:', response);
 
         if (response.type === 'success') {
             toast.success("Contador registrado com sucesso!");
@@ -78,11 +83,11 @@ const AddContador = () => {
               navigate(`/visualizarimpressora/${selectedEquipamento}`);
             }, 3000);
         } else {
-            console.error('Erro recebido do backend:', response.error); 
+            console.error('Erro recebido do backend:', response.error);
             toast.error("Erro ao registrar contador: " + (response.error || response.data));
         }
     } catch (error) {
-        console.error('Erro na requisição:', error); 
+        console.error('Erro na requisição:', error);
         toast.error("Erro ao registrar contador: " + error.message);
     }
 };
@@ -100,7 +105,7 @@ const AddContador = () => {
     setWorkstations(localizacao ? localizacao.workstations : []);
 
     const filtered = equipamentos.filter((equipamento) => equipamento.localizacao.split(";")[0] === cidadeSelecionada);
-    setEquipamentosFiltrados(filtered)
+    setEquipamentosFiltrados(filtered);
   };
 
   const handleWorkstationChange = (event) => {
@@ -109,14 +114,14 @@ const AddContador = () => {
     const workstation = workstations.find(m => m.name === workstationSelecionada);
     setSubworkstations(workstation ? workstation.child_workstations : []);
     const filtered = equipamentosFiltrados.filter((equipamento) => equipamento.localizacao.split(";")[1] === workstationSelecionada);
-    setEquipamentosFiltrados(filtered)
+    setEquipamentosFiltrados(filtered);
   };
 
   const handleSubWorkstationChange = (event) => {
     const subworkstationSelecionada = event.target.value;
     setSubpostoTrabalho(subworkstationSelecionada);
     const filtered = equipamentosFiltrados.filter((equipamento) => equipamento.localizacao.split(";")[2] === subworkstationSelecionada);
-    setEquipamentosFiltrados(filtered)
+    setEquipamentosFiltrados(filtered);
   };
 
   return (
@@ -134,7 +139,7 @@ const AddContador = () => {
               <label>Cidade</label>
               <select
                 value={cidade}
-                onChange={(e) => handleLocalizacaoChange(e)}
+                onChange={handleLocalizacaoChange}
               >
                 <option value="">Selecione a cidade</option>
                 {localizacoes.map((localizacao) => (
@@ -148,7 +153,7 @@ const AddContador = () => {
               <label>Regional</label>
               <select
                 value={postoTrabalho}
-                onChange={(e) => handleWorkstationChange(e)}
+                onChange={handleWorkstationChange}
               >
                 <option value="">Selecione o posto</option>
                 {workstations.map((workstation) => (
@@ -162,7 +167,7 @@ const AddContador = () => {
               <label>Unidade</label>
               <select
                 value={subpostoTrabalho}
-                onChange={(e) => handleSubWorkstationChange(e)}
+                onChange={handleSubWorkstationChange}
               >
                 <option value="">Selecione o subposto</option>
                 {subworkstations.map((subworkstation) => (
@@ -178,25 +183,37 @@ const AddContador = () => {
             <label>Equipamento Associado</label>
             <select
               value={selectedEquipamento}
-                onChange={(e) => setSelectedEquipamento(e.target.value)}
+              onChange={(e) => setSelectedEquipamento(e.target.value)}
             >
               <option value="">Número de série</option>
               {equipamentosFiltrados.map((equipamento) => (
-                  <option key={equipamento.id} value={equipamento.id}>
+                <option key={equipamento.id} value={equipamento.id}>
                   {equipamento.numSerie}
                 </option>
               ))}
             </select>
           </div>
-          <div className="campo quantidade">
-            <label>Quantidade de Impressões</label>
-            <input 
-              type="number" 
-              value={quantidadeImpressoes} 
-              onChange={(e) => setQuantidadeImpressoes(e.target.value)} 
-              min="0" // Define o valor mínimo
-              step="1" // Define o incremento de 1 em 1
-            />
+          <div className="quantidade-impressao-section">
+            <div className="campo quantidade">
+              <label>Quantidade de Impressões PB</label>
+              <input 
+                type="number" 
+                value={quantidadeImpressoesPB} 
+                onChange={(e) => setQuantidadeImpressoesPB(e.target.value)} 
+                min="0" 
+                step="1" 
+              />
+            </div>
+            <div className="campo quantidade">
+              <label>Quantidade de Impressões Coloridas</label>
+              <input 
+                type="number" 
+                value={quantidadeImpressoesCor} 
+                onChange={(e) => setQuantidadeImpressoesCor(e.target.value)} 
+                min="0" 
+                step="1" 
+              />
+            </div>
           </div>
           <div className="campo data">
             <label>Data</label>

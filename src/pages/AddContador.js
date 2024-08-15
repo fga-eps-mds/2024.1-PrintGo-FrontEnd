@@ -82,7 +82,7 @@ const AddContador = () => {
         toast.error("Por favor, insira uma quantidade válida de impressões coloridas.");
         return;
     }
-    
+
     if (!dataContagem) {
       toast.error("Por favor, insira uma data válida.");
       return;
@@ -219,7 +219,7 @@ const AddContador = () => {
           </div>
           <div className="quantidade-impressao-section">
             <div className="campo quantidade">
-              <label>Quantidade de Impressões PB</label>
+              <label>Contador Preto e Branco</label>
               <input 
                 type="number" 
                 value={quantidadeImpressoesPB} 
@@ -229,7 +229,7 @@ const AddContador = () => {
               />
             </div>
             <div className="campo quantidade">
-              <label>Quantidade de Impressões Coloridas</label>
+              <label>Contador Colorido</label>
               <input 
                 type="number" 
                 value={quantidadeImpressoesCor} 

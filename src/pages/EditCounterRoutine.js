@@ -1,6 +1,7 @@
 import Navbar from "../components/navbar/Navbar";
 import React, {useState, useEffect} from "react";
 import "../style/components/editCounterRoutine.css";
+import IntervalDropdown from '../../src/components/containers/IntervalDropdown';
 
 export default function UpdateRoutine() {
 
@@ -27,12 +28,34 @@ export default function UpdateRoutine() {
   
         buttons.forEach(button => {
           button.addEventListener('click', () => {
-            buttons.forEach(btn => btn.classList.remove('selectedDay')); 
-            button.classList.add('selectedDay'); 
+            if (button.classList.contains('selectedDay')) {
+              button.classList.remove('selectedDay');
+            } else {
+              button.classList.add('selectedDay'); 
+            }
           });
         });
       }
     }, [routine]);
+
+    const [time, setTime] = useState('');
+    const [interval, setInterval] = useState('');
+
+    const handleTimeChange = (e) => {
+      setTime(e.target.value);
+      if (e.target.value) {
+        setInterval(''); 
+      }
+      console.log("muda tempo")
+    };
+    
+    const handleIntervalChange = (e) => {
+      setInterval(e.target.value);
+      if (e.target.value) {
+        setTime(''); 
+      }
+      console.log("muda intervalo")
+    };
   
   return (
     <>
@@ -84,11 +107,11 @@ export default function UpdateRoutine() {
                 <label id="labelRoutine">Diariamente</label>
                 <div id="smallboxRoutine">
                   <label id="slabelRoutine">Escolha um horário:</label>
-                  <input placeholder="00:00" type="time" id="timeRoutine"></input>
+                  <input type="time" id="timeRoutine" value={time} onChange={handleTimeChange}></input>
                 </div>
                 <div id="smallboxRoutine">
                   <label id="slabelRoutine">Escolha o intervalo:</label>
-                  <input placeholder="00:00" type="time" id="timeRoutine"></input>
+                  <IntervalDropdown value={interval} onChange={handleIntervalChange} />
                 </div>
               </div>
             )}
@@ -98,7 +121,11 @@ export default function UpdateRoutine() {
                 <label id="labelRoutine">Semanalmente</label>
                 <div id="smallboxRoutine">
                   <label id="slabelRoutine">Escolha o horário:</label>
-                  <input placeholder="00:00" type="time" id="timeRoutine"></input>    
+                  <input type="time" id="timeRoutine" value={time} onChange={handleTimeChange}></input>    
+                </div>
+                <div id="smallboxRoutine">
+                  <label id="slabelRoutine">Escolha o intervalo:</label>
+                  <IntervalDropdown value={interval} onChange={handleIntervalChange}/>
                 </div>
                 <div id="smallboxRoutine">
                   <label id="slabelRoutine">Escolha o dia:</label>
@@ -134,7 +161,11 @@ export default function UpdateRoutine() {
                 <label id="labelRoutine">Mensalmente</label>
                 <div id="smallboxRoutine">
                   <label id="slabelRoutine">Escolha o horário:</label>
-                  <input placeholder="00:00" type="time" id="timeRoutine"></input>
+                  <input type="time" id="timeRoutine" value={time} onChange={handleTimeChange}></input>
+                </div>
+                <div id="smallboxRoutine">
+                  <label id="slabelRoutine">Escolha o intervalo:</label>
+                  <IntervalDropdown value={interval} onChange={handleIntervalChange} />
                 </div>
                 <div id="smallboxRoutine">
                   <label id="slabelRoutine">Digite o dia do mês:</label>

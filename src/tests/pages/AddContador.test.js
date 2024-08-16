@@ -90,4 +90,61 @@ describe("AddContador", () => {
       expect(screen.getByText("XYZ123")).toBeInTheDocument();
     });
   });
+  test("validates form fields before submitting", async () => {
+    render(
+      <MemoryRouter>
+        <AddContador />
+      </MemoryRouter>
+    );
+  
+    fireEvent.click(screen.getByText("Registrar"));
+  
+    await waitFor(() => {
+      expect(toast.error).toHaveBeenCalledWith(
+        "Por favor, selecione um equipamento."
+      );
+    });
+  
+    await waitFor(() => {
+      expect(screen.getByText("XYZ123")).toBeInTheDocument();
+    });
+  
+    fireEvent.change(screen.getByLabelText("Equipamento Associado"), {
+      target: { value: "XYZ123" }, 
+    });
+  
+    fireEvent.click(screen.getByText("Registrar"));
+  
+    await waitFor(() => {
+      expect(toast.error).toHaveBeenCalledWith(
+        "Por favor, insira uma quantidade válida de impressões em Preto e Branco."
+      );
+    });
+  
+    fireEvent.change(screen.getByLabelText("Contador Preto e Branco"), {
+      target: { value: "100" },
+    });
+  
+    fireEvent.click(screen.getByText("Registrar"));
+  
+    await waitFor(() => {
+      expect(toast.error).toHaveBeenCalledWith(
+        "Por favor, insira uma data válida."
+      );
+    });
+  
+    fireEvent.change(screen.getByLabelText("Data do Contador"), {
+      target: { value: "2024-08-15" },
+    });
+  
+    fireEvent.click(screen.getByText("Registrar"));
+  
+    await waitFor(() => {
+      expect(toast.success).toHaveBeenCalledWith("Contador registrado com sucesso!");
+    });
+  });
+  
+  
+  
+  
 });

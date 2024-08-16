@@ -74,4 +74,20 @@ describe("AddContador", () => {
     expect(screen.getByText("Registrar")).toBeInTheDocument();
     expect(screen.getByText("Cancelar")).toBeInTheDocument();
   });
+
+  test("updates equipment list based on selected city", async () => {
+    render(
+      <MemoryRouter>
+        <AddContador />
+      </MemoryRouter>
+    );
+
+    fireEvent.change(screen.getByLabelText(/Cidade/i), {
+      target: { value: "City 1" },
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText("XYZ123")).toBeInTheDocument();
+    });
+  });
 });

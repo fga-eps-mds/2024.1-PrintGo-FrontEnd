@@ -152,7 +152,7 @@ const AddContador = () => {
     <>
       <Navbar />
       <div className="add-contador-header">
-        <h1>Registro de Impressões</h1>
+        <h1>Registro de Contadores</h1>
       </div>
       <div className="add-contador-form">
         <div className="localizacao-section">
@@ -160,8 +160,9 @@ const AddContador = () => {
           <div className="localizacao-underline"></div>
           <div className="localizacao-fields">
             <div className="campo">
-              <label>Cidade</label>
+            <label htmlFor="cidade">Cidade</label>
               <select
+                id="cidade"
                 value={cidade}
                 onChange={handleLocalizacaoChange}
               >
@@ -174,8 +175,9 @@ const AddContador = () => {
               </select>
             </div>
             <div className="campo">
-              <label>Regional</label>
+            <label htmlFor="regional">Regional</label>
               <select
+                id="regional"
                 value={postoTrabalho}
                 onChange={handleWorkstationChange}
               >
@@ -188,8 +190,9 @@ const AddContador = () => {
               </select>
             </div>
             <div className="campo">
-              <label>Unidade</label>
+            <label htmlFor="unidade">Unidade</label>
               <select
+                id="unidade"
                 value={subpostoTrabalho}
                 onChange={handleSubWorkstationChange}
               >
@@ -204,8 +207,9 @@ const AddContador = () => {
           </div>
           <div className="fields-underline"></div>
           <div className="campo equipamentos">
-            <label>Equipamento Associado</label>
+            <label htmlFor="equipamento"> Equipamento Associado</label>
             <select
+              id="equipamento"
               value={selectedEquipamento}
               onChange={(e) => handleEquipamentoChange(e.target.value)}
             >
@@ -219,8 +223,9 @@ const AddContador = () => {
           </div>
           <div className="quantidade-impressao-section">
             <div className="campo quantidade">
-              <label>Contador Preto e Branco</label>
-              <input 
+            <label htmlFor="contador-pb"> Contador Preto e Branco</label>
+              <input
+                id="contador-pb"
                 type="number" 
                 value={quantidadeImpressoesPB} 
                 onChange={(e) => setQuantidadeImpressoesPB(e.target.value)} 
@@ -229,8 +234,9 @@ const AddContador = () => {
               />
             </div>
             <div className="campo quantidade">
-              <label>Contador Colorido</label>
+            <label htmlFor="contador-cor">Contador Colorido</label>
               <input 
+                id="contador-cor"
                 type="number" 
                 value={quantidadeImpressoesCor} 
                 onChange={(e) => setQuantidadeImpressoesCor(e.target.value)} 
@@ -241,9 +247,10 @@ const AddContador = () => {
             </div>
           </div>
           <div className="campo data">
-            <label>Data</label>
+          <label htmlFor="data-contadores">Data do Contador</label>
             <input 
-              type="date" 
+              id="data-contadores"
+              type="date"
               value={dataContador}
               onChange={(e) => setdataContador(e.target.value)} 
             />

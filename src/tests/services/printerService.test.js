@@ -1,4 +1,4 @@
-import { createImpressora, editImpressora, getPrinters } from '../../services/printerService'
+import { addContadores, createImpressora, editImpressora, getPrinters } from '../../services/printerService'
 import { api } from '../../lib/api/config';
 
 jest.mock('../../lib/api/config.js', () => ({
@@ -119,5 +119,59 @@ describe('printer endpoints', () => {
 
         expect(result).toEqual({ type: 'error', error: new Error('error') });
         expect(api.patch).toHaveBeenCalledWith(`/printer/${printerUpdateData.id}`, printerData);
+    });
+
+    it('updates printer counters successfully', async () => {
+      api.patch.mockResolvedValue({ status: 200, data: 'some data'});
+
+      const updateCounters = {
+        id: 1,
+        contadorAtualPB: 10,
+        contadorAtualCor: 12,
+        dataContador: new Date().toISOString()
+      }
+
+      const result = await addContadores(updateCounters);
+
+      const { id, ...payload } = updateCounters
+
+      expect(result).toEqual({ type: 'success', data: 'some data' });
+      expect(api.patch).toHaveBeenCalledWith(`/printer/contadores/${id}`, payload);
+    });
+
+    it('tries to updates printer counters and throws error', async () => {
+      api.patch.mockRejectedValue(new Error('error'));
+
+      const updateCounters = {
+        id: 1,
+        contadorAtualPB: 10,
+        contadorAtualCor: 12,
+        dataContador: new Date().toISOString()
+      }
+
+      const result = await addContadores(updateCounters);
+
+      const { id, ...payload } = updateCounters
+
+      expect(result).toEqual({ type: 'error', error: new Error('error') });
+      expect(api.patch).toHaveBeenCalledWith(`/printer/contadores/${id}`, payload);
+    });
+
+    it('tries to updates printer counters and returns 400 status code', async () => {
+      api.patch.mockResolvedValue({ status: 400, data: 'some data' });
+
+      const updateCounters = {
+        id: 999,
+        contadorAtualPB: 10,
+        contadorAtualCor: 12,
+        dataContador: new Date().toISOString()
+      }
+
+      const result = await addContadores(updateCounters);
+
+      const { id, ...payload } = updateCounters
+
+      expect(result).toEqual({ type: 'error', data: 'some data' });
+      expect(api.patch).toHaveBeenCalledWith(`/printer/contadores/${id}`, payload);
     });
 })

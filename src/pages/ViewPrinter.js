@@ -79,7 +79,7 @@ export default function ViewPrinter() {
     };
 
     const handleExitForm = () => {
-        navigate('/listimpressora');
+        navigate('/impressorascadastradas');
     };
 
     const handleEditButton = () => {

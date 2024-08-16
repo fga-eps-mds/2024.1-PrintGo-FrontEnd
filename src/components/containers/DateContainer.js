@@ -5,13 +5,14 @@ import "../../style/components/DateContainer.css";
 const DateContainer = ({ label, value, onChange, className, error }) => {
     return (
         <div className='date-container-form'>
-            <span className="form-subtitle">{label}</span>
+            <label htmlFor={label} className="form-subtitle">{label}</label>
             <div>
                 <input
                     type="date"
                     value={value}
                     onChange={onChange}
                     className={error ? `input-error ${className}` : `number-field ${className}`}
+                    data-testid= {`date-container-${label}`}
                 />
             </div>
         </div>

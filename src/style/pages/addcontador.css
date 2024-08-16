@@ -66,7 +66,7 @@
   color: #0d3d6d;
 }
 
-.campo select {
+.select-container select {
   padding: 15px;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -76,11 +76,11 @@
   max-width: 950px;
 }
 
-.campo.equipamento select {
+.select-container.equipamento select {
   max-width: 300px; 
 }
 
-.campo select, .campo input {
+.select-container select, .campo input {
   padding: 15px;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -89,14 +89,14 @@
   max-width: 270px; 
 }
 
-.campo label {
+.select-container label {
   font-size: 18px;
   margin-bottom: 5px;
   color: #0d3d6d;
   margin-top: 20px; 
 }
 
-.campo.equipamento select, .campo.quantidade input, .campo.data input {
+.select-container.equipamento select, .campo.quantidade input, .campo.data input {
   max-width: 270px; 
 }
 

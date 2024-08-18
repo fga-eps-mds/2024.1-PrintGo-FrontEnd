@@ -103,7 +103,7 @@ function UploadReport({ isOpen, onClose, onUpload }) {
         <div className="modal-overlay">
             <div className="modal-content">
                 <h2>Upload do Relatório</h2>
-                <input className='modal-input' type="file" accept=".xls,.xlsx,.xml,.csv" onChange={handleFileUpload} />
+                <input className='modal-input' type="file" accept=".xls,.xlsx,.xml,.csv" onChange={handleFileUpload} data-testid="upload" />
 
                 <div className="modal-info">
                     <Button

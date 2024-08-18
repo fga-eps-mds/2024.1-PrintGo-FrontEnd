@@ -12,11 +12,11 @@ import { toast } from "react-toastify";
 import UploadReport from '../components/UploadReport.js';
 
 export default function AuditPrinter() {
+    const [relatorioLocadora, setRelatorioLocadora] = useState(null);
     const [contratos, setContratos] = useState([]);
     const [selectedContrato, setSelectedContrato] = useState('');
     const [printers, setPrinters] = useState([]);
     const [marginError, setMarginError] = useState(0);
-    const [relatorioLocadora, setRelatorioLocadora] = useState(null);
     const [uploadReport, setUploadReport] = useState(false);
     let relatorio = null;
 

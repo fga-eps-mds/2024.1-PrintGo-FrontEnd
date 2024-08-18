@@ -3,8 +3,10 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import AuditBox from '../../components/containers/AuditBox';
 
-describe('AuditBox Component', () => {
+// Mock para o arquivo de imagem
+jest.mock('../../assets/report.png', () => 'test-file-stub');
 
+describe('AuditBox Component', () => {
     test('renders the component with the correct label', () => {
         render(<AuditBox equipamento="Test Equipamento" contadorAtual={100} contadorLoc={100} totPrintgo={50} totLoc={50} marginError={5} />);
         const labelElement = screen.getByText(/Test Equipamento/i);
@@ -30,5 +32,5 @@ describe('AuditBox Component', () => {
         buttonElement.click();
         expect(handleClick).toHaveBeenCalledTimes(1);
     });
-
 });
+

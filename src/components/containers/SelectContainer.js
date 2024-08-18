@@ -10,6 +10,7 @@ const SelectContainer = ({ id, name, options, className, label, containerStyle, 
                 <select
                     id={id}
                     name={name}
+                    data-testid={id}
                     className={error ? `${className} input-error` : className}
                     onChange={onChange}
                     value={value}

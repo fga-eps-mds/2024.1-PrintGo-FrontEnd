@@ -72,8 +72,19 @@ export async function getPrintersByContract(contractNumber) {
     } catch (error) {
         return { type: 'error', error };
     }
-}
 
+export const addContadores = async (contadoresData) => {
+    try {
+        const { id, ...rest } = contadoresData;
+        const response = await api.patch(`/printer/contadores/${id}`, rest);
+        if (response.status !== 200) {
+            return { type: 'error', data: response.data };
+        }
+        return { type: 'success', data: response.data };
+    } catch (error) {
+        return { type: 'error', error };
+    }
+  
 export async function generatePrinterPDF(printerId) {
     try {
         const response = await api.get(`/printer/report/month/${printerId}`, { responseType: 'blob' });
@@ -101,3 +112,4 @@ export async function generatePrinterPDF(printerId) {
         return { type: 'error', error };
     }
 }
+};

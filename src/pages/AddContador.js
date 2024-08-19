@@ -167,7 +167,7 @@ const AddContador = () => {
             <SelectContainer
               id="cidade"
               name="cidade"
-              options={localizacoes.map((localizacao) => localizacao.name)}
+              options={localizacoes ? localizacoes.map((localizacao) => localizacao.name) : []}
               label="Cidade"
               value={cidade}
               onChange={handleLocalizacaoChange}
@@ -175,7 +175,7 @@ const AddContador = () => {
             <SelectContainer
               id="regional"
               name="regional"
-              options={workstations.map((workstation) => workstation.name)}
+              options={workstations ? workstations.map((workstation) => workstation.name) : []}
               label="Regional"
               value={postoTrabalho}
               onChange={handleWorkstationChange}
@@ -183,7 +183,7 @@ const AddContador = () => {
             <SelectContainer
               id="unidade"
               name="unidade"
-              options={subworkstations.map((subworkstation) => subworkstation.name)}
+              options={subworkstations ? subworkstations.map((subworkstation) => subworkstation.name) : []}
               label="Unidade"
               value={subpostoTrabalho}
               onChange={handleSubWorkstationChange}
@@ -193,7 +193,7 @@ const AddContador = () => {
           <SelectContainer
             id="equipamento"
             name="equipamento"
-            options={equipamentosFiltrados.map((equipamento) => equipamento.numSerie)}
+            options={equipamentosFiltrados ? equipamentosFiltrados.map((equipamento) => equipamento.numSerie) : []}
             label="Equipamento Associado"
             value={equipamentos.find(e => e.id === selectedEquipamentoId)?.numSerie || ""}
             onChange={(e) => handleEquipamentoChange(e.target.value)}

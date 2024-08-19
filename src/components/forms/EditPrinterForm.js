@@ -446,7 +446,7 @@ export default function EditPrinterForm() {
                     <SelectContainer
                         id="cidade"
                         name="cidade"
-                        options={localizacoes.map(m => m.name)}
+                        options={localizacoes ? localizacoes.map(m => m.name) : []}
                         className="md-select"
                         label="Cidade"
                         onChange={handleLocalizacaoChange}
@@ -457,7 +457,7 @@ export default function EditPrinterForm() {
                     <SelectContainer
                         id="workstation"
                         name="workstation"
-                        options={localizacoes.find(m => m.name === selectedCidade)?.workstations.map(m => m.name) || []}
+                        options={localizacoes ? localizacoes.find(m => m.name === selectedCidade)?.workstations.map(m => m.name) || [] : []}
                         className="lg-select"
                         label="Posto de trabalho"
                         onChange={handleWorkstationChange}

@@ -51,7 +51,7 @@ describe('RegisterPrinterForm', () => {
         fireEvent.click(screen.getByText('Cadastrar'));
 
         await waitFor(() => {
-            const contratoSelect = screen.getByLabelText(/Contrato/i);
+            const contratoSelect = screen.getByTestId('contrato');
             expect(contratoSelect).toHaveClass('input-error');
         });
     });
@@ -65,13 +65,13 @@ describe('RegisterPrinterForm', () => {
             </MemoryRouter>
         );
 
-        const contractInput = screen.getByLabelText('Contrato');
-        const newMarca = screen.getByLabelText('Marca');
+        const contractInput = screen.getByTestId('contrato');
+        const newMarca = screen.getByTestId('marca');
         const enderecoIP = screen.getByLabelText('Endereço IP');
         const serialNumberInput = screen.getByPlaceholderText('Insira número de série');
-        const cityInput = screen.getByLabelText('Cidade');
-        const workstationElement = screen.getByLabelText('Posto de Trabalho');
-        const subWorkstation = screen.getByLabelText('Subposto de Trabalho');
+        const cityInput = screen.getByTestId('cidade');
+        const workstationElement = screen.getByTestId('workstation');
+        const subWorkstation = screen.getByTestId('subworkstation');
         const installationDateContainer = screen.getByTestId('date-container-Data de Instalação');
         const blackAndWhiteCounter = screen.getByLabelText('Contador preto e branco');
         const colorCounterInput = screen.getByLabelText('Contador com cor');

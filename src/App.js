@@ -26,6 +26,7 @@ import ContractForm from "./components/forms/ContractForm";
 import EditContractForm from "./components/forms/EditContractForm";
 import ContractList from "./pages/ContractList";
 import ViewContract from "./pages/ViewContract";
+import AuditPrinter from "./pages/AuditPrinter";
 import AddContador from "./pages/AddContador";
 
 function App() {
@@ -34,11 +35,12 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<PrivateRoutes />}>
-            <Route path="/editarusuario/:id" element={<EditUserPage/>}/>
-            <Route path="/editimpressora/:id" element={<EditPrinter/>}/>
-            <Route path="/visualizarimpressora/:id" element={<ViewPrinter/>}/>
+            <Route path="/editarusuario/:id" element={<EditUserPage />} />
+            <Route path="/editimpressora/:id" element={<EditPrinter />} />
+            <Route path="/visualizarimpressora/:id" element={<ViewPrinter />} />
             <Route path="/mudarsenha" element={<ChangePassword />} />
             <Route path="/cadastroimpressora" element={<RegisterPrinter />} />
+            <Route path="/auditoria" element={<AuditPrinter />} />
             <Route path="/padraoimpressora" element={<PatternPrinter />} />
             <Route path="/editarpadrao" element={<EditPattern />} />
             <Route path="/impressorascadastradas" element={<ListEquipment />} />
@@ -59,7 +61,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/contato" element={<Contact />} />
           <Route path="/quemsomos" element={<AboutUs />} />
-          <Route path="/recuperarSenha" element={<RecoverPasswordPage/>} />
+          <Route path="/recuperarSenha" element={<RecoverPasswordPage />} />
           <Route path="/esqueciMinhaSenha" element={<ForgottenPasswordPage />} />
         </Routes>
       </BrowserRouter>

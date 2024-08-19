@@ -62,10 +62,10 @@ describe("AddContador", () => {
     );
 
     expect(screen.getByText("Registro de Contadores")).toBeInTheDocument();
-    expect(screen.getByLabelText("Cidade")).toBeInTheDocument();
-    expect(screen.getByLabelText("Regional")).toBeInTheDocument();
-    expect(screen.getByLabelText("Unidade")).toBeInTheDocument();
-    expect(screen.getByLabelText("Equipamento Associado")).toBeInTheDocument();
+    expect(screen.getByTestId("cidade")).toBeInTheDocument();
+    expect(screen.getByTestId("regional")).toBeInTheDocument();
+    expect(screen.getByTestId("unidade")).toBeInTheDocument();
+    expect(screen.getByTestId("equipamento")).toBeInTheDocument();
     expect(
       screen.getByLabelText("Contador Preto e Branco")
     ).toBeInTheDocument();
@@ -82,7 +82,7 @@ describe("AddContador", () => {
       </MemoryRouter>
     );
 
-    fireEvent.change(screen.getByLabelText(/Cidade/i), {
+    fireEvent.change(screen.getByTestId("cidade"), {
       target: { value: "City 1" },
     });
 
@@ -109,7 +109,7 @@ describe("AddContador", () => {
       expect(screen.getByText("XYZ123")).toBeInTheDocument();
     });
   
-    fireEvent.change(screen.getByLabelText("Equipamento Associado"), {
+    fireEvent.change(screen.getByTestId("equipamento"), {
       target: { value: "XYZ123" }, 
     });
   

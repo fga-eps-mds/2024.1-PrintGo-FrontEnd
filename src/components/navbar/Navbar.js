@@ -113,8 +113,14 @@ const Navbar = () => {
                     <Link to="/cadastrarContrato">Cadastrar Contrato</Link>
                   </div>
                 )}
+              </button>
+            </div>
+
+            <div className="navbar-audit">
+                <button>
+                  <Link to="/auditoria">Auditoria</Link>
                 </button>
-              </div>
+            </div>
           </>
         )}
 

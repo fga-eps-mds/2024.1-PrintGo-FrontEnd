@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import "@testing-library/jest-dom/extend-expect";
+import '@testing-library/jest-dom';
 import AddContador from "../../pages/AddContador";
 import { getPadroes } from "../../services/patternService";
 import {
@@ -62,15 +62,15 @@ describe("AddContador", () => {
     );
 
     expect(screen.getByText("Registro de Contadores")).toBeInTheDocument();
-    expect(screen.getByTestId("cidade")).toBeInTheDocument();
-    expect(screen.getByTestId("regional")).toBeInTheDocument();
-    expect(screen.getByTestId("unidade")).toBeInTheDocument();
+    expect(screen.getByTestId("cidade-contador")).toBeInTheDocument();
+    expect(screen.getByTestId("regional-contador")).toBeInTheDocument();
+    expect(screen.getByTestId("unidade-contador")).toBeInTheDocument();
     expect(screen.getByTestId("equipamento")).toBeInTheDocument();
     expect(
       screen.getByLabelText("Contador Preto e Branco")
     ).toBeInTheDocument();
     expect(screen.getByLabelText("Contador Colorido")).toBeInTheDocument();
-    expect(screen.getByLabelText("Data do Contador")).toBeInTheDocument();
+    expect(screen.getByTestId('date-container-Data do Contador')).toBeInTheDocument();
     expect(screen.getByText("Registrar")).toBeInTheDocument();
     expect(screen.getByText("Cancelar")).toBeInTheDocument();
   });
@@ -82,7 +82,7 @@ describe("AddContador", () => {
       </MemoryRouter>
     );
 
-    fireEvent.change(screen.getByTestId("cidade"), {
+    fireEvent.change(screen.getByTestId("cidade-contador"), {
       target: { value: "City 1" },
     });
 
@@ -133,7 +133,7 @@ describe("AddContador", () => {
       );
     });
   
-    fireEvent.change(screen.getByLabelText("Data do Contador"), {
+    fireEvent.change(screen.getByTestId('date-container-Data do Contador'), {
       target: { value: "2024-08-15" },
     });
   

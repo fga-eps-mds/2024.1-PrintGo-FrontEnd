@@ -6,6 +6,8 @@ import { getPrinters, getLocalizacao, addContadores } from "../services/printerS
 import { getPadroes } from "../services/patternService";
 import { toast } from "react-toastify";
 import SelectContainer from '../components/containers/SelectContainer';
+import DateContainer from '../components/containers/DateContainer';
+import NumberContainer from '../components/containers/NumberContainer';
 
 const AddContador = () => {
   const [localizacoes, setLocalizacoes] = useState([]);
@@ -19,7 +21,7 @@ const AddContador = () => {
   const [selectedEquipamentoId, setSelectedEquipamentoId] = useState("");
   const [quantidadeImpressoesPB, setQuantidadeImpressoesPB] = useState("");
   const [quantidadeImpressoesCor, setQuantidadeImpressoesCor] = useState("");
-  const [dataContador, setdataContador] = useState("");
+  const [dataContador, setDataContador] = useState("");
   const [isColorido, setIsColorido] = useState(false);
 
   const navigate = useNavigate();
@@ -165,34 +167,40 @@ const AddContador = () => {
           <div className="localizacao-underline"></div>
           <div className="localizacao-fields">
             <SelectContainer
-              id="cidade"
-              name="cidade"
+              id="cidade-contador"
+              name="cidade-contador"
+              className={"md-select"}
               options={localizacoes ? localizacoes.map((localizacao) => localizacao.name) : []}
               label="Cidade"
               value={cidade}
               onChange={handleLocalizacaoChange}
             />
             <SelectContainer
-              id="regional"
-              name="regional"
+              id="regional-contador"
+              name="regional-contador"
+              className={"md-select"}
               options={workstations ? workstations.map((workstation) => workstation.name) : []}
               label="Regional"
               value={postoTrabalho}
               onChange={handleWorkstationChange}
             />
             <SelectContainer
-              id="unidade"
-              name="unidade"
+              id="unidade-contador"
+              name="unidade-contador"
+              className={"md-select"}
               options={subworkstations ? subworkstations.map((subworkstation) => subworkstation.name) : []}
               label="Unidade"
               value={subpostoTrabalho}
               onChange={handleSubWorkstationChange}
             />
           </div>
-          <div className="fields-underline"></div>
+        </div>
+        <div className="fields-underline"></div>
+        <div className="contadores-section">
           <SelectContainer
             id="equipamento"
             name="equipamento"
+            className={"md-select"}
             options={equipamentosFiltrados ? equipamentosFiltrados.map((equipamento) => equipamento.numSerie) : []}
             label="Equipamento Associado"
             value={equipamentos.find(e => e.id === selectedEquipamentoId)?.numSerie || ""}
@@ -200,36 +208,28 @@ const AddContador = () => {
           />
           <div className="quantidade-impressao-section">
             <div className="campo quantidade">
-              <label htmlFor="contador-pb">Contador Preto e Branco</label>
-              <input
-                id="contador-pb"
-                type="number"
+              <NumberContainer
+                id="contador-pb-manual"
+                label="Contador Preto e Branco"
                 value={quantidadeImpressoesPB}
                 onChange={(e) => setQuantidadeImpressoesPB(e.target.value)}
-                min="0"
-                step="1"
               />
             </div>
             <div className="campo quantidade">
-              <label htmlFor="contador-cor">Contador Colorido</label>
-              <input
-                id="contador-cor"
-                type="number"
+              <NumberContainer
+                id="contador-cor-manual"
+                label="Contador Colorido"
                 value={quantidadeImpressoesCor}
                 onChange={(e) => setQuantidadeImpressoesCor(e.target.value)}
-                min="0"
-                step="1"
                 disabled={!isColorido}
               />
             </div>
           </div>
           <div className="campo data">
-            <label htmlFor="data-contadores">Data do Contador</label>
-            <input
-              id="data-contadores"
-              type="date"
+            <DateContainer
+              label="Data do Contador"
               value={dataContador}
-              onChange={(e) => setdataContador(e.target.value)}
+              onChange={(e) => setDataContador(e.target.value)}
             />
           </div>
         </div>

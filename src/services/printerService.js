@@ -16,7 +16,7 @@ export async function getPrinters() {
 export async function getLocalizacao() {
   try {
 
-    const response = await api.get('/location');
+    const response = await api.get('/printer/location');
     if(response.status !== 201) {
       return { type: 'error', data: response.data};
     }

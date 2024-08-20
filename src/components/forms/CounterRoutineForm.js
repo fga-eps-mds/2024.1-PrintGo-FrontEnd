@@ -14,12 +14,12 @@ export default function UpdateRoutine() {
   const [day, setDay] = useState("");
   const [interval, setInterval] = useState("");
   const [selectedDays, setSelectedDays] = useState([]);
-  const [selectedCidade, setSelectedCidade] = useState("");
-  const [selectedRegional, setSelectedRegional] = useState("");
-  const [selectedUnidade, setSelectedUnidade] = useState("");
   const [localizacoes, setLocalizacoes] = useState([]);
   const [workstations, setWorkstations] = useState([]);
-  const [subWorkstations, setSubWorkstations] = useState([]);
+  const [subWorkstations, setSubworkstations] = useState([]);
+  const [selectedCidade, setCidade] = useState("");
+  const [selectedRegional, setRegional] = useState("");
+  const [selectedUnidade, setUnidade] = useState("");
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
   
@@ -28,13 +28,15 @@ export default function UpdateRoutine() {
     const fetchLocalizacoes = async () => {
       try {
         const response = await getLocalizacao();
-        if (Array.isArray(response.data)) {
+
+        if (response.type === 'error'){
+          toast.error("Erro ao buscar localizações!")
+        }
+        else {
           setLocalizacoes(response.data);
-        } else {
-          console.error("A resposta não é um array:", response.data);
         }
       } catch (error) {
-        console.error("Erro ao buscar localizações:", error);
+        console.error('Erro ao buscar localizações:', error);
       }
     };
     fetchLocalizacoes();
@@ -42,31 +44,23 @@ export default function UpdateRoutine() {
 
   const handleLocalizacaoChange = (event) => {
     const cidadeSelecionada = event.target.value;
-    setSelectedCidade(cidadeSelecionada);
+    setCidade(cidadeSelecionada);
 
-    const localizacao = localizacoes.find((m) => m.name === cidadeSelecionada);
+    const localizacao = localizacoes.find(m => m.name === cidadeSelecionada);
     setWorkstations(localizacao ? localizacao.workstations : []);
-    setSubWorkstations([]);
-
-    setSelectedRegional("");
-    setSelectedUnidade("");
   };
 
   const handleWorkstationChange = (event) => {
     const workstationSelecionada = event.target.value;
-    setSelectedRegional(workstationSelecionada);
+    setRegional(workstationSelecionada);
 
-    const subworkstations = workstations.find(
-      (m) => m.name === workstationSelecionada
-    );
-    setSubWorkstations(
-      subworkstations ? subworkstations.child_workstations : []
-    );
+    const workstation = workstations.find(m => m.name === workstationSelecionada);
+    setSubworkstations(workstation ? workstation.child_workstations : []);
   };
 
   const handleSubWorkstationChange = (event) => {
-    const workstationSelecionada = event.target.value;
-    setSelectedUnidade(workstationSelecionada);
+    const subworkstationSelecionada = event.target.value;
+    setUnidade(subworkstationSelecionada);
   };
 
   const handleRoutineChange = (e) => {
@@ -233,10 +227,11 @@ export default function UpdateRoutine() {
               id="dropdownRoutine"
               name="cidade"
               label=""
-              options={localizacoes.map((m) => m.name)}
+              options={localizacoes ? localizacoes.map((localizacao) => localizacao.name) : []}
               onChange={handleLocalizacaoChange}
               value={selectedCidade}
               error={errors.cidade}
+              placeHolder={"Todos"}
             />
           </div>
           <div>
@@ -245,10 +240,11 @@ export default function UpdateRoutine() {
               id="dropdownRoutine"
               name="workstation"
               label=""
-              options={workstations.map((m) => m.name)}
+              options={workstations ? workstations.map((workstation) => workstation.name) : []}
               onChange={handleWorkstationChange}
               value={selectedRegional}
               error={errors.regional}
+              placeHolder={"Todos"}
             />
           </div>
           <div>
@@ -257,10 +253,11 @@ export default function UpdateRoutine() {
               id="dropdownRoutine"
               name="subworkstation"
               label=""
-              options={subWorkstations.map((m) => m.name)}
+              options={subWorkstations ? subWorkstations.map((subworkstation) => subworkstation.name) : []}
               onChange={handleSubWorkstationChange}
               value={selectedUnidade}
               error={errors.unidade}
+              placeHolder={"Todos"}
             />
           </div>
         </div>

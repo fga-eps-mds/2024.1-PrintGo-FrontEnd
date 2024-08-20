@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import "../../style/components/editCounterRoutine.css";
+import "../../style/components/counterRoutineForm.css";
 
-function IntervalDropdown({ onChange , value }) {
+function IntervalDropdown({ onChange , value, error, className }) {
   const [selectedOption, setSelectedOption] = useState("");
 
   const handleChange = (event) => {
@@ -17,6 +17,7 @@ function IntervalDropdown({ onChange , value }) {
       id="intervalRoutine"
       value={value}
       onChange={handleChange}
+      className={error ? `${className} input-error` : className}
     >
       <option value={""}>Escolha</option>
       <option value={"TempoReal"}>Tempo Real</option>
@@ -41,8 +42,17 @@ function IntervalDropdown({ onChange , value }) {
 }
 
 IntervalDropdown.propTypes = {
+  className: PropTypes.string,
   onChange: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired
+  value: PropTypes.string.isRequired,
+  error: PropTypes.string
+};
+
+IntervalDropdown.defaultProps = {
+  className: '',
+  onChange: null,
+  value: '',
+  error: ''  
 };
 
 export default IntervalDropdown;

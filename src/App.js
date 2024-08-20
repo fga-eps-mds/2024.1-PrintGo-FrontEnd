@@ -26,7 +26,7 @@ import ContractForm from "./components/forms/ContractForm";
 import EditContractForm from "./components/forms/EditContractForm";
 import ContractList from "./pages/ContractList";
 import ViewContract from "./pages/ViewContract";
-import UpdateRoutine from "./pages/EditCounterRoutine";
+import UpdateRoutine from "./components/forms/CounterRoutineForm";
 
 function App() {
   return (

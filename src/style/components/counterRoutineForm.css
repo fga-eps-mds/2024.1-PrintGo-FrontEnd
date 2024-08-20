@@ -33,6 +33,7 @@
 }
 
 .bottomPage-Routine{
+    margin-top: 40px;
     margin-left: 30px;
     display: flex;
     height: 40vh;
@@ -59,14 +60,16 @@
 
 
 #timeRoutine{
-    width: 110px;
+    width: 135px;
     height: 45px;
     border-radius: 10px;
     border-color: #0D3D6D;
     border-style: solid;
-    padding-left: 20px;
+    text-align: center;
     font-size: 24px;
     font-family: Jost;
+    text-align: center;
+    padding-left: 30px;
 }
 
 #intervalRoutine{
@@ -74,31 +77,38 @@
     height: 45px;
     border-radius: 10px;
     border-color: #0D3D6D;
+    border: 2px solid #0D3D6D;
     border-style: solid;
-    padding-left: 20px;
-    font-size: 24px;
-    font-family: Jost;
-}
-
-#dropdownRoutine{
-    width: 250px;
-    height: 45px;
-    border-radius: 10px;
-    border-color: #0D3D6D;
-    border-style: solid;
-    padding-left: 20px;
+    text-align: center;
     font-size: 24px;
     font-family: Jost;
     cursor: pointer;
 }
 
-#dayRoutine{
-    width: 110px;
+#intervalRoutine-menu{
+    max-height: 100px;
+}
+
+#dropdownRoutine{
+    width: 255px;
     height: 45px;
+    border: 2px solid #0D3D6D;
     border-radius: 10px;
     border-color: #0D3D6D;
     border-style: solid;
-    padding-left: 20px;
+    font-size: 24px;
+    font-family: Jost;
+    cursor: pointer;
+    padding-left: 15px;
+}
+
+#dayRoutine{
+    width: 165px;
+    height: 40px;
+    border-radius: 10px;
+    border-color: #0D3D6D;
+    border-style: solid;
+    text-align: center;
     font-size: 24px;
     font-family: Jost;
 }
@@ -107,15 +117,14 @@
     margin-right: 40px;
     margin-bottom: 30px;
     display: flex;
+    width: 700px;
 }
 
 .optionsRoutine{
-    margin-right: 30px;
     margin-left: 70px;
 }
 
 .buttons-Routine{
-    margin-top: 60px;
     margin-left: 100px;
 }
 
@@ -148,8 +157,8 @@
 
 .weekDayOptions{
     display: flex;
-    width: 20px;
-    margin-left: -50px;
+    width: 194px;
+    margin-left: -20px;
     margin-top: 6px;
 }
 
@@ -173,4 +182,21 @@
 .selectedDay{
     background-color: #006633;
     color: white;
+}
+
+.inputRoutine-error {
+    border: 2px solid red !important;
+  }
+  
+  .errorRoutine-message {
+    display: flex;
+    color: red;
+    font-size: 20px;
+    margin-top: 5px;
+    padding-left: 40px;
+    width: 400px;
+  }
+
+.inputRoutine{
+    width: 200px;
 }

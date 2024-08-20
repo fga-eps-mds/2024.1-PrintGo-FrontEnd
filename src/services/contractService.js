@@ -1,8 +1,10 @@
 import { api } from '../lib/api/config';
 
+const basePath = "/contract"
+
 export const getContract = async (page, pageSize) => {
   try {
-    const response = await api.get('/contract/', {
+    const response = await api.get(`${basePath}/`, {
       params: {
         page,
         pageSize
@@ -16,7 +18,7 @@ export const getContract = async (page, pageSize) => {
 
 export const getContractById = async (id) => {
   try {
-    const response = await api.get(`/contract/${id}`);
+    const response = await api.get(`${basePath}/${id}`);
     return { type: 'success', data: response.data};
   } catch (error) {
     return { type: 'error', error };
@@ -25,7 +27,7 @@ export const getContractById = async (id) => {
 
 export const createContract = async (data) => {
   try {
-    const response = await api.post('/contract/', data);
+    const response = await api.post(`${basePath}/create`, data);
     return { type: 'success', data: response.data};
   } catch (error) {
     return { type: 'error', error };
@@ -34,7 +36,7 @@ export const createContract = async (data) => {
 
 export const editContract = async (id, data) => {
   try {
-    const response = await api.put(`/contract/${id}`, data);
+    const response = await api.patch(`${basePath}/${id}`, data);
     return { type: 'success', data: response.data};
   } catch (error) {
     return { type: 'error', error };
@@ -43,7 +45,7 @@ export const editContract = async (id, data) => {
 
 export const switchContractStatus = async (id) => {
   try {
-    const response = await api.patch(`/contract/${id}`);
+    const response = await api.patch(`${basePath}/changeStatus/${id}`);
     console.log(response.data.data)
     return { type: 'success', data: response.data};
   } catch (error) {

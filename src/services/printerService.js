@@ -1,166 +1,117 @@
-import { api } from '../lib/api/config';
+import { api } from "../lib/api/config";
 
+//printer:
 export async function getPrinters() {
-  try {
-
-    const response = await api.get('/printer/impressora');
-    if(response.status !== 200) {
-      return { type: 'error', data: response.data};
+    try {
+        const response = await api.get("/printer");
+        if (response.status !== 200) {
+            return { type: "error", data: response.data };
+        }
+        return { type: "success", data: response.data.data };
+    } catch (error) {
+        return { type: "error", error };
     }
-    return { type: 'success', data: response.data};
-  } catch (error) {
-    return { type: 'error', error };
-  }
+}
+
+export async function getPrinterById(id) {
+    try {
+        const response = await api.get(`/printer/${id}`);
+        if (response.status !== 200) {
+            return { type: "error", data: response.data };
+        }
+        return { type: "success", data: response.data };
+    } catch (error) {
+        return { type: "error", error };
+    }
 }
 
 export async function getLocalizacao() {
-  try {
-
-    const response = await api.get('/printer/location');
-    if(response.status !== 201) {
-      return { type: 'error', data: response.data};
+    try {
+        const response = await api.get("/printer/location");
+        if (response.status !== 201) {
+            return { type: "error", data: response.data };
+        }
+        return response.data;
+    } catch (error) {
+        return { type: "error", error };
     }
-    return response.data;
-  } catch (error) {
-    return { type: 'error', error };
-  }
-}
-
-export async function getPadrao(id) {
-  try {
-    const response = await api.get(`/printer/padrao/${id}`);
-    if(response.status !== 200) {
-      return { type: 'error', data: response.data};
-    }
-    return { type: 'success', data: response.data };
-  } catch (error) {
-    return { type: 'error', error };
-  }
-}
-
-export async function getPadroes() {
-  try {
-    const response = await api.get('/printer/padrao');
-    if(response.status !== 200) {
-      return { type: 'error', data: response.data};
-    }
-    return { type: 'success', data: response.data };
-  } catch (error) {
-    return { type: 'error', error };
-  }
-}
-
-export async function togglePrinter(id, status) {
-  const data = {
-    id,
-    status
-  }
-
-  try {
-    const response = await api.patch(`/printer/impressora/desativar/${id}`, data);
-    if(response.status !== 200) {
-      return { type: 'error', data: response.data};
-    }
-    return { type: 'success', data: response.data };
-  } catch (error) {
-    return { type: 'error', error };
-  }
-}
-
-export async function togglePattern(id, status) {
-  const data = {
-    id,
-    status
-  }
-
-  try {
-    const response = await api.patch(`/printer/padrao/${id}`, data);
-    if(response.status !== 200) {
-      return { type: 'error', data: response.data};
-    }
-    return { type: 'success', data: response.data };
-  } catch (error) {
-    return { type: 'error', error };
-  }
 }
 
 export const createImpressora = async (printer) => {
-  try {
-    const response = await api.post('/impressora/', printer);
-    if(response.status !== 201) {
-      return { type: 'error', data: response.data};
+    try {
+        const response = await api.post("/printer", printer);
+        if (response.status !== 201) {
+            return { type: "error", data: response.data };
+        }
+        return { type: "success", data: response.data };
+    } catch (error) {
+        return { type: "error", error };
     }
-    return { type: 'success', data: response.data};
-  } catch (error) {
-    return { type: 'error', error };
-  }
 };
 
 export const editImpressora = async (printer) => {
-  try {
-    const data = {
-      ip: printer.ip,
-      padrao_id: printer.padrao_id,
-      numeroSerie: printer.numeroSerie,
-      codigoLocadora: printer.codigoLocadora,
-      contadorInstalacao: printer.contadorInstalacao,    
-      dataInstalacao: printer.dataInstalacao,
-      contadorRetiradas: printer.contadorRetiradas,
-      dataContadorRetirada: printer.dataContadorRetirada,
-      ultimoContador: printer.ultimoContador,
-      dataUltimoContador: printer.dataUltimoContador,
-      unidadeId: printer.unidadeId,
+    try {
+        const { id, ...rest } = printer;
+        const response = await api.patch(`/printer/${id}`, rest);
+        if (response.status !== 200) {
+            return { type: "error", data: response.data };
+        }
+        return { type: "success", data: response.data.data };
+    } catch (error) {
+        return { type: "error", error };
     }
-    const response = await api.patch(`/printer/impressora/${printer.id}`, data);
-    if(response.status !== 200) {
-      return { type: 'error', data: response.data};
-    }
-    return { type: 'success', data: response.data};
-  } catch (error) {
-    return { type: 'error', error };
-  }
 };
 
-export const createPadraoImpressora = async (printerPattern) => {
-  try {
-    const response = await api.post('/printer/padrao/create', printerPattern);
-    if(response.status !== 201) {
-      return { type: 'error', data: response.data};
+export async function getPrintersByContract(contractNumber) {
+    try {
+        const encodedContractNumber = encodeURIComponent(contractNumber);
+        const response = await api.get(`/printer/report/contract/${encodedContractNumber}`);
+        if (response.status !== 200) {
+            return { type: 'error', data: response.data };
+        }
+        return { type: 'success', data: response.data };
+    } catch (error) {
+        return { type: 'error', error };
     }
-    return { type: 'success', data: response.data};
-  } catch (error) {
-    return { type: 'error', error };
-  }
-};
+}
 
-export const editPadrao = async (pattern) => {
-  try {
-    const data = {
-      tipo: pattern.tipo,
-      marca: pattern.marca,
-      modelo: pattern.modelo,
-      modeloImpressora: pattern.modeloImpressora,
-      numeroSerie: pattern.numeroSerie,
-      versaoFirmware: pattern.versaoFirmware,
-      tempoAtivoSistema: pattern.tempoAtivoSistema,
-      totalDigitalizacoes: pattern.totalDigitalizacoes,
-      totalCopiasPB: pattern.totalCopiasPB,
-      totalCopiasColoridas: pattern.totalCopiasColoridas,
-      totalImpressoesPb: pattern.totalImpressoesPb,
-      totalImpressoesColoridas: pattern.totalImpressoesColoridas,
-      totalGeral: pattern.totalGeral,
-      enderecoIp: pattern.enderecoIp,
+export const addContadores = async (contadoresData) => {
+    try {
+        const { id, ...rest } = contadoresData;
+        const response = await api.patch(`/printer/contadores/${id}`, rest);
+        if (response.status !== 200) {
+            return { type: 'error', data: response.data };
+        }
+        return { type: 'success', data: response.data };
+    } catch (error) {
+        return { type: 'error', error };
     }
-    
-    const response = await api.patch(`/printer/padrao/${pattern.id}`, data);
-    
-    if (response.status !== 200) {
-      return { type: 'error', data: response.data };
+}
+
+export async function generatePrinterPDF(printerId) {
+    try {
+        const response = await api.get(`/printer/report/month/${printerId}`, { responseType: 'blob' });
+        if (response.status !== 200) {
+            return { type: 'error', data: response.data };
+        }
+
+        const pdfBlob = new Blob([response.data], { type: "application/pdf" });
+        const url = window.URL.createObjectURL(pdfBlob);
+        const tempLink = document.createElement("a");
+        tempLink.href = url;
+        tempLink.setAttribute(
+            "download",
+            `printer-report-${printerId}-${new Date().toISOString()}.pdf`
+        );
+
+        document.body.appendChild(tempLink);
+        tempLink.click();
+
+        document.body.removeChild(tempLink);
+        window.URL.revokeObjectURL(url);
+
+        return { type: 'success' };
+    } catch (error) {
+        return { type: 'error', error };
     }
-    
-    return { type: 'success', data: response.data };
-    
-  } catch (error) {
-    return { type: 'error', error };
-  }
 }

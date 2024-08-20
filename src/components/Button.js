@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import '../style/components/button.css';
 
-const Button = ({ type, size, text, onClick }) => {
+const Button = ({ type, size, text, onClick, bgColor, disabled }) => {
     const typeClasses = {
         success: 'button-success',
         error: 'button-error',
@@ -15,12 +15,14 @@ const Button = ({ type, size, text, onClick }) => {
         small: 'button-small',
         medium: 'button-medium',
         large: 'button-large',
+        adaptive: 'button-adaptive',
     };
 
-    const buttonClass = `button ${typeClasses[type] || 'button-info'} ${sizeClasses[size] || 'button-medium'}`;
+    const buttonClass = `button ${typeClasses[type] || 'button-info'} ${sizeClasses[size] || 'button-medium'} ${disabled ? "disabled" : ' '}`;
 
     return (
-        <button className={buttonClass} onClick={onClick}>
+        <button className={buttonClass} onClick={onClick}
+            style={{ background: bgColor }}>
             {text}
         </button>
     );
@@ -28,14 +30,17 @@ const Button = ({ type, size, text, onClick }) => {
 
 Button.propTypes = {
     type: PropTypes.oneOf(['success', 'error', 'info', 'warning', 'icon']),
-    size: PropTypes.oneOf(['small', 'medium', 'large']),
+    size: PropTypes.oneOf(['small', 'medium', 'large', 'adaptive']),
     text: PropTypes.string.isRequired,
+    bgColor: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
+    disabled: PropTypes.bool.isRequired,
 };
 
 Button.defaultProps = {
     type: 'info',
     size: 'medium',
+    disabled: false
 };
 
 export default Button;

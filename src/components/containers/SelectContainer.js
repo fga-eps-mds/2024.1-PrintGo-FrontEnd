@@ -2,14 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import "../../style/components/SelectContainer.css";
 
-const SelectContainer = ({ id, name, options, className, label, onChange, value, error, placeHolder }) => {
+
+const SelectContainer = ({ id, name, options, className, label, containerStyle, onChange, value, error, placeHolder }) => {
     return (
-        <div className={`select-container`}>
+        <div className={`select-container ${containerStyle}`}>
             <span className="form-subtitle">{label}</span>
             <div>
                 <select
                     id={id}
                     name={name}
+                    data-testid={id}
                     className={error ? `${className} input-error` : className}
                     onChange={onChange}
                     value={value}
@@ -36,6 +38,7 @@ SelectContainer.propTypes = {
     value: PropTypes.string,
     error: PropTypes.string,
     placeHolder: PropTypes.string
+    containerStyle: PropTypes.string
 };
 
 SelectContainer.defaultProps = {
@@ -44,6 +47,8 @@ SelectContainer.defaultProps = {
     value: '',
     error: '',
     placeHolder: 'Selecione'
+    error: '', // Adicione esta linha
+    containerStyle: ''
 };
 
 export default SelectContainer;

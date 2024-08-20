@@ -3,43 +3,50 @@ import React, { useEffect, useState } from "react";
 import Ellipse from "../assets/login_ellipse.svg";
 import voltar_vector from "../assets/voltar_vector.svg";
 import Navbar from "../components/navbar/Navbar";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 export default function ViewPattern() {
+  const location = useLocation();
 
-  const { padrao } = useParams();
+  const altLocation = {
+    id: "",
+    marca: "",
+    modelo: "",
+    tipo: "",
+    colorido: false,
+    oidModelo: "",
+    oidNumeroSerie: "",
+    oidFirmware: "",
+    oidTempoAtivo: "",
+    oidDigitalizacoes: "",
+    oidCopiasPB: "",
+    oidCopiasCor: "",
+    oidTotalGeral: ""
+  }
+
+
+  const pattern = location.state || altLocation;
+
+
+
+
 
   const infoLabels = {
-    tipo: "Tipo",
-    modelo: "Modelo",
-    marca: "Marca",
+    tipo: "Tipo:",
+    modelo: "Modelo:",
+    marca: "Marca:",
   }
 
   const oidLabels = {
-    mdeoloImpressora: "Modelo de impressora",
-    numeroSerie: "Número de série",
-    versaoFirmware: "Versão de Firmware",
-    tempoAtivoSistema: "Tempo ativo do sistema",
-    totalDigitalizacoes: "Total de digitalizações",
-    totalCopiasPB: "Total de cópias P&B",
-    totalCopiasColoridas: "Total de cópias color",
-    totalImpressoesPb: "Total de impressões P&B",
-    totalImpressoesColoridas: "Total de impressões color",
-    totalGeral: "Total geral",
-    enderecoIp: "Endereço de IP",
+    oidModelo: "Modelo de impressora",
+    oidNumeroSerie: "Número de série",
+    oidFirmware: "Versão de Firmware",
+    oidTempoAtivo: "Tempo ativo do sistema",
+    oidDigitalizacoes: "Total de digitalizações",
+    oidCopiasPB: "Total de cópias P&B",
+    oidCopiasCor: "Total de cópias color",
+    oidTotalGeral: "Total geral",
   }
-
-  const [pattern, setPattern] = useState()
-
-  useEffect(() => {
-    try {
-      const patternString = atob(padrao);
-      const patternObject = JSON.parse(patternString);
-      setPattern(patternObject);
-    } catch (error) {
-      console.error("Error decoding Base64 string", error);
-    }
-  }, [padrao])
 
   return (
     <>
@@ -47,21 +54,32 @@ export default function ViewPattern() {
       <div className="viewpattern-container">
         <div className="viewpattern-card">
 
-          { pattern ? (
+          {pattern ? (
             <div className="viewpattern-info-group">
-              
+
               <header className="viewpattern-card-header">
-                <img alt="" src={voltar_vector}></img>
-                <a href="/padroescadastrados">Voltar</a>
+                <a href="/padroescadastrados">
+                  <img alt="" src={voltar_vector}></img>
+                  Voltar
+                </a>
+
               </header>
 
               <div className="viewpattern-info-line">
                 {Object.entries(infoLabels).map(([key, label]) => (
                   <div key={key} className="viewpattern-info-box">
-                    <label>{label}</label>
-                    <p>{pattern[key]}</p>
+                    <label htmlFor={key}>{label}</label>
+                    <p data-testid={key}>{pattern[key]}</p>
                   </div>
                 ))}
+                <div className="viewpattern-info-box">
+                  <label>É Colorido?</label>
+                  <p data-testid="colorido">{pattern.colorido ? "Sim" : "Não"}</p>
+                </div>
+                <div className="viewpattern-info-box">
+                  <label>Esta ativo?</label>
+                  <p data-testid="ativo">{pattern.ativo ? "Sim" : "Não"}</p>
+                </div>
               </div>
 
               <div className="viewpattern-oid-line">
@@ -69,15 +87,15 @@ export default function ViewPattern() {
                 {Object.entries(oidLabels).map(([key, label]) => (
                   <div key={key} className="viewpattern-oid-box">
                     <label>{label}:</label>
-                    <p>{pattern[key]}</p>
+                    <p data-testid={key}>{pattern[key]}</p>
                   </div>
                 ))}
               </div>
 
             </div>
-            ) : (
-              <p id="viewpattern-loading-text">Carregando dados...</p>
-            )
+          ) : (
+            <p id="viewpattern-loading-text">Carregando dados...</p>
+          )
           }
         </div>
 

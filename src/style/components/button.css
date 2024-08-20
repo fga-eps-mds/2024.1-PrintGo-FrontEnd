@@ -1,12 +1,13 @@
 .button {
     border: none;
-    border-radius: 10px;
+    border-radius: 25px;
     color: #fff;
     cursor: pointer;
     font-size: 16px;
     padding: 10px 20px;
     transition: background-color 0.3s ease, border-color 0.3s ease;
     font-weight: 600;
+    font-family: Jost;
 }
 .button-icon {
     background-color: #00000000;
@@ -47,4 +48,14 @@
 .button-large {
     font-size: 18px;
     padding: 15px 30px;
+}
+
+.disabled{
+    cursor: not-allowed;
+}
+
+.button-adaptive{
+    font-size: 18px;
+    padding: 15px 30px;
+    width: 100%;
 }

@@ -1,0 +1,27 @@
+.big-card-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Alinhar itens à esquerda */
+    justify-content: center;
+    width: 200px; /* Ajuste conforme necessário */
+    height: 120px; /* Ajuste conforme necessário */
+    background-color: #003366; /* Fundo azul */
+    border-radius: 15px; /* Bordas arredondadas */
+    color: white; /* Texto branco */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra */
+    padding: 10px; /* Espaçamento interno */
+    margin-top: 50px;
+}
+
+.big-card-title {
+    font-size: 15px;
+    padding-left: 10px;
+}
+
+.big-card-info-value {
+    font-size: 70px; /* Tamanho maior */
+     /* Opcional: deixar o número em negrito */
+    text-align: center; /* Centraliza o texto */
+    width: 100%; /* Garante que o texto ocupe toda a largura disponível */
+}
+

@@ -6,7 +6,7 @@ const checkAuthentication = () => {
   const token = localStorage.getItem('jwt'); // Substitua por seu método de armazenamento
 
   if (!token) {
-    return false; // Token não existe
+    return true; // Token não existe
   }
 
   try {

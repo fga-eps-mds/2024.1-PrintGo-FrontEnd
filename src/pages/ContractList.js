@@ -18,7 +18,6 @@ export default function ContractList() {
     const fetchContracts = async () => {
       try {
         const response = await getContract();
-        console.log(response.data.data);
         if (response.type === "success") {
           setContracts(response.data.data);
         } else {

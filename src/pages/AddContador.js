@@ -19,8 +19,8 @@ const AddContador = () => {
   const [equipamentos, setEquipamentos] = useState([]);
   const [equipamentosFiltrados, setEquipamentosFiltrados] = useState([]);
   const [selectedEquipamentoId, setSelectedEquipamentoId] = useState("");
-  const [quantidadeImpressoesPB, setQuantidadeImpressoesPB] = useState("");
-  const [quantidadeImpressoesCor, setQuantidadeImpressoesCor] = useState("");
+  const [quantidadeImpressoesPB, setQuantidadeImpressoesPB] = useState(0);
+  const [quantidadeImpressoesCor, setQuantidadeImpressoesCor] = useState(0);
   const [dataContador, setDataContador] = useState("");
   const [isColorido, setIsColorido] = useState(false);
 
@@ -30,7 +30,13 @@ const AddContador = () => {
     const fetchLocalizacoes = async () => {
       try {
         const response = await getLocalizacao();
-        setLocalizacoes(response.data);
+
+        if (response.type === 'error'){
+          toast.error("Erro ao buscar localizações!")
+        }
+        else {
+          setLocalizacoes(response.data);
+        }
       } catch (error) {
         console.error('Erro ao buscar localizações:', error);
       }
@@ -44,6 +50,9 @@ const AddContador = () => {
         if (dataEquipamentos.type ==='success' && dataEquipamentos.data) {
           setEquipamentos(dataEquipamentos.data);
           setEquipamentosFiltrados(dataEquipamentos.data);
+        }
+        else{
+          toast.error("Erro ao buscar impressoras!")
         }
       } catch (error) {
         console.error('Erro ao obter lista de impressoras:', error);
@@ -99,11 +108,8 @@ const AddContador = () => {
       dataContador: new Date(dataContador).toISOString(),
     };
 
-    console.log("Dados enviados:", contadoresData);
-
     try {
       const response = await addContadores(contadoresData);
-      console.log('Resposta do backend:', response);
 
       if (response.type === 'success') {
         toast.success("Contador registrado com sucesso!");
@@ -210,6 +216,7 @@ const AddContador = () => {
             <div className="campo quantidade">
               <NumberContainer
                 id="contador-pb-manual"
+                name="contador-pb-manual"
                 label="Contador Preto e Branco"
                 value={quantidadeImpressoesPB}
                 onChange={(e) => setQuantidadeImpressoesPB(e.target.value)}
@@ -218,6 +225,7 @@ const AddContador = () => {
             <div className="campo quantidade">
               <NumberContainer
                 id="contador-cor-manual"
+                name="contador-cor-manual"
                 label="Contador Colorido"
                 value={quantidadeImpressoesCor}
                 onChange={(e) => setQuantidadeImpressoesCor(e.target.value)}

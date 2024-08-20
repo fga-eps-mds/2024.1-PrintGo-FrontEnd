@@ -92,7 +92,7 @@ export default function RegisterPrinterForm() {
         }
 
         setErrors(newErrors);
-        return Object.keys(newErrors).length === 0; // Retorna true se não houver erros
+        return Object.keys(newErrors).length === 0;
     };
 
     const handleFormSubmit = async () => {
@@ -237,7 +237,7 @@ export default function RegisterPrinterForm() {
                 <SelectContainer
                     id="marca"
                     name="marca"
-                    options={marcas.map(m => m.marca)}
+                    options={marcas ? marcas.map(m => m.marca) : []}
                     className="md-select"
                     label="Marca"
                     onChange={handleMarcaChange}
@@ -289,7 +289,7 @@ export default function RegisterPrinterForm() {
                     <SelectContainer
                         id="cidade"
                         name="cidade"
-                        options={localizacoes.map(m => m.name)}
+                        options={localizacoes ? localizacoes.map(m => m.name) : []}
                         className="md-select"
                         label="Cidade"
                         onChange={handleLocalizacaoChange}
@@ -300,7 +300,7 @@ export default function RegisterPrinterForm() {
                     <SelectContainer
                         id="workstation"
                         name="workstation"
-                        options={workstations.map(m => m.name)}
+                        options={workstations ? workstations.map(m => m.name) : []}
                         className="lg-select"
                         label="Posto de Trabalho"
                         onChange={handleWorkstationChange}
@@ -311,7 +311,7 @@ export default function RegisterPrinterForm() {
                     <SelectContainer
                         id="subworkstation"
                         name="subworkstation"
-                        options={subWorkstations.map(m => m.name)}
+                        options={subWorkstations ? subWorkstations.map(m => m.name) : []}
                         className="lg-select"
                         label="Subposto de Trabalho"
                         onChange={handleSubWorkstationChange}

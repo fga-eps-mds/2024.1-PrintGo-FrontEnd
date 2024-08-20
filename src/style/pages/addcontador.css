@@ -9,7 +9,7 @@
   display: flex;
   margin: 0px 30px;
   border-bottom: 3px solid #003366;
-  align-items: flex-end; 
+  align-items: flex-end;
 }
 
 .add-contador-header h1 {
@@ -24,11 +24,6 @@
   margin: 20px 30px;
 }
 
-.localizacao-section {
-  margin-bottom: 20px;
-  padding: 0 30px;
-}
-
 .localizacao-section h2 {
   font-size: 24px;
   color: #0d3d6d;
@@ -39,7 +34,6 @@
 .localizacao-underline,
 .fields-underline {
   border-bottom: 3px solid #003366;
-  margin: 0 0 20px;
   width: 100%;
   max-width: 950px;
 }
@@ -64,40 +58,6 @@
   font-size: 18px;
   margin-bottom: 5px;
   color: #0d3d6d;
-}
-
-.select-container select {
-  padding: 15px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 18px;
-  width: 100%;
-  min-width: 300px;
-  max-width: 950px;
-}
-
-.select-container.equipamento select {
-  max-width: 300px; 
-}
-
-.select-container select, .campo input {
-  padding: 15px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 18px;
-  width: 100%;
-  max-width: 270px; 
-}
-
-.select-container label {
-  font-size: 18px;
-  margin-bottom: 5px;
-  color: #0d3d6d;
-  margin-top: 20px; 
-}
-
-.select-container.equipamento select, .campo.quantidade input, .campo.data input {
-  max-width: 270px; 
 }
 
 /* Alinhas os campos de quantidade*/

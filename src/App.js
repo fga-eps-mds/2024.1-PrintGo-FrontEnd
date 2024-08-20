@@ -51,7 +51,7 @@ function App() {
             <Route path="/editarContrato" element={<EditContractForm />} />
             <Route path="/listagemContrato" element={<ContractList />} />
             <Route path="/verContrato/:id" element={<ViewContract />} />
-            <Route path="/addContador" element={<AddContador />} /> 
+            <Route path="/registrarContadores" element={<AddContador />} /> 
             <Route element={<AdminRoutes/>}>
               <Route path="/listausuarios" element={<UsersList />} />
               <Route path="/cadastro" element={<CreateUserPage />} />

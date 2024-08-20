@@ -98,6 +98,7 @@ const Navbar = () => {
                     <Link to="/padraoimpressora">Cadastro de padrão de impressora</Link>
                     <Link to="/impressorascadastradas">Impressoras cadastradas</Link>
                     <Link to="/padroescadastrados">Padrões de impressora cadastrados</Link>
+                    <Link to="/definirRotina">Rotina de Registro Automático</Link>
                   </div>
                 )}
               </button>

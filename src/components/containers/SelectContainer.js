@@ -37,7 +37,7 @@ SelectContainer.propTypes = {
     onChange: PropTypes.func,
     value: PropTypes.string,
     error: PropTypes.string,
-    placeHolder: PropTypes.string
+    placeHolder: PropTypes.string,
     containerStyle: PropTypes.string
 };
 
@@ -46,7 +46,7 @@ SelectContainer.defaultProps = {
     onChange: null,
     value: '',
     error: '',
-    placeHolder: 'Selecione'
+    placeHolder: 'Selecione',
     error: '', // Adicione esta linha
     containerStyle: ''
 };

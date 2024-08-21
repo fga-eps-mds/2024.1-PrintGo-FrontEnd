@@ -89,7 +89,7 @@
     max-height: 100px;
 }
 
-#dropdownRoutine{
+.dropdownRoutine{
     width: 255px;
     height: 45px;
     border: 2px solid #0D3D6D;

@@ -289,13 +289,14 @@ export default function UpdateRoutine() {
       <Navbar />
       <div className="page-Routine">
         <div className="topRoutine">
-          <h1 id="titleRoutine"> Rotina de Registro Automático</h1>
+          <h1 id="titleRoutine">Rotina de Registro Automático</h1>
         </div>
         <div className="midPage-Routine">
           <div>
-            <label id="labelRoutine">Cidade</label>
+            <label htmlFor="Cidade" id="labelRoutine">Cidade</label>
             <SelectContainer
-              id="dropdownRoutine"
+              id="Cidade"
+              className="dropdownRoutine"
               name="cidade"
               label=""
               options={
@@ -310,10 +311,11 @@ export default function UpdateRoutine() {
             />
           </div>
           <div>
-            <label id="labelRoutine">Regional</label>
+            <label htmlFor="Regional" id="labelRoutine">Regional</label>
             <SelectContainer
-              id="dropdownRoutine"
-              name="workstation"
+              id="Regional"
+              className="dropdownRoutine"
+              name="regional"
               label=""
               options={
                 workstations
@@ -327,10 +329,11 @@ export default function UpdateRoutine() {
             />
           </div>
           <div>
-            <label id="labelRoutine">Unidade de Trabalho</label>
+            <label htmlFor="Unidade de Trabalho" id="labelRoutine">Unidade de Trabalho</label>
             <SelectContainer
-              id="dropdownRoutine"
-              name="subworkstation"
+              id="Unidade de Trabalho"
+              className="dropdownRoutine"
+              name="Unidade de Trabalho"
               label=""
               options={
                 subWorkstations
@@ -346,12 +349,12 @@ export default function UpdateRoutine() {
         </div>
         <div className="bottomPage-Routine">
           <div className="optionsRoutine">
-            <label id="labelRoutine">Rotina de Registro</label>
+            <label htmlFor="Rotina de Registro" id="labelRoutine">Rotina de Registro</label>
             <select
-              id="dropdownRoutine"
+              id="Rotina de Registro"
               value={routine}
               onChange={handleRoutineChange}
-              className={errors.rotina ? "input-error" : ""}
+              className={errors.rotina ? "input-error" : "dropdownRoutine"}
             >
               <option value={""}>Escolha uma opção</option>
               <option value={"Diariamente"}>Diariamente</option>
@@ -369,7 +372,7 @@ export default function UpdateRoutine() {
                   <label id="labelRoutine">Diariamente</label>
                   <div id="smallboxRoutine">
                     <div>
-                      <label id="slabelRoutine">Escolha um horário:</label>
+                      <label htmlFor="timeRoutine" id="slabelRoutine">Escolha um horário:</label>
                     </div>
                     <div className="inputRoutine">
                       <input
@@ -389,7 +392,7 @@ export default function UpdateRoutine() {
                     )}
                   </div>
                   <div id="smallboxRoutine">
-                    <label id="slabelRoutine">Escolha o intervalo:</label>
+                    <label htmlFor="intervalRoutine" id="slabelRoutine">Escolha o intervalo:</label>
                     <IntervalDropdown
                       value={interval}
                       onChange={handleIntervalChange}
@@ -404,7 +407,7 @@ export default function UpdateRoutine() {
                   <label id="labelRoutine">Semanalmente</label>
                   <div id="smallboxRoutine">
                     <div>
-                      <label id="slabelRoutine">Escolha o horário:</label>
+                      <label htmlFor="timeRoutine" id="slabelRoutine">Escolha o horário:</label>
                     </div>
                     <div className="inputRoutine">
                       <input
@@ -424,7 +427,7 @@ export default function UpdateRoutine() {
                     )}
                   </div>
                   <div id="smallboxRoutine">
-                    <label id="slabelRoutine">Escolha o intervalo:</label>
+                    <label htmlFor="intervalRoutine" id="slabelRoutine">Escolha o intervalo:</label>
                     <IntervalDropdown
                       value={interval}
                       onChange={handleIntervalChange}
@@ -433,7 +436,7 @@ export default function UpdateRoutine() {
                   </div>
                   <div id="smallboxRoutine">
                     <div>
-                      <label id="slabelRoutine">Escolha o dia:</label>
+                      <label htmlFor="weekDays" id="slabelRoutine">Escolha o dia:</label>
                     </div>
                     <div className="weekDayOptions">
                       <span>
@@ -441,6 +444,7 @@ export default function UpdateRoutine() {
                           className="weekDayRoutine"
                           role="checkbox"
                           value={"Sunday"}
+                          id="weekDays"
                         >
                           D
                         </div>
@@ -450,6 +454,7 @@ export default function UpdateRoutine() {
                           className="weekDayRoutine"
                           role="checkbox"
                           value={"Monday"}
+                          id="weekDays"
                         >
                           S
                         </div>
@@ -459,6 +464,7 @@ export default function UpdateRoutine() {
                           className="weekDayRoutine"
                           role="checkbox"
                           value={"Tuesday"}
+                          id="weekDays"
                         >
                           T
                         </div>
@@ -468,6 +474,7 @@ export default function UpdateRoutine() {
                           className="weekDayRoutine"
                           role="checkbox"
                           value={"Wednesday"}
+                          id="weekDays"
                         >
                           Q
                         </div>
@@ -477,6 +484,7 @@ export default function UpdateRoutine() {
                           className="weekDayRoutine"
                           role="checkbox"
                           value={"Thursday"}
+                          id="weekDays"
                         >
                           Q
                         </div>
@@ -486,6 +494,7 @@ export default function UpdateRoutine() {
                           className="weekDayRoutine"
                           role="checkbox"
                           value={"Friday"}
+                          id="weekDays"
                         >
                           S
                         </div>
@@ -495,6 +504,7 @@ export default function UpdateRoutine() {
                           className="weekDayRoutine"
                           role="checkbox"
                           value={"Saturday"}
+                          id="weekDays"
                         >
                           S
                         </div>
@@ -516,7 +526,7 @@ export default function UpdateRoutine() {
                   <label id="labelRoutine">Mensalmente</label>
                   <div id="smallboxRoutine">
                     <div>
-                      <label id="slabelRoutine">Escolha o horário:</label>
+                      <label htmlFor="timeRoutine" id="slabelRoutine">Escolha o horário:</label>
                     </div>
                     <div className="inputRoutine">
                       <input
@@ -536,7 +546,7 @@ export default function UpdateRoutine() {
                     </div>
                   </div>
                   <div id="smallboxRoutine">
-                    <label id="slabelRoutine">Escolha o intervalo:</label>
+                    <label htmlFor="intervalRoutine" id="slabelRoutine">Escolha o intervalo:</label>
                     <IntervalDropdown
                       value={interval}
                       onChange={handleIntervalChange}
@@ -545,7 +555,7 @@ export default function UpdateRoutine() {
                   </div>
                   <div id="smallboxRoutine">
                     <div>
-                      <label id="slabelRoutine">Digite o dia do mês:</label>
+                      <label htmlFor="dayRoutine" id="slabelRoutine">Digite o dia do mês:</label>
                     </div>
                     <div>
                       <input

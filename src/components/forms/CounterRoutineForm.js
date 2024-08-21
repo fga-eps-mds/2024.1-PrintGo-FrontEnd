@@ -22,7 +22,6 @@ export default function UpdateRoutine() {
   const [selectedUnidade, setUnidade] = useState("");
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
-  const [nodeExpresion, setNodeExpresion] = useState("");
   const [hora, setHora] = useState("");
   const [minuto, setMinuto] = useState("");
 

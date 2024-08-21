@@ -20,7 +20,7 @@ function IntervalDropdown({ onChange , value, error, className }) {
       className={error ? `${className} input-error` : className}
     >
       <option value={""}>Escolha</option>
-      <option value={"TempoReal"}>Tempo Real</option>
+      <option value={"00:00"}>Tempo Real</option>
       <option value={"00:10"}>00:10</option>
       <option value={"00:15"}>00:15</option>
       <option value={"00:30"}>00:30</option>

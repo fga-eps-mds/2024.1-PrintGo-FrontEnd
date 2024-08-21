@@ -2,7 +2,7 @@ import Navbar from "../navbar/Navbar";
 import React, { useState, useEffect } from "react";
 import "../../style/components/counterRoutineForm.css";
 import IntervalDropdown from "../containers/IntervalDropdown";
-import { getLocalizacao } from "../../services/printerService";
+import { getLocalizacao, addRotina } from "../../services/printerService";
 import SelectContainer from "../containers/SelectContainer";
 import { toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
@@ -22,7 +22,9 @@ export default function UpdateRoutine() {
   const [selectedUnidade, setUnidade] = useState("");
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
-  
+  const [nodeExpresion, setNodeExpresion] = useState("")
+  const [hora, setHora] = useState("");
+  const [minuto, setMinuto] = useState("")
 
   useEffect(() => {
     const fetchLocalizacoes = async () => {
@@ -125,7 +127,10 @@ export default function UpdateRoutine() {
     setTime(selectedTime);
 
     if (selectedTime) {
-        setInterval(""); 
+        const [hour, minute] = selectedTime.split(":");
+        setHora(parseInt(hour).toString());
+        setMinuto(parseInt(minute).toString());
+        setInterval("");
         setErrors((prevErrors) => {
             const { horario, intervalo, ...rest } = prevErrors;
             return rest;
@@ -138,7 +143,10 @@ export default function UpdateRoutine() {
     setInterval(selectedInterval);
 
     if (selectedInterval) {
-        setTime(""); 
+        const [hour, minute] = selectedInterval.split(":");
+        setHora(parseInt(hour).toString());
+        setMinuto(parseInt(minute).toString());
+        setTime("");
         setErrors((prevErrors) => {
             const { intervalo, horario, ...rest } = prevErrors;
             return rest;
@@ -158,7 +166,7 @@ export default function UpdateRoutine() {
 
   const handleExitForm = () => {
     navigate('/');
-};
+  };
 
   const validateForm = () => {
     const newErrors = {};
@@ -190,28 +198,68 @@ export default function UpdateRoutine() {
     return Object.keys(newErrors).length === 0; // Retorna true se não houver erros
   };
 
-  const handleFormSubmit = async () => {
-    try {
-        if (validateForm()) {
-            let data = {
-                cidade: selectedCidade,
-                regional: selectedRegional,
-                unidade: selectedUnidade,
-                rotina: selectedRoutine,
-                horario: time,
-                intervalo: interval,
-                diasSemana: selectedDays,
-                diaMes: day,
-            };
-            console.log(data);
-        } else {
-            toast.error("Erro ao criar Rotina!");
-        }
-    } catch (error) {
-        console.error("Erro ao criar Rotina:", error);
-        toast.error("Ocorreu um erro ao criar um Rotina. Tente novamente.");
+  const handleRoutineSubmit = async () => {
+    if (!validateForm) {
+      toast.error("Por Favor preencha os campos obrigatórios.");
+      return;
     }
-};
+    const cronString= () => {
+      let pattern=""
+      switch(routine) {
+        case "Diariamente":
+          if(time === "") { // intervalo
+            pattern = "*/0 */${hora} * * * *"
+          }
+          else { // horario
+            pattern = "{minuto} {hora} * * * *"
+          }
+          break;
+        case "Semanalmente":
+          if(time === "") { // intervalo
+            pattern = "*/0 */${hora} * * * *"
+          }
+          else { // horario
+            pattern = "{minuto} {hora} * * * *"
+          }
+          break;
+        case "Mensalmente":
+          if(time === "") { // intervalo
+            pattern = "*/0 */${hora} * * * *"
+          }
+          else { // horario
+            pattern = "{minuto} {hora} * * * *"
+          }
+          break;
+      }
+    }
+
+    const rotinaData = {
+      localizacao: `${selectedCidade};${selectedRegional};${selectedUnidade}`,
+      dataCriado: new Date(Date.now()).toISOString().split('T')[0],
+      cronExpresion: '',
+      ativo: true,
+      cidadeTodas: selectedCidade == "Todas" ? true : false,
+      regionaTodas: selectedRegional == "Todas" ? true : false,
+      unidadeTodas: selectedUnidade == "Todas" ? true : false,
+    };
+
+    try {
+      const response = await addRotina(rotinaData);
+
+      if (response.type === 'success') {
+        toast.success("Rotina registrada com sucesso!");
+        setTimeout(() => {
+          navigate(`/`);
+        }, 3000);
+      } else {
+        console.error('Erro recebido do backend:', response.error);
+        toast.error("Erro ao registrar contador: " + (response.error || response.data));
+      }
+    } catch (error) {
+      console.error('Erro na requisição:', error);
+      toast.error("Erro ao registrar rotina: " + error.message);
+    }
+  };
 
   return (
     <>
@@ -472,7 +520,7 @@ export default function UpdateRoutine() {
           )}
         </div>
         <div className="buttons-Routine">
-          <button id="addRoutine" onClick={handleFormSubmit}>Adicionar Rotina</button>
+          <button id="addRoutine" onClick={handleRoutineSubmit}>Adicionar Rotina</button>
           <button id="cancelEditRoutine" onClick={handleExitForm}>Cancelar</button>
         </div>
       </div>

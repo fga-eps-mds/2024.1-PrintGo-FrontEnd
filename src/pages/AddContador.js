@@ -64,6 +64,12 @@ const AddContador = () => {
   }, []);
 
   const handleEquipamentoChange = async (numSerie) => {
+    if (numSerie === "") {
+      setSelectedEquipamentoId("");
+      setIsColorido(false);
+      return;
+    }
+
     const equipamento = equipamentos.find(e => e.numSerie === numSerie);
 
     if (equipamento) {
@@ -132,7 +138,18 @@ const AddContador = () => {
 
   const handleLocalizacaoChange = (event) => {
     const cidadeSelecionada = event.target.value;
+
+    if (cidadeSelecionada === "") {
+      setCidade("");
+      setWorkstations([]);
+      setSubworkstations([]);
+      setSelectedEquipamentoId(""); 
+      setEquipamentosFiltrados(equipamentos); 
+      return;
+    }
+
     setCidade(cidadeSelecionada);
+    setSelectedEquipamentoId(""); 
 
     const localizacao = localizacoes.find(m => m.name === cidadeSelecionada);
 
@@ -144,7 +161,17 @@ const AddContador = () => {
 
   const handleWorkstationChange = (event) => {
     const workstationSelecionada = event.target.value;
+
+    if (workstationSelecionada === "") {
+      setPostoTrabalho("");
+      setSubworkstations([]);
+      setSelectedEquipamentoId(""); 
+      setEquipamentosFiltrados(equipamentos.filter((equipamento) => equipamento.localizacao.split(";")[0] === cidade));
+      return;
+    }
+
     setPostoTrabalho(workstationSelecionada);
+    setSelectedEquipamentoId(""); 
 
     const workstation = workstations.find(m => m.name === workstationSelecionada);
     setSubworkstations(workstation ? workstation.child_workstations : []);
@@ -155,7 +182,19 @@ const AddContador = () => {
 
   const handleSubWorkstationChange = (event) => {
     const subworkstationSelecionada = event.target.value;
+
+    if (subworkstationSelecionada === "") {
+      setSubpostoTrabalho("");
+      setSelectedEquipamentoId(""); 
+      setEquipamentosFiltrados(equipamentos.filter((equipamento) => {
+        return equipamento.localizacao.split(";")[0] === cidade &&
+               equipamento.localizacao.split(";")[1] === postoTrabalho;
+      }));
+      return;
+    }
+
     setSubpostoTrabalho(subworkstationSelecionada);
+    setSelectedEquipamentoId(""); 
 
     const filtered = equipamentosFiltrados.filter((equipamento) => equipamento.localizacao.split(";")[2] === subworkstationSelecionada);
     setEquipamentosFiltrados(filtered);

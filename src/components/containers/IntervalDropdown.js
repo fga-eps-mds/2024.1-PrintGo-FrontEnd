@@ -3,10 +3,7 @@ import PropTypes from "prop-types";
 import "../../style/components/counterRoutineForm.css";
 
 function IntervalDropdown({ onChange, value, error, className }) {
-  const [selectedOption, setSelectedOption] = useState("");
-
   const handleChange = (event) => {
-    setSelectedOption(event.target.value);
     if (onChange) {
       onChange(event);
     }

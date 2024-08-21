@@ -36,6 +36,7 @@ export async function getLocalizacao() {
         return { type: "error", error };
     }
 }
+
 export const createImpressora = async (printer) => {
     try {
         const response = await api.post("/printer", printer);

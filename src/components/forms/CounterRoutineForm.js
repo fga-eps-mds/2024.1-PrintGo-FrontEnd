@@ -277,7 +277,7 @@ export default function UpdateRoutine() {
       } else {
         console.error("Erro recebido do backend:", response.error);
         toast.error(
-          "Erro ao registrar contador: " + (response.error || response.data)
+          "Erro ao registrar rotina: " + (response.error || response.data)
         );
         console.log(response);
       }

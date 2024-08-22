@@ -87,4 +87,24 @@ describe("IntervalDropdown", () => {
     const selectElement = screen.getByRole("combobox");
     expect(selectElement.value).toBe("11:00");
   });
+
+  test("calls onChange if it is provided", () => {
+    const handleChange = jest.fn();
+    render(<IntervalDropdown onChange={handleChange} value="" />);
+  
+    const selectElement = screen.getByRole("combobox");
+    fireEvent.change(selectElement, { target: { value: "00:10" } });
+  
+    expect(handleChange).toHaveBeenCalledTimes(1);
+    expect(handleChange).toHaveBeenCalledWith(expect.any(Object));
+  });
+  
+  test("does not throw an error if onChange is not provided", () => {
+    render(<IntervalDropdown value="" />);
+  
+    const selectElement = screen.getByRole("combobox");
+    fireEvent.change(selectElement, { target: { value: "00:10" } });
+  
+    expect(selectElement).toBeInTheDocument();
+  });
 });

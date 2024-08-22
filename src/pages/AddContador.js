@@ -10,7 +10,7 @@ import DateContainer from '../components/containers/DateContainer';
 import NumberContainer from '../components/containers/NumberContainer';
 
 const AddContador = () => {
-  const [localizacoes, setLocalizacoes] = useState([]);
+  const [cities, setCities] = useState([]);
   const [workstations, setWorkstations] = useState([]);
   const [subworkstations, setSubworkstations] = useState([]);
   const [cidade, setCidade] = useState("");
@@ -18,13 +18,38 @@ const AddContador = () => {
   const [subpostoTrabalho, setSubpostoTrabalho] = useState("");
   const [equipamentos, setEquipamentos] = useState([]);
   const [equipamentosFiltrados, setEquipamentosFiltrados] = useState([]);
-  const [selectedEquipamentoId, setSelectedEquipamentoId] = useState("");
+  const [selectedNumSerie, setSelectedNumSerie] = useState("");
+  const [selectedEquipamentoId, setSelectedEquipamentoId] = useState(0);
   const [quantidadeImpressoesPB, setQuantidadeImpressoesPB] = useState(0);
   const [quantidadeImpressoesCor, setQuantidadeImpressoesCor] = useState(0);
   const [dataContador, setDataContador] = useState("");
   const [isColorido, setIsColorido] = useState(false);
 
   const navigate = useNavigate();
+
+  const filterByCidade = (selectedCity) => {
+
+    const city = cities.find(m => m.name === selectedCity);
+
+    setWorkstations(city ? city.workstations : []);
+
+    const filtered = selectedCity ? equipamentos.filter((equipamento) => equipamento.localizacao.split(";")[0] === selectedCity) : equipamentos;
+    setEquipamentosFiltrados(filtered);
+  }
+
+  const filterByPosto = (selectedWorkstation) => {
+
+    const workstation = workstations.find(m => m.name === selectedWorkstation);
+    setSubworkstations(workstation ? workstation.child_workstations : []);
+
+    const filtered = selectedWorkstation ? equipamentosFiltrados.filter((equipamento) => equipamento.localizacao.split(";")[1] === selectedWorkstation) : equipamentos;
+    setEquipamentosFiltrados(filtered);
+  }
+
+  const filterBySubposto = (selectedSubWorkstation) => {
+    const filtered = selectedSubWorkstation ? equipamentosFiltrados.filter((equipamento) => equipamento.localizacao.split(";")[2] === selectedSubWorkstation) : equipamentos;
+    setEquipamentosFiltrados(filtered);
+  }
 
   useEffect(() => {
     const fetchLocalizacoes = async () => {
@@ -35,7 +60,7 @@ const AddContador = () => {
           toast.error("Erro ao buscar localizações!")
         }
         else {
-          setLocalizacoes(response.data);
+          setCities(response.data);
         }
       } catch (error) {
         console.error('Erro ao buscar localizações:', error);
@@ -63,7 +88,11 @@ const AddContador = () => {
     fetchEquipamentos();
   }, []);
 
-  const handleEquipamentoChange = async (numSerie) => {
+  const handleEquipamentoChange = async (event) => {
+    const numSerie = event.target.value
+
+    setSelectedNumSerie(numSerie)
+
     const equipamento = equipamentos.find(e => e.numSerie === numSerie);
 
     if (equipamento) {
@@ -81,7 +110,7 @@ const AddContador = () => {
   };
 
   const handleRegistrar = async () => {
-    if (!selectedEquipamentoId) {
+    if (!selectedNumSerie) {
       toast.error("Por favor, selecione um equipamento.");
       return;
     }
@@ -132,33 +161,39 @@ const AddContador = () => {
 
   const handleLocalizacaoChange = (event) => {
     const cidadeSelecionada = event.target.value;
+
     setCidade(cidadeSelecionada);
+    setSelectedNumSerie("")
+    setSelectedEquipamentoId(0);
+    setPostoTrabalho("");
+    setSubpostoTrabalho("");
+    setWorkstations([])
+    setSubworkstations([]);
 
-    const localizacao = localizacoes.find(m => m.name === cidadeSelecionada);
-
-    setWorkstations(localizacao ? localizacao.workstations : []);
-
-    const filtered = equipamentos.filter((equipamento) => equipamento.localizacao.split(";")[0] === cidadeSelecionada);
-    setEquipamentosFiltrados(filtered);
+    filterByCidade(cidadeSelecionada)
   };
 
   const handleWorkstationChange = (event) => {
     const workstationSelecionada = event.target.value;
+    
     setPostoTrabalho(workstationSelecionada);
+    setSubworkstations([]);
+    setSubpostoTrabalho("");
 
-    const workstation = workstations.find(m => m.name === workstationSelecionada);
-    setSubworkstations(workstation ? workstation.child_workstations : []);
-
-    const filtered = equipamentosFiltrados.filter((equipamento) => equipamento.localizacao.split(";")[1] === workstationSelecionada);
-    setEquipamentosFiltrados(filtered);
+    if (workstationSelecionada === "") {
+      filterByCidade(cidade)
+    }
+    else{
+      filterByPosto(workstationSelecionada)
+    }
   };
 
   const handleSubWorkstationChange = (event) => {
     const subworkstationSelecionada = event.target.value;
+
     setSubpostoTrabalho(subworkstationSelecionada);
 
-    const filtered = equipamentosFiltrados.filter((equipamento) => equipamento.localizacao.split(";")[2] === subworkstationSelecionada);
-    setEquipamentosFiltrados(filtered);
+    filterBySubposto(subworkstationSelecionada);
   };
 
   return (
@@ -176,7 +211,7 @@ const AddContador = () => {
               id="cidade-contador"
               name="cidade-contador"
               className={"md-select"}
-              options={localizacoes ? localizacoes.map((localizacao) => localizacao.name) : []}
+              options={cities ? cities.map((localizacao) => localizacao.name) : []}
               label="Cidade"
               value={cidade}
               onChange={handleLocalizacaoChange}
@@ -209,8 +244,8 @@ const AddContador = () => {
             className={"md-select"}
             options={equipamentosFiltrados ? equipamentosFiltrados.map((equipamento) => equipamento.numSerie) : []}
             label="Equipamento Associado"
-            value={equipamentos.find(e => e.id === selectedEquipamentoId)?.numSerie || ""}
-            onChange={(e) => handleEquipamentoChange(e.target.value)}
+            value={selectedNumSerie}
+            onChange={handleEquipamentoChange}
           />
           <div className="quantidade-impressao-section">
             <div className="campo quantidade">
@@ -219,7 +254,7 @@ const AddContador = () => {
                 name="contador-pb-manual"
                 label="Contador Preto e Branco"
                 value={quantidadeImpressoesPB}
-                onChange={(e) => setQuantidadeImpressoesPB(e.target.value)}
+                onChange={(e) => setQuantidadeImpressoesPB(Number(e.target.value))}
               />
             </div>
             <div className="campo quantidade">
@@ -228,7 +263,7 @@ const AddContador = () => {
                 name="contador-cor-manual"
                 label="Contador Colorido"
                 value={quantidadeImpressoesCor}
-                onChange={(e) => setQuantidadeImpressoesCor(e.target.value)}
+                onChange={(e) => setQuantidadeImpressoesCor(Number(e.target.value))}
                 disabled={!isColorido}
               />
             </div>

@@ -98,6 +98,9 @@ const Navbar = () => {
                     <Link to="/padraoimpressora">Cadastro de padrão de impressora</Link>
                     <Link to="/impressorascadastradas">Impressoras cadastradas</Link>
                     <Link to="/padroescadastrados">Padrões de impressora cadastrados</Link>
+                    <Link to="/definirRotina">Rotina de Registro Automático</Link>
+                    <Link to="/registrarContadores">Registrar Contadores</Link>
+
                   </div>
                 )}
               </button>
@@ -113,8 +116,14 @@ const Navbar = () => {
                     <Link to="/cadastrarContrato">Cadastrar Contrato</Link>
                   </div>
                 )}
+              </button>
+            </div>
+
+            <div className="navbar-audit">
+                <button>
+                  <Link to="/auditoria">Auditoria</Link>
                 </button>
-              </div>
+            </div>
           </>
         )}
 

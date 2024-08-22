@@ -187,7 +187,7 @@ describe('printer endpoints', () => {
     });
 
     it('must return success when the routine is created', async () => {
-        const mockResponse = { status: 200, data: { id: 1, ...rotinaData } };
+        const mockResponse = { status: 201, data: { id: 1, ...rotinaData } };
     
         api.post.mockResolvedValue(mockResponse);
     

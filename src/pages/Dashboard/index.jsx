@@ -3,16 +3,46 @@ import '../Dashboard/dashboard.css'
 import Navbar from "../../components/navbar/Navbar";
 import { LineChart, Line, CartesianGrid, XAxis, YAxis,ResponsiveContainer,Tooltip,Legend,PieChart,Pie,Cell,Bar,BarChart,Label} from 'recharts';
 import data from './data.json'
-import { getImpressoesTotais } from "../../services/dasboardService";
+import { getImpressoesTotais, getImpressorasColoridas} from "../../services/dasboardService";
 export default function Dashboard() {
     const [impressaoTotal, setImpressao]  = useState('0')
+    const [impressorasCor, setImpressoraColorida]  = useState('0')
 
-    useEffect(()=>{
-        getImpressoesTotais().then((response) => {
-            setImpressao(response.data) 
-        })
-        
-    })
+    useEffect(() => {
+        const fetchUserData = async () => {
+          try {
+            const data = await getImpressoesTotais();
+            
+            if (data.type === 'success' && data.data) {
+              setImpressao(data.data.totalImpressions);
+              console.log(data.data.totalImpressions);
+            } else {
+              console.log('erro')
+            }
+          } catch(error) {
+            console.log('Erro ao buscar dados do usuário:', error);
+            
+          }
+        }
+        fetchUserData();
+        const fetchImpressorasCorData = async () => {
+            try {
+              const data = await getImpressorasColoridas();
+              
+              if (data.type === 'success' && data.data) {
+                setImpressoraColorida(data.data.colorPrintersCount);
+                console.log(data.data.colorPrintersCount);
+              } else {
+                console.log('erro')
+              }
+            } catch(error) {
+              console.log('Erro ao buscar dados do usuário:', error);
+              
+            }
+          }
+          fetchImpressorasCorData();
+      }, []);
+
     const [filters, setFilters] = useState({
         periodo: '',
         cidade: '',
@@ -98,7 +128,7 @@ export default function Dashboard() {
                             </div>
                             <div>
                                  <h1>Impressoras coloridas</h1>
-                                <label>738</label>
+                                <label>{impressorasCor}</label>
                             </div>
                             <div>
                                 <h1>Impressoras Monocromáticas</h1>

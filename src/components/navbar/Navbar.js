@@ -64,12 +64,6 @@ const Navbar = () => {
         <button>
           <Link to="/">Home</Link>
         </button>
-        <button>
-          <Link to="/quemsomos">Quem Somos</Link>
-        </button>
-        <button>
-          <Link to="/contato">Contato</Link>
-        </button>
 
         { user && (
           <>

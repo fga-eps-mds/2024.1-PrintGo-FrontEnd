@@ -23,16 +23,6 @@ describe('Navbar before login', () => {
     expect(homeLink).toBeInTheDocument();
   });
 
-  it('renders about us link', () => {
-    const aboutUsLink = screen.getByText('Quem Somos');
-    expect(aboutUsLink).toBeInTheDocument();
-  });
-
-  it('renders contact link', () => {
-    const contactLink = screen.getByText('Contato');
-    expect(contactLink).toBeInTheDocument();
-  });
-
   it('renders login button when user is not authenticated', () => {
     // Simula o usuário não autenticado
     jest.spyOn(Storage.prototype, 'getItem').mockReturnValue(null);

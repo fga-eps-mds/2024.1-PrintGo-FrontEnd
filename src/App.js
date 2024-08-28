@@ -45,7 +45,6 @@ function App() {
             <Route path="/padraoimpressora" element={<PatternPrinter />} />
             <Route path="/editarpadrao" element={<EditPattern />} />
             <Route path="/impressorascadastradas" element={<ListEquipment />} />
-            <Route path="/visualizarimpressora/:printerData" element={<ViewPrinter/>}/>
             <Route path="/padroescadastrados" element={<PatternList />} />
             <Route path="/visualizarpadrao" element={<ViewPattern />} />
             <Route path="/cadastrarContrato" element={<ContractForm />} />
@@ -53,16 +52,12 @@ function App() {
             <Route path="/listagemContrato" element={<ContractList />} />
             <Route path="/definirRotina" element={<UpdateRoutine />} />
             <Route path="/verContrato/:id" element={<ViewContract />} />
-            <Route path="/registrarContadores" element={<AddContador />} /> 
-            <Route element={<AdminRoutes/>}>
-              <Route path="/listausuarios" element={<UsersList />} />
-              <Route path="/cadastro" element={<CreateUserPage />} />
+            <Route path="/registrarContadores" element={<AddContador />} />
+            <Route element={<AdminRoutes />}>
             </Route>
           </Route>
-          <Route path="/login" element={<Login />} />
           <Route path="/" element={<Home />} />
-          <Route path="/contato" element={<Contact />} />
-          <Route path="/quemsomos" element={<AboutUs />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/recuperarSenha" element={<RecoverPasswordPage />} />
           <Route path="/esqueciMinhaSenha" element={<ForgottenPasswordPage />} />
         </Routes>

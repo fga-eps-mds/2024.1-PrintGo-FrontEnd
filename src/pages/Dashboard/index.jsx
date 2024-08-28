@@ -1,9 +1,24 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import '../Dashboard/dashboard.css'
 import Navbar from "../../components/navbar/Navbar";
 import { LineChart, Line, CartesianGrid, XAxis, YAxis,ResponsiveContainer,Tooltip,Legend,PieChart,Pie,Cell,Bar,BarChart,Label} from 'recharts';
-
+import data from './data.json'
+import { getImpressoesTotais } from "../../services/dasboardService";
 export default function Dashboard() {
+    const [impressaoTotal, setImpressao]  = useState('0')
+
+    useEffect(()=>{
+        getImpressoesTotais().then((response) => {
+            setImpressao(response.data) 
+        })
+        
+    })
+    const [filters, setFilters] = useState({
+        periodo: '',
+        cidade: '',
+        regional: '',
+        unidade: '',
+      });
     const data1 = [
         { semana: 'Semana 1', ativa: 120, inativa: 80 },
         { semana: 'Semana 2', ativa: 150, inativa: 70 },
@@ -27,31 +42,50 @@ export default function Dashboard() {
             </text>
         );
         };
+            const handleChange = (e) => {
+            setFilters({
+              ...filters,
+              [e.target.name]: e.target.value,
+            });
+          };
+        
+          const filteredData = data.filter(item => 
+            (!filters.periodo || item.periodo === filters.periodo) &&
+            (!filters.cidade || item.cidade === filters.cidade) &&
+            (!filters.regional || item.regional === filters.regional) &&
+            (!filters.unidade || item.unidade === filters.unidade)
+          );
     return (
         <><Navbar/>
-        <div className="container">
+        <div className="container-dash">
             <div className="top-container">
                 <div className="top-part1">
                     <div className="dash_periodo">
                         <h1>Dashboard</h1>
                         <div className="select-pel">
-                        <select id="NivelEscolar" name="NivelEscolar" >
-                            <option value="">Selecione</option>
-                            <option value="fundamental">Fundamental</option>
-                            <option value="medio">Médio</option>
-                            <option value="superior">Superior</option>
+                        <select id="periodo" name="periodo" value={filters.periodo} onChange={handleChange} >
+                            <option value="">Período</option>
+                            <option value="2023">2023</option>
+                            <option value="2024">2024</option>
+                          
                         </select>
-                        <select id="NivelEscolar" name="NivelEscolar" >
-                            <option value="">Selecione</option>
-                            <option value="fundamental">Fundamental</option>
-                            <option value="medio">Médio</option>
-                            <option value="superior">Superior</option>
+                        <select id="cidade" name="cidade" value={filters.cidade}  onChange={handleChange} >
+                            <option value="">Cidade</option>
+                            <option value="São Paulo">São Paulo</option>
+                            <option value="Rio de Janeiro">Rio de Janeiro</option>
+                            <option value="Belo Horizonte">Belo Horizonte</option>
                         </select>
-                        <select id="NivelEscolar" name="NivelEscolar" >
-                            <option value="">Selecione</option>
-                            <option value="fundamental">Fundamental</option>
-                            <option value="medio">Médio</option>
-                            <option value="superior">Superior</option>
+                        <select id="regional" name="regional" value={filters.regional} onChange={handleChange} >
+                            <option value="">Regional</option>
+                            <option value="Sudeste">Sudeste</option>
+                            <option value="Sul">Sul</option>
+                            <option value="Centro-Oeste<">Centro-Oeste</option>
+                        </select>
+                        <select id="unidade" name="unidade" value={filters.unidade} onChange={handleChange} >
+                            <option value="">Unidade</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
                         </select>
                         </div>
                         
@@ -60,14 +94,14 @@ export default function Dashboard() {
                         <div className="impressao_card">
                             <div>
                                 <h1>Impressões totais</h1>
-                                <label>350</label>
+                                <label>{impressaoTotal}</label>
                             </div>
                             <div>
-                                 <h1>Páginas Impressas</h1>
+                                 <h1>Impressoras coloridas</h1>
                                 <label>738</label>
                             </div>
                             <div>
-                                <h1>Número de Impressões</h1>
+                                <h1>Impressoras Monocromáticas</h1>
                                 <label>56</label>
                             </div>
                         </div>
@@ -134,18 +168,18 @@ export default function Dashboard() {
                 <div className="div_graficos">
                 <ResponsiveContainer width="100%" height="100%">
                 <BarChart
-                    data={data1}
+                    data={filteredData}
                     layout="vertical"
                     margin={{
                     top: 20, right: 30, left: 20, bottom: 5,
                     }}
                 >
                     <XAxis type="number" />
-                    <YAxis dataKey="semana" type="category" />
+                    <YAxis dataKey="cidade" type="category" />
                     <Tooltip />
                     <Legend />
-                    <Bar dataKey="ativa" fill="#03326D" />
-                    <Bar dataKey="inativa" fill="#007235" />
+                    <Bar dataKey="nomeCampoX" fill="#03326D" />
+                    <Bar dataKey="nomeCampoY" fill="#007235" />
                 </BarChart>
                 </ResponsiveContainer>
                 </div>

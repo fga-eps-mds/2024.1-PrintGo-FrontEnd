@@ -1,4 +1,4 @@
-.container{
+.container-dash{
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -124,7 +124,7 @@
 }
 .bottom-part h1{
    font-size: large;
-   margin-top: 20px;
+   margin-top: 5vh;
    padding-top: 10;
    font-weight: 400;
    margin-bottom: 0;

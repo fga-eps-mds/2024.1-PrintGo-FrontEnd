@@ -20,7 +20,7 @@ describe('RegisterPrinterForm', () => {
         });
 
         getPadroes.mockResolvedValue({
-            data: [{ marca: 'Marca 1', modelo: 'Modelo 1' }],
+            data: [{id: 1, marca: 'Marca 1', modelo: 'Modelo 1' }],
         });
 
         getContract.mockResolvedValue({
@@ -67,6 +67,7 @@ describe('RegisterPrinterForm', () => {
 
         const contractInput = screen.getByTestId('contrato');
         const newMarca = screen.getByTestId('marca');
+        const newModelo = screen.getByTestId('modelo');
         const enderecoIP = screen.getByLabelText('Endereço IP');
         const serialNumberInput = screen.getByPlaceholderText('Insira número de série');
         const cityInput = screen.getByTestId('cidade');
@@ -87,12 +88,14 @@ describe('RegisterPrinterForm', () => {
         await waitFor(() => {
             fireEvent.change(contractInput, { target: { value: '123' } });
             fireEvent.change(newMarca, { target: { value: 'Marca 1' } });
+            fireEvent.change(newModelo, { target: { value: 'Modelo 1' } });
             fireEvent.change(cityInput, { target: { value: 'City 1' } });
             fireEvent.change(workstationElement, { target: { value: 'WS 1' } });
             fireEvent.change(subWorkstation, { target: { value: 'SW 1' } });
 
             expect(contractInput).toHaveValue('123');
             expect(newMarca).toHaveValue('Marca 1');
+            expect(newModelo).toHaveValue('Modelo 1');
             expect(enderecoIP).toHaveValue('111.111.1.1');
             expect(serialNumberInput).toHaveValue('XYZ123');
             expect(cityInput).toHaveValue('City 1');

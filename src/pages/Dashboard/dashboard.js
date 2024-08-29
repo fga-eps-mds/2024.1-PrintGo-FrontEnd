@@ -3,7 +3,7 @@
     import Navbar from "../../components/navbar/Navbar";
     import { LineChart, Line, CartesianGrid, XAxis, YAxis,ResponsiveContainer,Tooltip,Legend,PieChart,Pie,Cell,Bar,BarChart,Label} from 'recharts';
     import data from './data.json'
-    import { getImpressoesTotais,getFiltroOpcoes, getImpressorasColoridas, getImpressorasPB, getImpressionsByLocation} from "../../services/dasboardService";
+    import { getImpressoesTotais,getFiltroOpcoes, getImpressorasColoridas, getImpressorasPB, getImpressionsByLocation, getDashboardData} from "../../services/dasboardService";
 
 
 
@@ -67,51 +67,6 @@
 
         //conectando back e front dos blocos azuis da tela
         useEffect(() => {
-            const fetchImpressoesTotais = async () => {
-                try {
-                    const data = await getImpressoesTotais(filters); // Passa os filtros na requisição
-                    
-                    if (data.type === 'success' && data.data) {
-                        animateCount(setImpressao, impressaoTotal, data.data.totalImpressions);
-                        console.log(data.data.totalImpressions);
-                    } else {
-                        console.log('erro');
-                    }
-                } catch (error) {
-                    console.log('Erro ao buscar dados do usuário:', error);
-                }
-            };
-        
-            const fetchImpressorasCor = async () => {
-                try {
-                    const data = await getImpressorasColoridas(filters); // Passa os filtros na requisição
-                    
-                    if (data.type === 'success' && data.data) {
-                        animateCount(setImpressoraColorida, impressorasCor, data.data.colorPrintersCount);
-                        console.log(data.data.colorPrintersCount);
-                    } else {
-                        console.log('erro');
-                    }
-                } catch (error) {
-                    console.log('Erro ao buscar dados do usuário:', error);
-                }
-            };
-
-            const fetchImpressorasPB = async () => {
-                try {
-                    const data = await getImpressorasPB(filters); // Passa os filtros na requisição
-                    
-                    if (data.type === 'success' && data.data) {
-                        animateCount(setImpressoraPB, impressorasPB, data.data.PbPrintersCount);
-                        console.log(data.data.PbPrintersCount);
-                    } else {
-                        console.log('erro');
-                    }
-                } catch (error) {
-                    console.log('Erro ao buscar dados do usuário:', error);
-                }
-            };
-            
             const fetchImpressionsByLocation = async () => {
                 try {
                     const response = await getImpressionsByLocation();
@@ -158,12 +113,100 @@
                     console.log('Erro ao buscar impressões por localidade:', error);
                 }
             };
+            const fetchDashboardData = async () => {
+                try {
+                    const response = await getDashboardData(); // Faz a requisição ao backend e obtém o JSON
+            
+                    console.log("Dados recebidos do backend:", response);
+            
+                    if (response && response.data && response.data.impressoras) {
+                        const data = response.data;
+            
+                        // Filtrando dados no frontend com base nos filtros aplicados
+                        const filteredImpressoras = data.impressoras.filter((impressora) => {
+                            const [cidade, regional, unidade] = impressora.localizacao.split(';');
+                            const periodo = impressora.dataContador ? new Date(impressora.dataContador).toISOString().slice(0, 7) : '';
+            
+                            return (
+                                (!filters.periodo || periodo === filters.periodo) &&
+                                (!filters.cidade || cidade === filters.cidade) &&
+                                (!filters.regional || regional === filters.regional) &&
+                                (!filters.unidade || unidade === filters.unidade)
+                            );
+                        });
+            
+                        console.log("Impressoras após filtragem:", filteredImpressoras);
+            
+                        // Calculando o total de impressões (PB + Cor) após aplicação dos filtros
+                        const totalImpressions = filteredImpressoras.reduce((acc, impressora) => {
+                            return acc + impressora.contadorAtualPB + impressora.contadorAtualCor;
+                        }, 0);
+            
+                        console.log("Total de impressões calculado:", totalImpressions);
+            
+                        // Contando impressoras coloridas e monocromáticas após aplicação dos filtros
+                        const impressorasCor = filteredImpressoras.filter(impressora =>
+                            data.colorModelIds.includes(impressora.modeloId)
+                        ).length;
+            
+                        const impressorasPB = filteredImpressoras.filter(impressora =>
+                            data.pbModelIds.includes(impressora.modeloId)
+                        ).length;
+            
+                        console.log("Quantidade de impressoras coloridas:", impressorasCor);
+                        console.log("Quantidade de impressoras monocromáticas:", impressorasPB);
+            
+                        // Atualizando o estado com os valores calculados
+                        animateCount(setImpressao, impressaoTotal, totalImpressions);
+                        animateCount(setImpressoraColorida, impressorasCor, impressorasCor);
+                        animateCount(setImpressoraPB, impressorasPB, impressorasPB);
+            
+                        // Agrupando dados por localidade para uso em gráficos
+                        const groupedData = filteredImpressoras.reduce((acc, item) => {
+                            const [cidade, regional, unidade] = item.localizacao.split(';');
+                            const periodo = item.dataContador ? new Date(item.dataContador).toISOString().slice(0, 7) : '';
+            
+                            // Determina a chave de agrupamento com ou sem o período
+                            const key = filters.periodo ? `${cidade};${regional};${unidade || ''};${periodo}` : `${cidade};${regional};${unidade || ''}`;
+            
+                            if (!acc[key]) {
+                                acc[key] = {
+                                    cidade: cidade,
+                                    regional: regional,
+                                    unidade: unidade || '',
+                                    TotalPB: 0,
+                                    TotalCor: 0,
+                                    periodos: new Set() 
+                                };
+                            }
+            
+                            acc[key].TotalPB += item.contadorAtualPB;
+                            acc[key].TotalCor += item.contadorAtualCor;
+                            acc[key].periodos.add(periodo); // Adiciona o período ao Set de períodos únicos
+            
+                            return acc;
+                        }, {});
+            
+                        // Transformar o Set de períodos em um array antes de aplicar os filtros
+                        const transformedData = Object.values(groupedData).map(group => ({
+                            ...group,
+                            periodos: Array.from(group.periodos) // Converte o Set para um array
+                        }));
+            
+                        console.log("Dados agrupados e transformados para gráficos:", transformedData);
+            
+                        setImpressionsByLocation(transformedData);
+                    } else {
+                        console.log("Dados de impressoras não encontrados ou estrutura incorreta.");
+                    }
+                } catch (error) {
+                    console.log('Erro ao buscar dados do dashboard:', error);
+                }
+            };
             
             
             // Chamando as funções de fetch
-            fetchImpressoesTotais();
-            fetchImpressorasCor();
-            fetchImpressorasPB();
+            fetchDashboardData();
             fetchImpressionsByLocation();
             
         }, [filters]); // Refaz a requisição sempre que os filtros mudarem

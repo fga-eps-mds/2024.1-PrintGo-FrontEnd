@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function ContractList() {
   const [contracts, setContracts] = useState([]);
+  console.log(contracts);
 
   const navigate = useNavigate();
 
@@ -33,7 +34,7 @@ export default function ContractList() {
 
   const handleReadClick = (id) => {
     const url = `/verContrato/${id}`;
-    window.location = url
+    window.location = url;
     console.log(`Read button clicked for equipment ID: ${id}`);
   };
 
@@ -49,11 +50,13 @@ export default function ContractList() {
   const handleToggleClick = async (id, numero) => {
     console.log(`Toggle button clicked for equipment ID: ${id}`);
     try {
-      console.log(`CONTRATOS DPS DO SWITCH: ${contracts}`)
+      console.log(`CONTRATOS DPS DO SWITCH: ${contracts}`);
       // Setando o estado do atributo "ativo" apenas do contrato do id referente ao click
-      setContracts(prevContracts =>
-        prevContracts.map(contract =>
-          contract.id === id ? { ...contract, ativo: !contract.ativo } : contract
+      setContracts((prevContracts) =>
+        prevContracts.map((contract) =>
+          contract.id === id
+            ? { ...contract, ativo: !contract.ativo }
+            : contract
         )
       );
       const response = await switchContractStatus(id);
@@ -77,12 +80,6 @@ export default function ContractList() {
       <div className="mainArea">
         <div className="barraPesquisa">
           <h1 className="titulo">Contratos Disponíveis</h1>
-          <input
-            id="searchBar"
-            placeholder="Pesquisar Contrato"
-            type="text"
-            maxLength={50}
-          ></input>
         </div>
         <div className="contract-list">
           {Array.isArray(contracts) &&
@@ -92,6 +89,8 @@ export default function ContractList() {
                 numero={contract.numero}
                 gestor={contract.nomeGestor}
                 ativo={contract.ativo}
+                inicio={new Date(contract.dataInicio).toLocaleDateString()}
+                fim={new Date(contract.dataTermino).toLocaleDateString()}
                 onReadClick={() => handleReadClick(contract.id)}
                 onEditClick={() => handleEditClick(contract)}
                 onToggleClick={() =>

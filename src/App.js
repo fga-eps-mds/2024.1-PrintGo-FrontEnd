@@ -1,12 +1,8 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import CreateUserPage from "./pages/CreateUser";
 import EditUserPage from "./pages/EditUser";
-import UsersList from "./pages/UsersList";
 import Login from "./pages/Login";
-import Contact from "./pages/Contact";
-import AboutUs from "./pages/AboutUs";
 import ChangePassword from "./pages/ChangePassword";
 import RegisterPrinter from "./pages/RegisterPrinter";
 import EditPrinter from "./pages/EditPrinter";

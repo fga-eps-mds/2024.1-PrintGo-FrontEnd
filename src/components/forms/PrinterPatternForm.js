@@ -1,7 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from "react-router-dom";
 import "../../style/components/printerPatternForm.css";
 import elipse6 from "../../assets/elipse6.svg";
 import { getRegisterPatternSchema } from "../utils/YupSchema";
@@ -24,7 +24,6 @@ const fieldLabels = {
     totalGeral: "Total geral",
   },
 };
-
 
 export default function PrinterPatternForm() {
   const [tipo, setTipo] = useState("")
@@ -66,19 +65,19 @@ export default function PrinterPatternForm() {
       "oidTotalGeral":  oidTotalGeral || null
     }
   }
-    const onSubmit = async (e) => {
-      e.preventDefault();
+  const onSubmit = async (e) => {
+    e.preventDefault();
       const data = createData()
       const response = await createPadraoImpressora(data)
       if(response.type === "success") {
         toast.success("Padrao de impressora criado com sucesso!")
-        setTimeout(() => {
-          navigate("/padroescadastrados");
-        }, 1000);
-      } else {
+      setTimeout(() => {
+        navigate("/padroescadastrados");
+      }, 1000);
+    } else {
         toast.error("Erro ao criar o padrao de impressora!")
-      }
-    };
+    }
+  };
   const fildsObrigatorios = ()=>{
     if(marca === ""){return false}
     if(modelo === ""){return false}
@@ -92,113 +91,114 @@ export default function PrinterPatternForm() {
       <form >
           
         <div id="printer-pattern-fields">
-              <div id="printer-pattern-input-line">
+          <div id="printer-pattern-input-line">
                   <label>Tipo<span>*</span></label>
-                  <input
-                   placeholder={`Digite ${"Tipo".toLowerCase()}`} 
-                   value={tipo}
+            <input
+              placeholder={`Digite ${"Tipo".toLowerCase()}`}
+              value={tipo}
                    onChange={(e)=>setTipo(e.target.value)}/>
-              </div>
+          </div>
 
-              <div id="printer-pattern-input-line">
+          <div id="printer-pattern-input-line">
                   <label>Marca<span>*</span></label>
-                  <input
-                   placeholder={`Digite ${"Marca".toLowerCase()}`} 
-                   value={marca}
+            <input
+              placeholder={`Digite ${"Marca".toLowerCase()}`}
+              value={marca}
                    onChange={(e)=>setMarca(e.target.value)}/>
-              </div>
+          </div>
 
-              <div id="printer-pattern-input-line">
+          <div id="printer-pattern-input-line">
                   <label>Modelo<span>*</span></label>
-                  <input
-                   placeholder={`Digite ${"Modelo".toLowerCase()}`} 
-                   value={modelo}
+            <input
+              placeholder={`Digite ${"Modelo".toLowerCase()}`}
+              value={modelo}
                    onChange={(e)=>setModelo(e.target.value)}/>
-              </div>
+          </div>
 
-              <div id="selection">
-                <label>Equipamento Colorido? </label>
+          <div id="selection">
+            <label>Equipamento Colorido? </label>
                   <select onChange={(e)=>{setIsColorido(e.target.value === "sim")}} id="inputColorido">
-                    <option>não</option>
-                    <option>sim</option>
-                  </select> 
-              </div>
+              <option>não</option>
+              <option>sim</option>
+            </select>
+          </div>
         </div>
 
         <div id="printer-pattern-snmp-fields">
-              <label htmlFor="snmp">SNMP:</label>
+          <label htmlFor="snmp">SNMP:</label>
 
-                <div id="snmp-fields-input-line">
-                  <label>Modelo da impressora</label>
-                  <input
-                    placeholder="Código OID"
-                    value={oidModelo}
+          <div id="snmp-fields-input-line">
+            <label>Modelo da impressora</label>
+            <input
+              placeholder="Código OID"
+              value={oidModelo}
                     onChange={(e)=>setOidModelo(e.target.value)}/>
-                </div>
+          </div>
 
-                <div id="snmp-fields-input-line">
-                  <label>Número de série</label>
-                  <input
-                    placeholder="Código OID"
-                    value={oidNumeroSerie}
+          <div id="snmp-fields-input-line">
+            <label>Número de série</label>
+            <input
+              placeholder="Código OID"
+              value={oidNumeroSerie}
                     onChange={(e)=>setOidNumeroSerie(e.target.value)}/>
-                </div>
+          </div>
 
-                <div id="snmp-fields-input-line">
-                  <label>Versão do Firmware</label>
-                  <input
-                    placeholder="Código OID"
-                    value={oidFirmware}
+          <div id="snmp-fields-input-line">
+            <label>Versão do Firmware</label>
+            <input
+              placeholder="Código OID"
+              value={oidFirmware}
                     onChange={(e)=>setOidFirmware(e.target.value)}/>
-                </div>
+          </div>
 
-                <div id="snmp-fields-input-line">
-                  <label>Tempo ativo do sistema</label>
-                  <input
-                    placeholder="Código OID"
-                    value={oidTempoAtivo}
+          <div id="snmp-fields-input-line">
+            <label>Tempo ativo do sistema</label>
+            <input
+              placeholder="Código OID"
+              value={oidTempoAtivo}
                     onChange={(e)=>setOidTempoAtivo(e.target.value)}/>
-                </div>
+          </div>
 
-                <div id="snmp-fields-input-line">
-                  <label>Total de digitalizações</label>
-                  <input
-                    placeholder="Código OID"
-                    value={oidDigitalizacoes}
+          <div id="snmp-fields-input-line">
+            <label>Total de digitalizações</label>
+            <input
+              placeholder="Código OID"
+              value={oidDigitalizacoes}
                     onChange={(e)=>setOidDigitalizacoes(e.target.value)}/>
-                </div>
+          </div>
 
-                <div id="snmp-fields-input-line">
-                  <label>Total de cópias P&B</label>
-                  <input
-                    placeholder="Código OID"
-                    value={oidCopiasPB}
+          <div id="snmp-fields-input-line">
+            <label>Total de cópias P&B</label>
+            <input
+              placeholder="Código OID"
+              value={oidCopiasPB}
                     onChange={(e)=>setOidCopiasPB(e.target.value)}/>
-                </div>
+          </div>
 
-                <div id="snmp-fields-input-line">
-                  <label>Total de cópias coloridas</label>
-                  <input
-                    placeholder="Código OID"
-                    value={oidCopiasCor}
+          <div id="snmp-fields-input-line">
+            <label>Total de cópias coloridas</label>
+            <input
+              placeholder="Código OID"
+              value={oidCopiasCor}
                     onChange={(e)=>setOidCopiasCor(e.target.value)}/>
-                </div>
+          </div>
 
-                <div id="snmp-fields-input-line">
-                  <label>Total geral</label>
-                  <input
-                    placeholder="Código OID"
-                    value={oidTotalGeral}
+          <div id="snmp-fields-input-line">
+            <label>Total geral</label>
+            <input
+              placeholder="Código OID"
+              value={oidTotalGeral}
                     onChange={(e)=>setOidTotalGeral(e.target.value)}/>
-                </div>
+          </div>
         </div>
-          
-        
+
         <div id="printer-pattern-buttons">
-          <button className="printer-pattern-form-button" type="button" id="cancelar-bnt">
-            <Link to="/">
-              CANCELAR
-            </Link>
+          <button
+            className="printer-pattern-form-button"
+            type="button"
+            id="cancelar-bnt"
+          >
+            <Link to="/">CANCELAR</Link>
           </button>
           <button onClick={onSubmit} className="printer-pattern-form-button"  id="registrar-bnt" disabled={!fildsObrigatorios() || isSubmitting}>
             {isSubmitting && (
@@ -207,13 +207,8 @@ export default function PrinterPatternForm() {
             {!isSubmitting ? 'REGISTRAR': "CADASTRANDO"}
           </button>
         </div>
-
       </form>
-      <div className="elipse-pattern">
-        <img alt="elipse" src={elipse6} />
-      </div>
     </div>
   );
 }
 export { fieldLabels };
-

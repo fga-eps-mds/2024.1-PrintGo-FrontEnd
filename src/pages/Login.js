@@ -3,9 +3,8 @@ import "../style/pages/login.css";
 import pessoas from "../assets/pessoas.svg";
 import login_ellipse from "../assets/login_ellipse.svg";
 import { login } from "../api/api";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import Navbar from "../components/navbar/Navbar";
-
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -33,15 +32,14 @@ export default function Login() {
 
     try {
       const response = await login(email, password);
-      
-      if (response.type === 'success') {
+
+      if (response.type === "success") {
         localStorage.setItem("jwt", response.token);
         navigate("/");
       } else {
         console.error(response.error);
         setLoginError("E-mail ou senha incorreto.");
       }
-      
     } catch (error) {
       console.error(error);
       setLoginError("Não foi possível fazer o login");
@@ -53,9 +51,8 @@ export default function Login() {
   return (
     <>
       <Navbar />
-      
+
       <div className="container-login">
-        <img src={pessoas} alt="Pessoas" className="persons" />
         <div className="login-right-content">
           <div className="login-box">
             <div className="login-box-content">
@@ -101,7 +98,11 @@ export default function Login() {
                     </button>
                   </div>
                   <div className="button-login-container">
-                    <button className="button-login" type="button" onClick={() => navigate("/esqueciMinhaSenha")}>
+                    <button
+                      className="button-login"
+                      type="button"
+                      onClick={() => navigate("/esqueciMinhaSenha")}
+                    >
                       Recuperar senha
                     </button>
                   </div>

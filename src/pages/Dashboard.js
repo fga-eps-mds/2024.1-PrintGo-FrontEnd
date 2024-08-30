@@ -1,9 +1,11 @@
 import React, { useState ,useEffect} from "react";
 import "../style/pages/dashboard.css";
 import Navbar from "../components/navbar/Navbar";
-import { LineChart, Line, CartesianGrid, XAxis, YAxis,ResponsiveContainer,Tooltip,Legend,PieChart,Pie,Cell,Bar,BarChart,Label} from 'recharts';
+import { LineChart, Line, CartesianGrid, XAxis, YAxis,ResponsiveContainer,Tooltip,Legend,PieChart,Pie,Cell,Bar,BarChart,Label,LabelList} from 'recharts';
 import { getFiltroOpcoes, getDashboardData} from "../services/dasboardService";
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import PropTypes from 'prop-types';
+
 
 
 
@@ -28,7 +30,6 @@ export default function Dashboard() {
         regionais: [],
         unidades: []
     });
-    const [periodos, setPeriodos] = useState([]);
     //Função para animar os números
     const animateCount = (setter, start, end, duration = 1000) => {
         const range = end - start;
@@ -197,17 +198,9 @@ export default function Dashboard() {
     
 
     
-    
-
-    const data1 = [
-        { semana: 'Unidade 1', ativa: 120, inativa: 80 },
-        { semana: 'Unidade 2', ativa: 150, inativa: 70 },
-        { semana: 'Unidade 3', ativa: 130, inativa: 90 },
-        { semana: 'Unidade 4', ativa: 170, inativa: 60 },
-    ];
     const data2 = [
-        { name: 'Coloridas', value: 120 },
-        { name: 'Monocromáticas', value: 80 },
+        { name: 'PB', value: impressionsByType.totalPB },
+        { name: 'Cor', value: impressionsByType.totalCor },
     ];
     const COLORS = ['#03326D', '#007235'];
     const RADIAN = Math.PI / 180;
@@ -223,13 +216,6 @@ export default function Dashboard() {
         );
         };
             
-        
-        const filteredData = impressionsByLocation.filter(item =>
-            (!filters.periodo || item.periodo === filters.periodo || (item.periodos && item.periodos.includes(filters.periodo))) &&
-            (!filters.cidade || item.cidade === filters.cidade) &&
-            (!filters.regional || item.regional === filters.regional) &&
-            (!filters.unidade || item.unidade === filters.unidade)
-        );
         
     return (
         <><Navbar/>
@@ -314,7 +300,7 @@ export default function Dashboard() {
                         innerRadius={75}
                         outerRadius={120}
                         cx="30%"
-                        cy="75%"
+                        cy="65%"
                         labelLine={false}
                         fill="#8884d8"
                         dataKey="value"
@@ -335,7 +321,7 @@ export default function Dashboard() {
                 <div className="div_graficos">
                 <ResponsiveContainer width="100%" height="100%">
                 <BarChart
-                    data={filteredData}
+                    data={impressionsByLocation}
                     layout="vertical"
                     margin={{
                     top: 20, right: 30, left: 20, bottom: 5,
@@ -353,20 +339,22 @@ export default function Dashboard() {
                 </div>
             </div>
             <div className="bottom-part">
-                    <h1>Número de equipamentos por unidade</h1>
+                    <h1>Número de equipamentos por localidade</h1>
                 <div>
                 <ResponsiveContainer width="95%" height="100%">
                 <BarChart
-                    data={data1}
+                    data={equipmentCountByUnit}
                     layout="vertical"
                 >
                     <XAxis type="number" >
                         <Label value="Número de Equipamentos" offset={0} position="bottom" />
                     </XAxis>
-                    <YAxis dataKey="semana" type="category"/>
-                    <Legend width={100} wrapperStyle={{ top: 40, right: 20, backgroundColor: '#f5f5f5', border: '1px solid #d5d5d5', borderRadius: 3, lineHeight: '40px' }} />
-                    <Tooltip wrapperStyle={{ width: 100, backgroundColor: '#007235' }} />
-                    <Bar dataKey="ativa" fill="#007235" />
+                    <YAxis dataKey="localizacao" type="category"/>
+                    <Tooltip contentStyle={{ maxHeight: '60px', maxWidth: '250px', overflowY: 'auto' }} />
+                    <Legend width={150} wrapperStyle={{ top: 40, right: 20, backgroundColor: '#f5f5f5', border: '1px solid #d5d5d5', borderRadius: 3, lineHeight: '40px' }} />
+                    <Bar dataKey="totalEquipamentos" fill="#007235">
+                            <LabelList dataKey="localizacao" position="right" formatter={(value) => value.split(';')[0]} />
+                     </Bar> 
                 </BarChart>
                 </ResponsiveContainer>
                 </div>

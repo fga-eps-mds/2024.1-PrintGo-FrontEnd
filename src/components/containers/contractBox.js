@@ -36,8 +36,8 @@ const ContractBox = ({
     <div className="box">
       <div className="overlap-group" style={overlapGroupStyle}>
         <div className="text-wrapper">
-          <div className="numero">{numero}</div>
-          <div className="gestor">{gestor}</div>
+            <div className="numero">{numero}</div>
+            <div className="gestor">{gestor}</div>
           <div className="data">{inicio}</div>
           <div className="data">{fim}</div>
         </div>

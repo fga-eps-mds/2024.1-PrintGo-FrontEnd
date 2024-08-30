@@ -16,26 +16,26 @@
   letter-spacing: 0;
   line-height: normal;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
+  align-items: center;
   width: 920px;
-  align-items: first baseline;
   overflow: hidden;
 }
-
 .box .text-wrapper .numero {
   font-weight: 600;
+  width: 20%;
   margin-left: 45px;
+
 }
 
 .box .text-wrapper .gestor {
   font-weight: 500;
-  width: 400px;
-  margin-left: 2.5%;
+  width: 20%;
 }
 .box .text-wrapper .data {
   font-weight: 500;
-  width: 400px;
   font-size: 30px;
+  width: 20%;
 }
 
 .box .read {

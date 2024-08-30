@@ -23,7 +23,31 @@
   max-height: 120px;
   margin-bottom: -10px;
 }
+.columnsContract{
+  color: #003366;
+  display: flex;
+  margin-left: 5%;
+}
 
+.columnLabel{
+  border-right-style: solid;
+    border-color: #0d3d6d;
+    width: 20%;
+    font-size: medium;
+    text-align: center;
+    
+}
+.columnButtons{
+  display: flex;
+  width: 30%;
+ 
+}
+.columnBtn{
+    width: 20%;
+    font-size: medium;
+    text-align: center;
+    margin-left: 15px;
+}
 .titulo {
   font-weight: 400;
   font-size: 48px;

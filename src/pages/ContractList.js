@@ -81,6 +81,17 @@ export default function ContractList() {
         <div className="barraPesquisa">
           <h1 className="titulo">Contratos Disponíveis</h1>
         </div>
+        <div className="columnsContract">
+          <h2 className="columnLabel">Número do Contrato</h2>
+          <h2 className="columnLabel">Gestor</h2>
+          <h2 className="columnLabel">Data de Início</h2>
+          <h2 className="columnLabel">Data de Fim</h2>
+          <div className="columnButtons">
+            <h2 className="columnBtn">Visualizar</h2>
+            <h2 className="columnBtn">Editar</h2>
+            <h2 className="columnBtn">Desativar</h2>
+          </div>
+        </div>
         <div className="contract-list">
           {Array.isArray(contracts) &&
             contracts.map((contract) => (

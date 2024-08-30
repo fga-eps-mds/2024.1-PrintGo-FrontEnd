@@ -29,7 +29,7 @@ import ViewContract from "./pages/ViewContract";
 import UpdateRoutine from "./components/forms/CounterRoutineForm";
 import AuditPrinter from "./pages/AuditPrinter";
 import AddContador from "./pages/AddContador";
-import Dashboard from "./pages/Dashboard/dashboard";
+import Dashboard from "./pages/Dashboard";
 function App() {
   return (
     <>

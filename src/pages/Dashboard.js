@@ -1,9 +1,8 @@
     import React, { useState ,useEffect} from "react";
-    import '../../style/pages/dashboard.css'
-    import Navbar from "../../components/navbar/Navbar";
-    import { LineChart, Line, CartesianGrid, XAxis, YAxis,ResponsiveContainer,Tooltip,Legend,PieChart,Pie,Cell,Bar,BarChart,Label} from 'recharts';
-    import data from './data.json'
-    import { getImpressoesTotais,getFiltroOpcoes, getImpressorasColoridas, getImpressorasPB, getImpressionsByLocation, getDashboardData} from "../../services/dasboardService";
+    import '../style/pages/dashboard.css'
+    import Navbar from "../components/navbar/Navbar";
+    import { LineChart, Line, XAxis, YAxis,ResponsiveContainer,Tooltip,Legend,PieChart,Pie,Cell,Bar,BarChart,Label,LabelList} from 'recharts';
+    import { getFiltroOpcoes, getDashboardData} from "../services/dasboardService";
 
 
 
@@ -12,6 +11,9 @@
         const [impressorasCor, setImpressoraColorida]  = useState(0)
         const [impressorasPB, setImpressoraPB]  = useState(0)
         const [impressionsByLocation, setImpressionsByLocation] = useState([]);
+        const [impressionsByType, setImpressionsByType] = useState({ totalPB: 0, totalCor: 0 });
+        const [equipmentCountByUnit, setEquipmentCountByUnit] = useState([]);
+
 
         const [filters, setFilters] = useState({
             periodo: '',
@@ -67,66 +69,20 @@
 
         //conectando back e front dos blocos azuis da tela
         useEffect(() => {
-            const fetchImpressionsByLocation = async () => {
-                try {
-                    const response = await getImpressionsByLocation();
-                    console.log('Data received from API:', response);
-            
-                    if (response.type === 'success' && Array.isArray(response.data.data)) {
-                        const groupedData = response.data.data.reduce((acc, item) => {
-                            const [cidade, regional, unidade] = item.localizacao.split(';');
-                            const periodo = item.dataContador ? new Date(item.dataContador).toISOString().slice(0, 7) : '';
-            
-                            // Determina a chave de agrupamento com ou sem o período
-                            const key = filters.periodo ? `${cidade};${regional};${unidade || ''};${periodo}` : `${cidade};${regional};${unidade || ''}`;
-            
-                            if (!acc[key]) {
-                                acc[key] = {
-                                    cidade: cidade,
-                                    regional: regional,
-                                    unidade: unidade || '',
-                                    TotalPB: 0,
-                                    TotalCor: 0,
-                                    periodos: new Set() 
-                                };
-                            }
-            
-                            acc[key].TotalPB += item.contadorAtualPB;
-                            acc[key].TotalCor += item.contadorAtualCor;
-                            acc[key].periodos.add(periodo); // Adiciona o período ao Set de períodos únicos
-            
-                            return acc;
-                        }, {});
-            
-                        // Transformar o Set de períodos em um array antes de aplicar os filtros
-                        const transformedData = Object.values(groupedData).map(group => ({
-                            ...group,
-                            periodos: Array.from(group.periodos) // Converte o Set para um array
-                        }));
-            
-                        console.log('Transformed Data:', transformedData);
-                        setImpressionsByLocation(transformedData);
-                    } else {
-                        console.log('Erro: os dados não estão no formato esperado.');
-                    }
-                } catch (error) {
-                    console.log('Erro ao buscar impressões por localidade:', error);
-                }
-            };
             const fetchDashboardData = async () => {
                 try {
                     const response = await getDashboardData(); // Faz a requisição ao backend e obtém o JSON
-            
+        
                     console.log("Dados recebidos do backend:", response);
-            
+        
                     if (response && response.data && response.data.impressoras) {
                         const data = response.data;
-            
+        
                         // Filtrando dados no frontend com base nos filtros aplicados
                         const filteredImpressoras = data.impressoras.filter((impressora) => {
                             const [cidade, regional, unidade] = impressora.localizacao.split(';');
                             const periodo = impressora.dataContador ? new Date(impressora.dataContador).toISOString().slice(0, 7) : '';
-            
+        
                             return (
                                 (!filters.periodo || periodo === filters.periodo) &&
                                 (!filters.cidade || cidade === filters.cidade) &&
@@ -134,41 +90,59 @@
                                 (!filters.unidade || unidade === filters.unidade)
                             );
                         });
-            
+        
                         console.log("Impressoras após filtragem:", filteredImpressoras);
-            
+        
                         // Calculando o total de impressões (PB + Cor) após aplicação dos filtros
                         const totalImpressions = filteredImpressoras.reduce((acc, impressora) => {
                             return acc + impressora.contadorAtualPB + impressora.contadorAtualCor;
                         }, 0);
-            
+        
                         console.log("Total de impressões calculado:", totalImpressions);
-            
+        
                         // Contando impressoras coloridas e monocromáticas após aplicação dos filtros
                         const impressorasCor = filteredImpressoras.filter(impressora =>
                             data.colorModelIds.includes(impressora.modeloId)
                         ).length;
-            
+        
                         const impressorasPB = filteredImpressoras.filter(impressora =>
                             data.pbModelIds.includes(impressora.modeloId)
                         ).length;
-            
+        
                         console.log("Quantidade de impressoras coloridas:", impressorasCor);
                         console.log("Quantidade de impressoras monocromáticas:", impressorasPB);
-            
-                        // Atualizando o estado com os valores calculados
-                        animateCount(setImpressao, impressaoTotal, totalImpressions);
-                        animateCount(setImpressoraColorida, impressorasCor, impressorasCor);
-                        animateCount(setImpressoraPB, impressorasPB, impressorasPB);
-            
-                        // Agrupando dados por localidade para uso em gráficos
+        
+                        // Calculando o total de impressões por tipo para o gráfico de distribuição
+                        const totalPB = filteredImpressoras.reduce((acc, impressora) => acc + impressora.contadorAtualPB, 0);
+                        const totalCor = filteredImpressoras.reduce((acc, impressora) => acc + impressora.contadorAtualCor, 0);
+                        setImpressionsByType({ totalPB, totalCor });
+        
+                        // Agrupando os dados por localização para o gráfico de número de equipamentos por unidade
+                        const equipmentCount = filteredImpressoras.reduce((acc, impressora) => {
+                            const [cidade, regional, unidade] = impressora.localizacao.split(';');
+                            const key = `${cidade};${regional};${unidade}`;
+                            if (!acc[key]) {
+                                acc[key] = {
+                                    localizacao: `${cidade};${regional};${unidade}`,
+                                    totalEquipamentos: 0,
+                                };
+                            }
+                            acc[key].totalEquipamentos += 1;
+                            return acc;
+                        }, {});
+        
+                        const equipmentCountArray = Object.values(equipmentCount);
+                        console.log("Dados para o gráfico de número de equipamentos por unidade:", equipmentCountArray);  
+                        setEquipmentCountByUnit(equipmentCountArray);
+        
+                        // Agrupando dados para impressões por localidade (substituindo fetchImpressionsByLocation)
                         const groupedData = filteredImpressoras.reduce((acc, item) => {
                             const [cidade, regional, unidade] = item.localizacao.split(';');
                             const periodo = item.dataContador ? new Date(item.dataContador).toISOString().slice(0, 7) : '';
-            
+        
                             // Determina a chave de agrupamento com ou sem o período
                             const key = filters.periodo ? `${cidade};${regional};${unidade || ''};${periodo}` : `${cidade};${regional};${unidade || ''}`;
-            
+        
                             if (!acc[key]) {
                                 acc[key] = {
                                     cidade: cidade,
@@ -179,23 +153,28 @@
                                     periodos: new Set() 
                                 };
                             }
-            
+        
                             acc[key].TotalPB += item.contadorAtualPB;
                             acc[key].TotalCor += item.contadorAtualCor;
                             acc[key].periodos.add(periodo); // Adiciona o período ao Set de períodos únicos
-            
+        
                             return acc;
                         }, {});
-            
+        
                         // Transformar o Set de períodos em um array antes de aplicar os filtros
                         const transformedData = Object.values(groupedData).map(group => ({
                             ...group,
                             periodos: Array.from(group.periodos) // Converte o Set para um array
                         }));
-            
+        
                         console.log("Dados agrupados e transformados para gráficos:", transformedData);
-            
                         setImpressionsByLocation(transformedData);
+        
+                        // Atualizando o estado com os valores calculados
+                        animateCount(setImpressao, impressaoTotal, totalImpressions);
+                        animateCount(setImpressoraColorida, impressorasCor, impressorasCor);
+                        animateCount(setImpressoraPB, impressorasPB, impressorasPB);
+        
                     } else {
                         console.log("Dados de impressoras não encontrados ou estrutura incorreta.");
                     }
@@ -203,11 +182,15 @@
                     console.log('Erro ao buscar dados do dashboard:', error);
                 }
             };
+        
+            fetchDashboardData();
+            
+            
             
             
             // Chamando as funções de fetch
             fetchDashboardData();
-            fetchImpressionsByLocation();
+            
             
         }, [filters]); // Refaz a requisição sempre que os filtros mudarem
         
@@ -229,9 +212,10 @@
             { semana: 'Semana 4', ativa: 170, inativa: 60 },
         ];
         const data2 = [
-            { name: 'Ativa', value: 120 },
-            { name: 'Inativa', value: 80 },
+            { name: 'PB', value: impressionsByType.totalPB },
+            { name: 'Cor', value: impressionsByType.totalCor },
         ];
+
         const COLORS = ['#03326D', '#007235'];
         const RADIAN = Math.PI / 180;
             const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
@@ -247,12 +231,7 @@
             };
                 
             
-            const filteredData = impressionsByLocation.filter(item =>
-                (!filters.periodo || (item.periodos && item.periodos.includes(filters.periodo))) &&
-                (!filters.cidade || item.cidade === filters.cidade) &&
-                (!filters.regional || item.regional === filters.regional) &&
-                (!filters.unidade || item.unidade === filters.unidade)
-            );
+            
             
         return (
             <><Navbar/>
@@ -371,7 +350,7 @@
                     <div className="div_graficos">
                     <ResponsiveContainer width="100%" height="100%">
                     <BarChart
-                        data={filteredData}
+                        data={impressionsByLocation}
                         layout="vertical"
                         margin={{
                         top: 20, right: 30, left: 20, bottom: 5,
@@ -393,16 +372,19 @@
                     <div>
                     <ResponsiveContainer width="90%" height="100%">
                     <BarChart
-                        data={data1}
+                        data={equipmentCountByUnit}
                         layout="vertical"
                     >
                         <XAxis type="number" >
                             <Label value="Número de Equipamentos" offset={0} position="bottom" />
                         </XAxis>
-                        <YAxis dataKey="semana" type="category"/>
+                        <YAxis dataKey="localização" type="category"/>
                         <Tooltip wrapperStyle={{ width: 100, height:20, backgroundColor: '#007235' }} />
                         <Legend width={100} wrapperStyle={{ top: 40, right: 20, backgroundColor: '#f5f5f5', border: '1px solid #d5d5d5', borderRadius: 3, lineHeight: '40px' }} />
-                        <Bar dataKey="ativa" fill="#007235" />
+                        <Bar dataKey="totalEquipamentos" fill="#007235">
+                            <LabelList dataKey="localizacao" position="right" formatter={(value) => value.split(';')[0]} />
+                        </Bar> 
+                        
                     </BarChart>
                     </ResponsiveContainer>
                     </div>

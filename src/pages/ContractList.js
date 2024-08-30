@@ -46,11 +46,14 @@ export default function ContractList() {
     console.log(`Edit button clicked for equipment ID: ${contract.id}`);
   };
 
-  const handleToggleClick = async (id, numero) => {
-    console.log(`Toggle button clicked for equipment ID: ${id}`);
+  const handleToggleClick = async (contract) => {
+    const { id, numero, dataTermino } = contract;
+
+    if (new Date(dataTermino) < new Date()) {
+      toast.error("Contrato vencido, não é possível ativar/desativar");
+      return
+    }
     try {
-      console.log(`CONTRATOS DPS DO SWITCH: ${contracts}`)
-      // Setando o estado do atributo "ativo" apenas do contrato do id referente ao click
       setContracts(prevContracts =>
         prevContracts.map(contract =>
           contract.id === id ? { ...contract, ativo: !contract.ativo } : contract
@@ -58,6 +61,7 @@ export default function ContractList() {
       );
       const response = await switchContractStatus(id);
       const { ativo } = response.data.data;
+      console.log(ativo);
       if (response.type === "success") {
         toast.success(
           `Contrato ${numero} ${ativo ? "ativado" : "desativado"}!`
@@ -95,7 +99,7 @@ export default function ContractList() {
                 onReadClick={() => handleReadClick(contract.id)}
                 onEditClick={() => handleEditClick(contract)}
                 onToggleClick={() =>
-                  handleToggleClick(contract.id, contract.numero)
+                  handleToggleClick(contract)
                 }
               />
             ))}

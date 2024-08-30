@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import "../../style/components/contractBox.css";
 import { FaToggleOn, FaToggleOff, FaPencil, FaMagnifyingGlass } from "react-icons/fa6";
@@ -7,8 +7,13 @@ import Button from "../Button";
 const ContractBox = ({ numero, gestor, ativo, onReadClick, onEditClick, onToggleClick }) => {
     const [isToggled, setIsToggled] = useState(ativo);
 
+
+    useEffect(() => {
+        setIsToggled(ativo);
+    }, [ativo]);
+
     const handleToggleClick = () => {
-        setIsToggled(prevState => !prevState);
+        setIsToggled(ativo);
         if (onToggleClick) {
             onToggleClick();
         }

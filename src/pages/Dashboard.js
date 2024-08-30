@@ -185,13 +185,6 @@
         
             fetchDashboardData();
             
-            
-            
-            
-            // Chamando as funções de fetch
-            fetchDashboardData();
-            
-            
         }, [filters]); // Refaz a requisição sempre que os filtros mudarem
         
         const handleChange = (e) => {

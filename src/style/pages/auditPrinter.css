@@ -65,3 +65,51 @@
     border-radius: 20px;
     gap: 2px;
 }
+
+.counters-color{
+    width: 20%;
+}
+
+.audit-counter-color{
+    border-right-style: solid;
+    border-color: #D9D9D9;
+    font-size: medium;
+    text-align: center;
+}
+
+.audit-counter-color-months{
+    display: flex;
+    justify-content: space-between;
+}
+
+.audit-counter-color-month{
+    border-right-style: solid;
+    border-color: #D9D9D9;
+    font-size: medium;
+    text-align: center;
+    width: 50%;
+}
+
+.counters-pb{
+    width: 20%;
+}
+
+.audit-counter-pb{
+    border-right-style: solid;
+    border-color: #D9D9D9;
+    font-size: medium;
+    text-align: center;
+}
+
+.audit-counter-pb-months{
+    display: flex;
+    justify-content: space-between;
+}
+
+.audit-counter-pb-month{
+    border-right-style: solid;
+    border-color: #D9D9D9;
+    font-size: medium;
+    text-align: center;
+    width: 50%;
+}

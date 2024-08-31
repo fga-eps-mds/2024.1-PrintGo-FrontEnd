@@ -211,8 +211,8 @@ export default function Dashboard() {
         const x = (pageWidth - logoWidth) / 2;
 
         // logotipo
-        const logoUrl = LOGO_BASE64;
-        doc.addImage(logoUrl, 'PNG', x, 5, 20, logoHeight);
+        const logoPrintgo = LOGO_BASE64;
+        doc.addImage(logoPrintgo, 'PNG', x, 5, 20, logoHeight);
 
         // Cabeçalho
         doc.setFontSize(20);

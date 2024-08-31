@@ -14,7 +14,7 @@ export async function getPadrao(id) {
 
 export async function getPadroes() {
   try {
-    const response = await api.get('http://localhost:8001/printer/padrao');
+    const response = await api.get('/printer/padrao');
     if (response.status !== 200) {
       return { type: 'error', data: response.data };
     }

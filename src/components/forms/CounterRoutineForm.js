@@ -300,6 +300,7 @@ export default function UpdateRoutine() {
               Cidade
             </label>
             <SelectContainer
+              data-testid="cidade-dropdown"
               id="Cidade"
               className="dropdownRoutine"
               name="cidade"
@@ -320,6 +321,7 @@ export default function UpdateRoutine() {
               Regional
             </label>
             <SelectContainer
+              data-testid="regional-dropdown"
               id="Regional"
               className="dropdownRoutine"
               name="regional"
@@ -340,6 +342,7 @@ export default function UpdateRoutine() {
               Unidade de Trabalho
             </label>
             <SelectContainer
+              data-testid="unidade-dropdown"
               id="Unidade de Trabalho"
               className="dropdownRoutine"
               name="Unidade de Trabalho"
@@ -409,6 +412,9 @@ export default function UpdateRoutine() {
                       Escolha o intervalo:
                     </label>
                     <IntervalDropdown
+                      className="intervalRoutine"
+                      id="intervalRoutine"
+                      data-testid="interval-dropdown" 
                       value={interval}
                       onChange={handleIntervalChange}
                       error={errors.intervalo}
@@ -448,6 +454,9 @@ export default function UpdateRoutine() {
                       Escolha o intervalo:
                     </label>
                     <IntervalDropdown
+                      className="intervalRoutine"
+                      id="intervalRoutine"
+                      data-testid="interval-dropdown" 
                       value={interval}
                       onChange={handleIntervalChange}
                       error={errors.intervalo}
@@ -573,6 +582,9 @@ export default function UpdateRoutine() {
                       Escolha o intervalo:
                     </label>
                     <IntervalDropdown
+                      className="intervalRoutine"
+                      id="intervalRoutine"
+                      data-testid="interval-dropdown" 
                       value={interval}
                       onChange={handleIntervalChange}
                       error={errors.intervalo}
@@ -586,6 +598,7 @@ export default function UpdateRoutine() {
                     </div>
                     <div>
                       <input
+                        data-testid="dayInput"
                         placeholder="1-28"
                         type="number"
                         min="1"

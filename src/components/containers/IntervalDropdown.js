@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import "../../style/components/counterRoutineForm.css";
 
@@ -11,10 +11,10 @@ function IntervalDropdown({ onChange, value, error, className }) {
 
   return (
     <select
-      id="intervalRoutine"
       value={value}
       onChange={handleChange}
       className={error ? `${className} input-error` : className}
+      data-testid="interval-dropdown"
     >
       <option value={""}>Escolha</option>
       <option value={"00:01"}>Tempo Real</option>

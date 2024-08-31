@@ -3,7 +3,7 @@ import { api } from '../lib/api/config';
 
 export const getFiltroOpcoes = async () => {
   try {
-    const response = await api.get(`http://localhost:8001/dashboard/filtro-opcoes`);
+    const response = await api.get(`/printer/dashboard/filtro-opcoes`);
     return { type: 'success', data: response.data };
   } catch (error) {
     return { type: 'error', error };
@@ -12,7 +12,7 @@ export const getFiltroOpcoes = async () => {
 
 export const getDashboardData = async () => {
   try {
-    const response = await api.get(`http://localhost:8001/dashboard/dashboard-data`);
+    const response = await api.get(`/printer/dashboard/dashboard-data`);
     return { type: 'success', data: response.data };
   } catch (error) {
     return { type: 'error', error };
@@ -22,7 +22,7 @@ export const getDashboardData = async () => {
 
 export const getDashboardPdf = async () => {
   try {
-    const response = await api.post(`http://localhost:8001/dashboard/create-report`);
+    const response = await api.post(`/printer/dashboard/create-report`);
     return { type: 'success', data: response.data };
   } catch (error) {
     return { type: 'error', error };

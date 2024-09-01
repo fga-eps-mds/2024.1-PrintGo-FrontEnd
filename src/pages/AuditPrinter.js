@@ -10,6 +10,7 @@ import { getContract } from "../services/contractService.js";
 import { getPrintersByContract, generatePrinterPDF } from "../services/printerService.js";
 import { toast } from "react-toastify";
 import UploadReport from '../components/UploadReport.js';
+import GenerateExcel from '../components/GenerateExcel.js';
 
 export default function AuditPrinter() {
     const [relatorioLocadora, setRelatorioLocadora] = useState(null);
@@ -117,6 +118,7 @@ export default function AuditPrinter() {
                                 size="large"
                             />
                         </div>
+                        <GenerateExcel/>
                     </div>
                 </div>
 

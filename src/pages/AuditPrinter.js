@@ -130,14 +130,14 @@ export default function AuditPrinter() {
                                         <h2 className='audit-counter-color'>Cont. Cor PrintGo</h2>
                                         <div className='audit-counter-color-months'>
                                             <h2 className='audit-counter-color-month'>anterior</h2>
-                                            <h2 className='audit-counter-color-month'>atual</h2>
+                                            <h2 className='audit-counter-color-month' id='counter-color-current'>atual</h2>
                                         </div>
                                     </div>
                                     <div className='counters-pb'>
                                         <h2 className='audit-counter-pb'>Cont. PB PrintGo</h2>
                                         <div className='audit-counter-pb-months'>
                                             <h2 className='audit-counter-pb-month'>anterior</h2>
-                                            <h2 className='audit-counter-pb-month'>atual</h2>
+                                            <h2 className='audit-counter-pb-month' id='counter-pb-current'>atual</h2>
                                         </div>
                                     </div>
                                     <h2 className='audit-element'>Cont.PB Relatório</h2>

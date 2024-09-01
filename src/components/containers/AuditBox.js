@@ -12,8 +12,10 @@ const AuditBox = ({ equipamento, contadorCor, contadorPB, contadorLocPB, contado
     return (
         <div className={`box ${errorClass}`}>
             <h2 className="audit-box-element">{equipamento}</h2>
-            <h2 className="audit-box-element">{contadorCor}</h2>
-            <h2 className="audit-box-element">{contadorPB}</h2>
+            <h2 className="audit-box-element-color">0</h2>
+            <h2 className="audit-box-element-color">{contadorCor}</h2>
+            <h2 className="audit-box-element-pb">0</h2>
+            <h2 className="audit-box-element-pb">{contadorPB}</h2>
             <h2 className="audit-box-element">{contadorLocCor}</h2>
             <h2 className="audit-box-element">{contadorLocPB}</h2>
             <h2 className="audit-box-element">{totPrintgo}</h2>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import UpdateRoutine from '../../components/forms/CounterRoutineForm';
 import { getLocalizacao, addRotina } from '../../services/printerService';
 import { MemoryRouter, useNavigate} from "react-router-dom";
@@ -356,5 +356,102 @@ describe('UpdateRoutine', () => {
     await waitFor(() => {
       expect(addRotina).toHaveBeenCalled();
     });
-  });       
+  });
+  
+  test('should call toast.error with correct message when validateForm is false', () => {
+    render(
+      <MemoryRouter>
+        <UpdateRoutine 
+          validateForm={false}
+          routine="Diariamente"
+          time=""
+          hora={0}
+          minuto={10}
+          selectedDays={[]}
+          day={1}/>
+      </MemoryRouter>
+    );
+
+    const submitButton = screen.getByText('Adicionar Rotina');
+    fireEvent.click(submitButton);
+
+    expect(toast.error).toHaveBeenCalledWith("Por Favor preencha os campos obrigatórios.");
+  });
+
+  test('should remove error when at least one day is selected', () => {
+    render(
+      <MemoryRouter>
+        <UpdateRoutine />
+      </MemoryRouter>
+    );
+  
+    fireEvent.change(screen.getByLabelText('Rotina de Registro'), {target: { value: 'Semanalmente' } });
+  
+    fireEvent.click(screen.getByText('Adicionar Rotina')); 
+  
+    expect(screen.getByText('Escolha o(s) dia(s) da semana')).toBeInTheDocument();
+  
+    fireEvent.click(screen.getByText('D'));
+  
+    expect(screen.queryByText('Escolha o(s) dia(s) da semana')).not.toBeInTheDocument();
+  });
+
+  test('should show errors when time and interval are not selected for "Mensalmente" routine', () => {
+    render(
+      <MemoryRouter>
+        <UpdateRoutine />
+      </MemoryRouter>
+    );
+  
+
+    fireEvent.change(screen.getByLabelText('Rotina de Registro'), {target: { value: 'Mensalmente' } });
+  
+    fireEvent.click(screen.getByText('Adicionar Rotina')); 
+  
+    expect(screen.getByText('Um horário precisa ser escolhido')).toBeInTheDocument();
+    expect(screen.getByText('Um intervalo precisa ser escolhido')).toBeInTheDocument();
+  
+    fireEvent.change(screen.getByLabelText('Escolha o horário:'), { target: { value: '14:00' } });
+  
+    expect(screen.queryByText('Um horário precisa ser escolhido')).not.toBeInTheDocument();
+    expect(screen.queryByText('Um intervalo precisa ser escolhido')).not.toBeInTheDocument();
+  });
+
+  test('should navigate to the home page when "Gerar Relatório" button is clicked', () => {
+    const navigate = useNavigate();
+  
+    render(
+      <MemoryRouter>
+        <UpdateRoutine />
+      </MemoryRouter>
+    );
+    
+    fireEvent.change(screen.getByLabelText('Cidade'), { target: { value: 'City 1' } });
+    fireEvent.change(screen.getByLabelText('Regional'), { target: { value: 'WS 1' } });
+    fireEvent.change(screen.getByLabelText('Unidade de Trabalho'), { target: { value: 'SW 1' } });
+    fireEvent.change(screen.getByLabelText('Rotina de Registro'), { target: { value: 'Diariamente' } });
+    fireEvent.change(screen.getByLabelText('Escolha um horário:'), { target: { value: '12:00' } });
+    fireEvent.click(screen.getByText('Adicionar Rotina'));
+  
+    expect(navigate).toHaveBeenCalledWith('/');
+  });
+
+  test('should set an error when day value is invalid', () => {
+    render(
+      <MemoryRouter>
+        <UpdateRoutine />
+      </MemoryRouter>
+    );
+    
+    fireEvent.change(screen.getByLabelText('Rotina de Registro'), {target: { value: 'Mensalmente' } });
+    const dayInput = screen.getByLabelText('Digite o dia do mês:'); 
+  
+    fireEvent.change(dayInput, { target: { value: '29' } });
+  
+    expect(screen.getByText('Por favor, insira um valor entre 1 e 28')).toBeInTheDocument();
+  
+    fireEvent.change(dayInput, { target: { value: '15' } });
+  
+    expect(screen.queryByText('Por favor, insira um valor entre 1 e 28')).not.toBeInTheDocument();
+  });
 });

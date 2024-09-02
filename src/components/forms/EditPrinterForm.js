@@ -15,6 +15,7 @@ import { getPadroes } from "../../services/patternService";
 import DateContainer from '../containers/DateContainer.js';
 import { toast } from "react-toastify";
 import NumberContainer from '../containers/NumberContainer';
+import { set } from 'react-hook-form';
 
 
 export default function EditPrinterForm() {
@@ -42,7 +43,6 @@ export default function EditPrinterForm() {
     const [localizacoes, setLocalizacoes] = useState([]);
     const [marcasData, setMarcasData] = useState([]);
     const [marcas, setMarcas] = useState([]);
-    const [modelos, setModelos] = useState([]);
     const [selectedModelo, setSelectedModelo] = useState('');
     const [selectedMarca, setSelectedMarca] = useState('');
     const [contratos, setContratos] = useState([]);
@@ -73,7 +73,6 @@ export default function EditPrinterForm() {
                 setMarcasData(response.data);
 
                 const marcas = response.data.map(m => m.marca);
-                const modelos = response.data.map(m => m.modelo);
 
                 if (printerData.modeloId) {
                     const selectedMarca = response.data.find(m => m.modelo === printerData.modeloId)?.marca;
@@ -81,7 +80,6 @@ export default function EditPrinterForm() {
                 }
 
                 setMarcas(marcas);
-                setModelos(modelos);
             } catch (error) {
                 console.error('Erro ao buscar padrões:', error);
             }
@@ -232,6 +230,11 @@ export default function EditPrinterForm() {
         setSelectedMarca(marcaSelecionada);
     }
 
+    const handleModeloChange = (event) => {
+        const modeloSelecionado = event.target.value;
+        setSelectedModelo(modeloSelecionado);
+    }
+
     const formatDate = (date) => {
         if (!date) return '';
         return (date.split('T')[0]);
@@ -331,20 +334,23 @@ export default function EditPrinterForm() {
                         <SelectContainer
                             id="marca"
                             name="marca"
-                            options={marcas}
+                            options={marcas ? Array.from(new Set(marcas)) : []}
                             className="lg-select"
                             label="Marca"
                             onChange={handleMarcaChange}
                             value={selectedMarca}
                             error={errors.marca}
                         />
-                        <ViewDataContainer
-                            id="marca-equipamento"
-                            className="small-view"
-                            labelName={"Modelo"}
+                        <SelectContainer
+                            id="modelo"
+                            name="modelo"
+                            className="md-select"
+                            label={"Modelo"}
                             value={selectedModelo}
-                        />
+                            options={marcasData ? marcasData.filter(m => m.marca === selectedMarca).map(m => m.modelo) : []}
+                            onChange={handleModeloChange}
 
+                        />
                         <SelectContainer
                             id="contrato"
                             name="contrato"

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import "../../style/components/SelectContainer.css";
 
 
-const SelectContainer = ({ id, name, options, className, label, containerStyle, onChange, value, error, placeHolder }) => {
+const SelectContainer = ({ id, name, options, className, label, containerStyle, onChange, value, error, placeHolder, usePlaceholder }) => {
     return (
         <div className={`select-container ${containerStyle}`}>
             <span className="form-subtitle">{label}</span>
@@ -16,7 +16,7 @@ const SelectContainer = ({ id, name, options, className, label, containerStyle, 
                     onChange={onChange}
                     value={value}
                 >
-                    <option value="">{placeHolder}</option>
+                    {usePlaceholder && <option value="">{placeHolder}</option>}
                     {options.map((option, index) => (
                         <option key={index} value={option}>
                             {option}
@@ -38,7 +38,8 @@ SelectContainer.propTypes = {
     value: PropTypes.string,
     error: PropTypes.string,
     placeHolder: PropTypes.string,
-    containerStyle: PropTypes.string
+    containerStyle: PropTypes.string,
+    usePlaceholder: PropTypes.bool
 };
 
 SelectContainer.defaultProps = {
@@ -48,7 +49,8 @@ SelectContainer.defaultProps = {
     error: '',
     placeHolder: 'Selecione',
     error: '',
-    containerStyle: ''
+    containerStyle: '',
+    usePlaceholder: true
 };
 
 export default SelectContainer;

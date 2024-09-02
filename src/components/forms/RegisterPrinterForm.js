@@ -288,6 +288,7 @@ export default function RegisterPrinterForm() {
                         label="Dentro da rede"
                         onChange={handleDentroRedeChange}
                         value={selectedDentroRede}
+                        usePlaceholder={false}
                     />
                 </div>
 
@@ -400,6 +401,7 @@ export default function RegisterPrinterForm() {
                         label="Status"
                         onChange={handleStatusChange}
                         value={status}
+                        usePlaceholder={false}
                     />
 
                 </div>

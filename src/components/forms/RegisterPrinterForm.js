@@ -223,6 +223,10 @@ export default function RegisterPrinterForm() {
 
     const handleStatusChange = (event) => {
         const newStatus = event.target.value;
+        if (newStatus === 'Ativo') {
+            setDataRetirada('');
+            setContadorRetirada('');
+        }
         setStatus(newStatus);
     };
 
@@ -391,6 +395,7 @@ export default function RegisterPrinterForm() {
                         onChange={(e) => setDataRetirada(e.target.value)}
                         className={`md ${retiradaClass}`}
                         error={errors.dataRetirada}
+                        // disabled={status === 'Ativo'}
                     />
 
                     <SelectContainer

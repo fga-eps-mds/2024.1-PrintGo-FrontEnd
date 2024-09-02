@@ -72,6 +72,10 @@ export default function RegisterPrinterForm() {
         fetchLocalizacoes();
     }, []);
 
+    const isValidIP = (ipAddress) => {
+        const ipPattern = /^(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)$/;
+        return ipPattern.test(ipAddress);
+    };
 
     const validateForm = () => {
         const newErrors = {};
@@ -80,6 +84,7 @@ export default function RegisterPrinterForm() {
         if (!selectedMarca) newErrors.marca = 'Marca é obrigatória';
         if (!selectedModelo) newErrors.modelo = 'Modelo é obrigatório';
         if (!enderecoIP && selectedDentroRede === "Sim") newErrors.enderecoIP = 'Endereço IP é obrigatório';
+        if (enderecoIP && !isValidIP(enderecoIP)) newErrors.enderecoIP = 'Endereço IP inválido';
         if (!numSerie) newErrors.numSerie = 'Número de série é obrigatório';
         if (!selectedCidade) newErrors.cidade = 'Cidade é obrigatória';
         if (!selectedWorkstation) newErrors.workstation = 'Posto de trabalho é obrigatório';

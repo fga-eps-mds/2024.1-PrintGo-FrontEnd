@@ -118,7 +118,9 @@ export default function AuditPrinter() {
                                 size="large"
                             />
                         </div>
-                        <GenerateExcel/>
+                        <div className='excel-button'>
+                            <GenerateExcel/>
+                        </div>                     
                     </div>
                 </div>
 

@@ -1,58 +1,82 @@
 .contract-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    padding-inline: 70px;
-    padding-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding-inline: 70px;
+  padding-top: 40px;
 }
 
-.mainArea{
-    background-color: rgb(255, 255, 255);
-    margin-top: 5px;
-    padding-inline: 100px;
-    justify-content: center;
+.mainArea {
+  background-color: rgb(255, 255, 255);
+  margin-top: 5px;
+  padding-inline: 100px;
+  justify-content: center;
 }
 
-.barraPesquisa{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom-style: solid;
-    border-color: #0D3D6D;
-    margin-inline: 70px;
-    max-height: 120px;
-    margin-bottom: -10px;
+.barraPesquisa {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom-style: solid;
+  border-color: #0d3d6d;
+  margin-inline: 70px;
+  max-height: 120px;
+  margin-bottom: -10px;
+}
+.columnsContract{
+  color: #003366;
+  display: flex;
+  margin-left: 5%;
 }
 
-.titulo{
-    font-weight: 400;
-    font-size: 48px;
-    color: #0D3D6D;
+.columnLabel{
+  border-right-style: solid;
+    border-color: #0d3d6d;
+    width: 20%;
+    font-size: medium;
+    text-align: center;
+    
+}
+.columnButtons{
+  display: flex;
+  width: 30%;
+ 
+}
+.columnBtn{
+    width: 20%;
+    font-size: medium;
+    text-align: center;
+    margin-left: 15px;
+}
+.titulo {
+  font-weight: 400;
+  font-size: 48px;
+  color: #0d3d6d;
 }
 
-#searchBar{
-    width: 20vw;
-    height: 6vh;
-    border-radius: 5vh;
-    border: #0D3D6D 2px solid;
-    padding-left: 20px;
-    font-size: 24px;
+#searchBar {
+  width: 20vw;
+  height: 6vh;
+  border-radius: 5vh;
+  border: #0d3d6d 2px solid;
+  padding-left: 20px;
+  font-size: 24px;
 }
 
-::placeholder{
-    font-size: 24px;
+::placeholder {
+  font-size: 24px;
 }
 
-#buttonContracts{
-    background-color: #006633;
-    border-radius: 60px;
-    margin-top: 20px;
-    margin-left: 70px;
-    width: 22vw;
-    height: 6vh;
-    border-style: none;
-    color: rgb(255, 255, 255);
-    font-size: 24px;
-    font-weight: 600;
-    cursor: pointer;
-}   
+#buttonContracts {
+  background-color: #003366;
+  border-radius: 60px;
+  margin-top: 20px;
+  margin-left: 70px;
+  width: 22vw;
+  height: 6vh;
+  border-style: none;
+  color: rgb(255, 255, 255);
+  font-size: 24px;
+  font-weight: 600;
+  cursor: pointer;
+}

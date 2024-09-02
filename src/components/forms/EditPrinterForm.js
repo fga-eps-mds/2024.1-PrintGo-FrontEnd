@@ -14,34 +14,8 @@ import { getContract } from "../../services/contractService";
 import { getPadroes } from "../../services/patternService";
 import DateContainer from '../containers/DateContainer.js';
 import { toast } from "react-toastify";
+import NumberContainer from '../containers/NumberContainer';
 
-// Mock de dados da impressora
-const mockPrinterData = {
-    equipamento: "Impressora XYZ",
-    numeroSerie: "123456789",
-    modelo: "Modelo ABC",
-    localizacao: "Goias",
-    contrato: "Contrato XYZ-123",
-    enderecoIp: "192.168.0.1",
-    dentroDaRede: "Sim",
-    dataInstalacao: "2023-01-15",
-    dataRetirada: "2024-01-15",
-    status: "Ativo",
-    marca: "Marca ABC",
-    cidade: "Cidade XYZ",
-    regional: "Regional 1",
-    subestacao: "Subestação A"
-};
-
-// Função para codificar um objeto em Base64
-function encodeToBase64(obj) {
-    return btoa(JSON.stringify(obj));
-}
-
-// Codificar os dados da impressora
-const encodedPrinterData = encodeToBase64(mockPrinterData);
-
-console.log(encodedPrinterData); // A string codificada para usar na URL
 
 export default function EditPrinterForm() {
 
@@ -140,7 +114,6 @@ export default function EditPrinterForm() {
 
                 setSubWorkstations(subestacoes);
             }
-
         };
 
         fetchData();
@@ -236,6 +209,22 @@ export default function EditPrinterForm() {
         }));
     }
 
+    const handleContadorRetiradaPBChange = (event) => {
+        const newContadorRetiradaPB = event.target.value;
+        setPrinterData((prevData) => ({
+            ...prevData,
+            contadorRetiradaPB: newContadorRetiradaPB,
+        }));
+    };
+
+    const handleContadorRetiradaCorChange = (event) => {
+        const newContadorRetiradaCor = event.target.value;
+        setPrinterData((prevData) => ({
+            ...prevData,
+            contadorRetiradaCor: newContadorRetiradaCor,
+        }));
+    };
+
     const handleMarcaChange = (event) => {
         const marcaSelecionada = event.target.value;
         const marca = marcasData.find(m => m.marca === marcaSelecionada);
@@ -267,6 +256,8 @@ export default function EditPrinterForm() {
         if (!printerData.enderecoIp && printerData.estaNaRede) newErrors.enderecoIP = 'Endereço IP é obrigatório';
         if (!printerData.ativo) {
             if (!printerData.dataRetirada) newErrors.dataRetirada = 'Data de retirada é obrigatória';
+            if (!printerData.contadorRetiradaPB) newErrors.contadorRetirada = 'Contador de retirada PB é obrigatório';
+            if (!printerData.contadorRetiradaCor) newErrors.contadorRetirada = 'Contador de retirada Cor é obrigatório';
         }
 
         setErrors(newErrors);
@@ -280,12 +271,13 @@ export default function EditPrinterForm() {
                 return;
             }
 
-            console.log(selectedSubWorkstation);
             let data = {
                 ...printerData,
                 modeloId: selectedModelo,
                 localizacao: `${selectedCidade};${selectedWorkstation};${selectedSubWorkstation}`,
                 ...(printerData.dataRetirada !== "" && { dataRetirada: printerData.dataRetirada }),
+                contadorRetiradaPB: printerData.contadorRetiradaPB ? parseInt(printerData.contadorRetiradaPB) : 0,
+                contadorRetiradaCor: printerData.contadorRetiradaCor ? parseInt(printerData.contadorRetiradaCor) : 0,
             };
 
             const res = await editImpressora(data);
@@ -387,7 +379,6 @@ export default function EditPrinterForm() {
                             />
                         </div>
 
-
                         <DateContainer
                             label="Data de Instalação"
                             value={formatDate(printerData.dataInstalacao)}
@@ -396,6 +387,27 @@ export default function EditPrinterForm() {
                             error={errors.dataInstalacao}
                         />
 
+                        <div className="form-separator"> Retirada </div>
+                        <div className="container" style={{ gap: '3rem' }}>
+                            <NumberContainer
+                                id="contadorRetiradaPb"
+                                name="contadorRetiradaPb"
+                                value={printerData.contadorRetiradaPB}
+                                onChange={handleContadorRetiradaPBChange}
+                                className={`md-select ${printerData.ativo ? 'disabled' : ''}`}
+                                label="Contador de Retirada PB"
+                                error={errors.contadorRetirada}
+                            />
+                            <NumberContainer
+                                id="contadorRetiradaCor"
+                                name="contadorRetiradaCor"
+                                value={printerData.contadorRetiradaCor}
+                                onChange={handleContadorRetiradaCorChange}
+                                className={`md-select ${printerData.ativo ? 'disabled' : ''}`}
+                                label="Contador de Retirada Cor"
+                                error={errors.contadorRetirada}
+                            />
+                        </div>
                         <div className="container" style={{ gap: '5rem' }}>
                             <DateContainer
                                 label="Data de Retirada"
@@ -414,6 +426,7 @@ export default function EditPrinterForm() {
                                 onChange={handleAtivoChange}
                                 value={printerData.ativo ? "Ativo" : "Inativo"}
                                 error={errors.status}
+                                usePlaceholder={false}
                             />
                         </div>
                     </div>

@@ -4,7 +4,6 @@ import Navbar from "../navbar/Navbar";
 import "../../style/components/contractForm.css";
 import { createContract } from "../../services/contractService";
 import StatusDropdown from "../containers/StatusDropdown";
-import encodeSpecialChars from "../../utils/encode";
 
 export default function ContractForm() {
   const [numero, setNumero] = useState("");
@@ -70,7 +69,7 @@ export default function ContractForm() {
         toast.success("Contrato criado com sucesso!");
         setTimeout(() => {
           const url = `/verContrato/${response.data.data.id}`;
-          window.location = url
+          window.location = url;
         }, 3000);
       } else {
         if (response.error.status === 400) {

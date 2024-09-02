@@ -18,18 +18,9 @@ export default function Home() {
                 <div className="home-text">Contando impressões desde 2023</div>
               </div>
               <div className="containter-button-home">
-                <div className="learn-more">
-                  <Link to="/quemsomos" className="button-saiba-mais">
-                    <button>
-                      <h4>Saiba Mais</h4>
-                    </button>
-                  </Link>
-                </div>
+                <div className="learn-more"></div>
               </div>
             </div>
-          </div>
-          <div className="right-content-home">
-            <img className="home-image" alt="" src={home_image} />
           </div>
         </div>
         <div className="elipse-home">

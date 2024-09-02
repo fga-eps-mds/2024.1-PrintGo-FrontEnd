@@ -4,8 +4,8 @@
     gap: 15px;
     padding-inline: 70px;
     padding-top: 40px;
-    max-height: 400px; /* Altura máxima do contêiner */
-    overflow-y: auto;  /* Adiciona o scroll vertical */
+    max-height: 400px;
+    overflow-y: auto;
 }
 
 .contract-list::-webkit-scrollbar {
@@ -13,7 +13,7 @@
 }
 
 .contract-list::-webkit-scrollbar-thumb {
-    background-color: #0D3D6D; /* Cor da barra de rolagem */
+    background-color: #0D3D6D;
     border-radius: 10px;
 }
 

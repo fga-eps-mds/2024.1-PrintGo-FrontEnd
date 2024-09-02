@@ -96,7 +96,7 @@ export default function RegisterPrinterForm() {
         if (status === 'Inativo') {
             if (!dataRetirada) newErrors.dataRetirada = 'Data de retirada é obrigatória';
             if (!contadorRetiradaPB) newErrors.contadorRetiradaPB = 'Contador de retirada PB é obrigatório';
-            if (!contadorRetiradaCor) newErrors.contadorRetiradaCor = 'Contador de retirada Cor é obrigatório';
+            if (selectedPadrao.colorido && !contadorRetiradaCor) newErrors.contadorRetiradaCor = 'Contador de retirada Cor é obrigatório';
         }
 
         setErrors(newErrors);
@@ -118,8 +118,8 @@ export default function RegisterPrinterForm() {
                     // regional: selectedWorkstation,
                     // ...(selectedSubWorkstation !== "" && { subestacao: selectedSubWorkstation }),
                     dataInstalacao: dataInstalacao,
-                    contadorInstalacaoPB: contadorInstalacaoPB,
-                    contadorInstalacaoCor: contadorInstalacaoCor,
+                    contadorInstalacaoPB: parseInt(contadorInstalacaoPB),
+                    contadorInstalacaoCor: selectedPadrao.colorido ? parseInt(contadorInstalacaoCor) : 0,
                     contadorInstalacaoCor: selectedPadrao.colorido ? contadorInstalacaoCor : 0,
                     contadorRetiradaPB: contadorRetiradaPB ? parseInt(contadorRetiradaPB) : 0,
                     contadorRetiradaCor: contadorRetiradaCor ? parseInt(contadorRetiradaCor) : 0,
@@ -127,6 +127,8 @@ export default function RegisterPrinterForm() {
                     contadorAtualCor: 0,
                     ...(dataRetirada !== "" && { dataRetirada: dataRetirada }),
                     ativo: status == "Ativo" ? true : false,
+                    contadorAtualPB: parseInt(contadorInstalacaoPB),
+                    contadorAtualCor: selectedPadrao.colorido ? parseInt(contadorInstalacaoCor) : 0
                 };
 
                 const res = await createImpressora(data);
@@ -403,6 +405,8 @@ export default function RegisterPrinterForm() {
                         className={`md-select ${retiradaClass}`}
                         label="Contador de Retirada Cor"
                         error={errors.contadorRetirada}
+                        disabled={selectedPadrao.colorido === false}
+
                     />
                 </div>
                 <div className='container' style={{ gap: '5rem' }}>

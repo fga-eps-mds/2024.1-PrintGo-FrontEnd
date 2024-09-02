@@ -32,7 +32,7 @@ export default function RegisterPrinterForm() {
     const [contadorInstalacaoPB, setContadorInstalacaoPB] = useState('');
     const [contadorInstalacaoCor, setContadorInstalacaoCor] = useState('');
     const [contadorRetirada, setContadorRetirada] = useState('');
-    const [status, setStatus] = useState('Ativo');  // Estado para armazenar o status
+    const [status, setStatus] = useState('Ativo');
     const [errors, setErrors] = useState({});
     const yesNo = ["Sim", "Não"];
 
@@ -89,8 +89,8 @@ export default function RegisterPrinterForm() {
         if (!selectedCidade) newErrors.cidade = 'Cidade é obrigatória';
         if (!selectedWorkstation) newErrors.workstation = 'Posto de trabalho é obrigatório';
         if (!dataInstalacao) newErrors.dataInstalacao = 'Data de instalação é obrigatória';
-        if (!contadorInstalacaoCor) newErrors.contadorInstalacaoCor = 'Contador de instalação é obrigatório';
-        // if (selectedPadrao.colorido && !contadorInstalacaoCor) newErrors.contadorInstalacaoCor = 'Contador de instalação é obrigatório';
+        // if (!contadorInstalacaoCor) newErrors.contadorInstalacaoCor = 'Contador de instalação é obrigatório';
+        if (selectedPadrao.colorido && !contadorInstalacaoCor) newErrors.contadorInstalacaoCor = 'Contador de instalação é obrigatório';
         if (!contadorInstalacaoPB) newErrors.contadorInstalacaoPB = 'Contador de instalação é obrigatório';
         if (status === 'Inativo') {
             if (!dataRetirada) newErrors.dataRetirada = 'Data de retirada é obrigatória';
@@ -118,7 +118,7 @@ export default function RegisterPrinterForm() {
                     dataInstalacao: dataInstalacao,
                     contadorInstalacaoPB: contadorInstalacaoPB,
                     contadorInstalacaoCor: contadorInstalacaoCor,
-                    // contadorInstalacaoCor: selectedPadrao.colorido ? contadorInstalacaoCor : 0,
+                    contadorInstalacaoCor: selectedPadrao.colorido ? contadorInstalacaoCor : 0,
                     contadorRetiradaPB: 0,
                     contadorRetiradaCor: 0,
                     contadorAtualPB: 0,
@@ -366,7 +366,7 @@ export default function RegisterPrinterForm() {
                         className="md-select"
                         label="Contador com cor"
                         error={errors.contadorInstalacaoCor}
-                        // disabled={selectedPadrao.colorido === false}
+                        disabled={selectedPadrao.colorido === false}
                     />
                 </div>
 

@@ -15,7 +15,7 @@ function StatusDropdown({ onChange, useSelecione, initialValue }) {
     setSelectedOption(event.target.value);
 
     if (onChange) {
-      onChange(event);  // Passa o evento completo
+      onChange(event);
     }
   };
 
@@ -57,7 +57,6 @@ function StatusDropdown({ onChange, useSelecione, initialValue }) {
       >
         {(() => {
           if (useSelecione) {
-            console.log("useSelecione", useSelecione);
             return (
               <option value="">
                 --Selecione--

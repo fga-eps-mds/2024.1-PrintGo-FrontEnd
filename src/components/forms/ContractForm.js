@@ -86,7 +86,10 @@ export default function ContractForm() {
                   onChange={(e) => setNumero(e.target.value)}
                 ></input>
               </label>
-              <StatusDropdown onChange={handleStatus} />
+              <StatusDropdown
+                onChange={handleStatus}
+                useSelecione={false}
+              />
             </div>
             <label id="label">
               Gestor do Contrato

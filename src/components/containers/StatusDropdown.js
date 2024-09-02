@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-function StatusDropdown({ onChange }) {
+function StatusDropdown({ onChange, useSelecione, initialValue }) {
   // Estado para armazenar o valor selecionado
   const [selectedOption, setSelectedOption] = useState('');
 
   // Função para lidar com a mudança de seleção
+
+  useEffect(() => {
+    setSelectedOption(initialValue);
+  }, [initialValue]);
+
   const handleChange = (event) => {
     setSelectedOption(event.target.value);
 
@@ -15,7 +20,7 @@ function StatusDropdown({ onChange }) {
   };
 
   return (
-    <div 
+    <div
       style={{
         display: 'flex',
         flexDirection: 'column',
@@ -32,9 +37,9 @@ function StatusDropdown({ onChange }) {
       >
         Status
       </label>
-      <select 
-        id="status-dropdown" 
-        value={selectedOption} 
+      <select
+        id="status-dropdown"
+        value={selectedOption}
         onChange={handleChange}
         style={{
           fontFamily: 'Jost',
@@ -50,9 +55,16 @@ function StatusDropdown({ onChange }) {
           backgroundSize: '10px'
         }}
       >
-        <option value="">
-          --Selecione--
-        </option>
+        {(() => {
+          if (useSelecione) {
+            console.log("useSelecione", useSelecione);
+            return (
+              <option value="">
+                --Selecione--
+              </option>
+            );
+          }
+        })()}
         <option value="ativo">Ativo</option>
         <option value="inativo">Inativo</option>
       </select>
@@ -62,6 +74,13 @@ function StatusDropdown({ onChange }) {
 
 StatusDropdown.propTypes = {
   onChange: PropTypes.func.isRequired,
+  useSelecione: PropTypes.bool,
+  initialValue: PropTypes.string,
+};
+
+StatusDropdown.defaultProps = {
+  useSelecione: true,
+  initialValue: 'ativo',
 };
 
 export default StatusDropdown;

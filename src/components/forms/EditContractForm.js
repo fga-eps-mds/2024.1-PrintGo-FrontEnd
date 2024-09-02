@@ -104,7 +104,8 @@ export default function EditContractForm() {
             </label>
             <StatusDropdown
               onChange={handleStatus}
-              value={ativo ? "ativo" : "inativo"}
+              initialValue={ativo ? "ativo" : "inativo"}
+              useSelecione={false}
             />
           </div>
           <label id="label">

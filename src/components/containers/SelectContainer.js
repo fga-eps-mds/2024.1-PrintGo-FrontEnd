@@ -47,7 +47,7 @@ SelectContainer.defaultProps = {
     value: '',
     error: '',
     placeHolder: 'Selecione',
-    error: '', // Adicione esta linha
+    error: '',
     containerStyle: ''
 };
 

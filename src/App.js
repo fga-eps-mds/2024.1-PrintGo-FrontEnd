@@ -1,12 +1,8 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import CreateUserPage from "./pages/CreateUser";
 import EditUserPage from "./pages/EditUser";
-import UsersList from "./pages/UsersList";
 import Login from "./pages/Login";
-import Contact from "./pages/Contact";
-import AboutUs from "./pages/AboutUs";
 import ChangePassword from "./pages/ChangePassword";
 import RegisterPrinter from "./pages/RegisterPrinter";
 import EditPrinter from "./pages/EditPrinter";
@@ -45,7 +41,6 @@ function App() {
             <Route path="/padraoimpressora" element={<PatternPrinter />} />
             <Route path="/editarpadrao" element={<EditPattern />} />
             <Route path="/impressorascadastradas" element={<ListEquipment />} />
-            <Route path="/visualizarimpressora/:printerData" element={<ViewPrinter/>}/>
             <Route path="/padroescadastrados" element={<PatternList />} />
             <Route path="/visualizarpadrao" element={<ViewPattern />} />
             <Route path="/cadastrarContrato" element={<ContractForm />} />
@@ -54,17 +49,12 @@ function App() {
             <Route path="/definirRotina" element={<UpdateRoutine />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/verContrato/:id" element={<ViewContract />} />
-            <Route path="/registrarContadores" element={<AddContador />} /> 
-            <Route element={<AdminRoutes/>}>
-              <Route path="/listausuarios" element={<UsersList />} />
-              <Route path="/cadastro" element={<CreateUserPage />} />
+            <Route path="/registrarContadores" element={<AddContador />} />
+            <Route element={<AdminRoutes />}>
             </Route>
           </Route>
-          <Route path="/login" element={<Login />} />
           <Route path="/" element={<Home />} />
-          
-          <Route path="/contato" element={<Contact />} />
-          <Route path="/quemsomos" element={<AboutUs />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/recuperarSenha" element={<RecoverPasswordPage />} />
           <Route path="/esqueciMinhaSenha" element={<ForgottenPasswordPage />} />
         </Routes>

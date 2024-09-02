@@ -31,7 +31,8 @@ export default function RegisterPrinterForm() {
     const [dataRetirada, setDataRetirada] = useState('');
     const [contadorInstalacaoPB, setContadorInstalacaoPB] = useState('');
     const [contadorInstalacaoCor, setContadorInstalacaoCor] = useState('');
-    const [contadorRetirada, setContadorRetirada] = useState('');
+    const [contadorRetiradaPB, setContadorRetiradaPB] = useState('');
+    const [contadorRetiradaCor, setContadorRetiradaCor] = useState('');
     const [status, setStatus] = useState('Ativo');
     const [errors, setErrors] = useState({});
     const yesNo = ["Sim", "Não"];
@@ -94,7 +95,8 @@ export default function RegisterPrinterForm() {
         if (!contadorInstalacaoPB) newErrors.contadorInstalacaoPB = 'Contador de instalação é obrigatório';
         if (status === 'Inativo') {
             if (!dataRetirada) newErrors.dataRetirada = 'Data de retirada é obrigatória';
-            if (!contadorRetirada) newErrors.contadorRetirada = 'Contador de retirada é obrigatório';
+            if (!contadorRetiradaPB) newErrors.contadorRetiradaPB = 'Contador de retirada PB é obrigatório';
+            if (!contadorRetiradaCor) newErrors.contadorRetiradaCor = 'Contador de retirada Cor é obrigatório';
         }
 
         setErrors(newErrors);
@@ -119,14 +121,12 @@ export default function RegisterPrinterForm() {
                     contadorInstalacaoPB: contadorInstalacaoPB,
                     contadorInstalacaoCor: contadorInstalacaoCor,
                     contadorInstalacaoCor: selectedPadrao.colorido ? contadorInstalacaoCor : 0,
-                    contadorRetiradaPB: 0,
-                    contadorRetiradaCor: 0,
+                    contadorRetiradaPB: contadorRetiradaPB ? parseInt(contadorRetiradaPB) : 0,
+                    contadorRetiradaCor: contadorRetiradaCor ? parseInt(contadorRetiradaCor) : 0,
                     contadorAtualPB: 0,
                     contadorAtualCor: 0,
                     ...(dataRetirada !== "" && { dataRetirada: dataRetirada }),
                     ativo: status == "Ativo" ? true : false,
-                    ...(contadorRetirada !== "" && { contadorRetiradaPB: contadorRetirada }),
-                    ...(contadorRetirada !== "" && { contadorRetiradaCor: contadorRetirada }),
                 };
 
                 const res = await createImpressora(data);
@@ -161,6 +161,11 @@ export default function RegisterPrinterForm() {
 
     const handleModeloChange = (event) => {
         const modeloSelecionado = event.target.value;
+        if (modeloSelecionado === '') {
+            setSelectedModelo('');
+            setSelectedPadrao({});
+            return;
+        }
         setSelectedModelo(modeloSelecionado);
 
         const padrao = padroes.find(m => m.modelo === modeloSelecionado);
@@ -183,8 +188,12 @@ export default function RegisterPrinterForm() {
         setContadorInstalacaoCor(event.target.value);
     };
 
-    const handleContadorRetiradaChange = (event) => {
-        setContadorRetirada(event.target.value);
+    const handleContadorRetiradaPBChange = (event) => {
+        setContadorRetiradaPB(event.target.value);
+    };
+
+    const handleContadorRetiradaCorChange = (event) => {
+        setContadorRetiradaCor(event.target.value);
     };
 
     const handleLocalizacaoChange = (event) => {
@@ -225,7 +234,7 @@ export default function RegisterPrinterForm() {
         const newStatus = event.target.value;
         if (newStatus === 'Ativo') {
             setDataRetirada('');
-            setContadorRetirada('');
+            setContadorRetiradaPB('');
         }
         setStatus(newStatus);
     };
@@ -376,17 +385,25 @@ export default function RegisterPrinterForm() {
                 </div>
 
                 <div className="form-separator"> Retirada </div>
-                <div className="container">
+                <div className="container" style={{ gap: '3rem' }}>
                     <NumberContainer
-                        id="contadorRetirada"
-                        name="contadorRetirada"
-                        value={contadorRetirada}
-                        onChange={handleContadorRetiradaChange}
+                        id="contadorRetiradaPb"
+                        name="contadorRetiradaPb"
+                        value={contadorRetiradaPB}
+                        onChange={handleContadorRetiradaPBChange}
                         className={`md-select ${retiradaClass}`}
-                        label="Contador de Retirada"
+                        label="Contador de Retirada PB"
                         error={errors.contadorRetirada}
                     />
-
+                    <NumberContainer
+                        id="contadorRetiradaCor"
+                        name="contadorRetiradaCor"
+                        value={contadorRetiradaCor}
+                        onChange={handleContadorRetiradaCorChange}
+                        className={`md-select ${retiradaClass}`}
+                        label="Contador de Retirada Cor"
+                        error={errors.contadorRetirada}
+                    />
                 </div>
                 <div className='container' style={{ gap: '5rem' }}>
                     <DateContainer

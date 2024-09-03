@@ -38,6 +38,11 @@ export default function Dashboard() {
     });
     //Função para animar os números
     const animateCount = (setter, start, end, duration = 1000) => {
+        if (process.env.NODE_ENV === 'test') {
+            // No animation in test environment, set directly
+            setter(end);
+            return;
+        }
         const range = end - start;
         const startTime = performance.now();
         const animate = (time) => {
@@ -378,7 +383,7 @@ export default function Dashboard() {
                                 {/* Alteração: preenchendo o select de cidade com opções dinâmicas */}
                                 <div className="select-options">
                                     <i className="fas fa-map-marker-alt"></i>
-                                    <select id="cidade" name="cidade" value={filters.cidade} onChange={handleChange}>
+                                    <select id="cidade" name="cidade" value={filters.cidade} onChange={handleChange} data-testid="cidade">
                                         <i className="fas fa-map-marker-alt"></i>
                                         <option value="">Cidade</option>
                                         {opcoesFiltros.cidades.map(cidade => (
@@ -389,7 +394,7 @@ export default function Dashboard() {
                                 {/* Alteração: preenchendo o select de regional com opções dinâmicas */}
                                 <div className="select-options">
                                     <i className="fas fa-map-marker-alt"></i>
-                                    <select id="regional" name="regional" value={filters.regional} onChange={handleChange}>
+                                    <select id="regional" name="regional" value={filters.regional} onChange={handleChange} data-testid="regional">
                                         <option value="">Regional</option>
                                         {opcoesFiltros.regionais.map(regional => (
                                             <option key={regional} value={regional}>{regional}</option>
@@ -399,7 +404,7 @@ export default function Dashboard() {
                                 {/* Alteração: preenchendo o select de unidade com opções dinâmicas */}
                                 <div className="select-options">
                                     <i className="fas fa-map-marker-alt"></i>
-                                    <select id="unidade" name="unidade" value={filters.unidade} onChange={handleChange}>
+                                    <select id="unidade" name="unidade" value={filters.unidade} onChange={handleChange} data-testid="unidade">
                                         <option value="">Unidade</option>
                                         {opcoesFiltros.unidades.map(unidade => (
                                             <option key={unidade} value={unidade}>{unidade}</option>

@@ -144,9 +144,10 @@ export default function AuditPrinter() {
                                             <h2 className='audit-counter-pb-month' id='counter-pb-current'>atual</h2>
                                         </div>
                                     </div>
+                                    <h2 className='audit-element'>Tot.Impressões PrintGo Cor</h2>
+                                    <h2 className='audit-element'>Tot.Impressões PrintGo PB</h2>
                                     <h2 className='audit-element'>Cont.PB Relatório</h2>
                                     <h2 className='audit-element'>Cont.Cor Relatório</h2>
-                                    <h2 className='audit-element'>Tot.Impressões PrintGo</h2>
                                     <h2 className='audit-element'>Tot.Impressões Relatório</h2>
                                     <h2 className='audit-element'>Relatório do PrintGO</h2>
                                 </div>
@@ -163,17 +164,13 @@ export default function AuditPrinter() {
                                                 key={printer.id}
                                                 equipamento={printer.numSerie}
                                                 contadorCor={printer.contadorAtualCor}
+                                                contadorCorAnterior={printer.relatorio.contadorCor}
                                                 contadorPB={printer.contadorAtualPB}
+                                                contadorPBAnterior={printer.relatorio.contadorPB}
                                                 contadorLocPB={relatorio.actualColorCounter}
                                                 contadorLocCor={relatorio.actualMonoCounter}
-                                                totPrintgo={
-                                                    printer.contadorAtualPB +
-                                                    printer.contadorAtualCor +
-                                                    printer.contadorInstalacaoPB +
-                                                    printer.contadorInstalacaoCor +
-                                                    printer.contadorRetiradaPB +
-                                                    printer.contadorRetiradaCor
-                                                }
+                                                totPrintgoPB={printer.contadorAtualPB  - printer.relatorio.contadorPB}
+                                                totPrintgoCor={printer.contadorAtualCor - printer.relatorio.contadorCor}
                                                 totLoc={relatorio.endTotalCounter}
                                                 onClick={handleGeneratePrinterPDF(printer.id)}
                                                 marginError={marginError}

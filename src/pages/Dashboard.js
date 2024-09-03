@@ -211,6 +211,12 @@ export default function Dashboard() {
         });
     };
 
+    function formatDate(dateString) {
+        if (dateString === "") return "";
+        const [year, month, day] = dateString.split("-");
+        return `${day}/${month}/${year}`;
+    }
+
     const generatePDF = () => {
         const doc = new jsPDF();
         const pageWidth = doc.internal.pageSize.width;
@@ -230,10 +236,22 @@ export default function Dashboard() {
         doc.setFont("helvetica", "bold");
         doc.text("Relatório do Dashboard", 10, 30);
 
+        let periodoInterval = "";
+
+        if (filters.inicio === "" && filters.fim === "") {
+            periodoInterval = "Até hoje";
+        } else if (filters.inicio !== "" && filters.fim === "") {
+            periodoInterval = `De: ${formatDate(filters.inicio)} até Hoje`;
+        } else if (filters.inicio === "" && filters.fim !== "") {
+            periodoInterval = `Até ${formatDate(filters.fim)}`;
+        } else {
+            periodoInterval = `De: ${formatDate(filters.inicio)} até: ${formatDate(filters.fim)}`;
+        }
+
         // Tabela de informações do filtro
         const filterData = [
             ["Filtro", "Valor"],
-            ["Período", filters.periodo || 'Todos'],
+            ["Período", `${periodoInterval}`],
             ["Cidade", filters.cidade || 'Todas'],
             ["Regional", filters.regional || 'Todas'],
             ["Unidade", filters.unidade || 'Todas']

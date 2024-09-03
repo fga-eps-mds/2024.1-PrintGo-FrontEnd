@@ -74,7 +74,6 @@ describe("Dashboard", () => {
       </MemoryRouter>
     );
 
-    // Simula a mudança nos filtros
     fireEvent.change(screen.getByTestId("cidade"), {
       target: { value: "City 1" },
     });
@@ -87,13 +86,43 @@ describe("Dashboard", () => {
       target: { value: "Unidade 1" },
     });
 
-    // Verifica se a atualização do filtro altera os dados exibidos
+    
     await waitFor(() => {
-      expect(screen.getByText("150")).toBeInTheDocument(); // Verifica o valor atualizado de "Impressões Totais" (100 PB + 50 Cor)
-      expect(screen.getByText("1")).toBeInTheDocument();   // Verifica o número de "Impressoras coloridas"
-      expect(screen.getByText("0")).toBeInTheDocument();   // Verifica o número de "Impressoras Monocromáticas"
+      expect(screen.getByText("150")).toBeInTheDocument(); 
+      expect(screen.getByText("1")).toBeInTheDocument();   
+      expect(screen.getByText("0")).toBeInTheDocument();   
     });
   });
+  test("handles error gracefully when getFiltroOpcoes fails", async () => {
+   
+    getFiltroOpcoes.mockRejectedValueOnce(new Error("Erro ao buscar opções de filtros"));
 
+    render(
+      <MemoryRouter>
+        <Dashboard />
+      </MemoryRouter>
+    );
 
-});
+    await waitFor(() => {
+      expect(screen.queryByText("Impressões totais")).toBeInTheDocument();
+      expect(screen.queryByText("Impressoras coloridas")).toBeInTheDocument();
+      expect(screen.queryByText("Impressoras Monocromáticas")).toBeInTheDocument();
+    });
+  });
+  test("handles error gracefully when getDashboardData fails", async () => {
+    getDashboardData.mockRejectedValueOnce(new Error("Erro ao buscar dados do dashboard"));
+  
+    render(
+      <MemoryRouter>
+        <Dashboard />
+      </MemoryRouter>
+    );
+  
+    await waitFor(() => {
+      expect(screen.queryByText("Impressões totais")).toBeInTheDocument();
+      expect(screen.queryByText("Impressoras coloridas")).toBeInTheDocument();
+      expect(screen.queryByText("Impressoras Monocromáticas")).toBeInTheDocument();
+    });
+
+  });
+})

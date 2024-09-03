@@ -1,26 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-function StatusDropdown({ onChange, useSelecione, initialValue }) {
+function StatusDropdown({ onChange }) {
   // Estado para armazenar o valor selecionado
   const [selectedOption, setSelectedOption] = useState('');
 
   // Função para lidar com a mudança de seleção
-
-  useEffect(() => {
-    setSelectedOption(initialValue);
-  }, [initialValue]);
-
   const handleChange = (event) => {
     setSelectedOption(event.target.value);
 
     if (onChange) {
-      onChange(event);
+      onChange(event);  // Passa o evento completo
     }
   };
 
   return (
-    <div
+    <div 
       style={{
         display: 'flex',
         flexDirection: 'column',
@@ -37,9 +32,9 @@ function StatusDropdown({ onChange, useSelecione, initialValue }) {
       >
         Status
       </label>
-      <select
-        id="status-dropdown"
-        value={selectedOption}
+      <select 
+        id="status-dropdown" 
+        value={selectedOption} 
         onChange={handleChange}
         style={{
           fontFamily: 'Jost',
@@ -55,15 +50,9 @@ function StatusDropdown({ onChange, useSelecione, initialValue }) {
           backgroundSize: '10px'
         }}
       >
-        {(() => {
-          if (useSelecione) {
-            return (
-              <option value="">
-                --Selecione--
-              </option>
-            );
-          }
-        })()}
+        <option value="">
+          --Selecione--
+        </option>
         <option value="ativo">Ativo</option>
         <option value="inativo">Inativo</option>
       </select>
@@ -73,13 +62,6 @@ function StatusDropdown({ onChange, useSelecione, initialValue }) {
 
 StatusDropdown.propTypes = {
   onChange: PropTypes.func.isRequired,
-  useSelecione: PropTypes.bool,
-  initialValue: PropTypes.string,
-};
-
-StatusDropdown.defaultProps = {
-  useSelecione: true,
-  initialValue: 'ativo',
 };
 
 export default StatusDropdown;

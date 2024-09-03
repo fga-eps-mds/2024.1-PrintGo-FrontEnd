@@ -53,44 +53,9 @@ export default function EditContractForm() {
     }
   };
 
-  const validateForm = () => {
-    let isValid = true;
-  
-    if (!numero || numero.trim() === '') {
-      toast.error("O número do contrato é obrigatório");
-      isValid = false;
-    }
-    if (!nomeGestor || nomeGestor.trim() === '') {
-      toast.error("O nome do gestor é obrigatório");
-      isValid = false;
-    }
-    if (!descricao || descricao.trim() === '') {
-      toast.error("A descrição é obrigatória");
-      isValid = false;
-    }
-    if (!dataInicio) {
-      toast.error("A data de início é obrigatória");
-      isValid = false;
-    }
-    if (!dataTermino) {
-      toast.error("A data de término é obrigatória");
-      isValid = false;
-    }
-    if (new Date(dataTermino) < new Date(dataInicio)) {
-      toast.error("A data de término não pode ser anterior à data de início");
-      isValid = false;
-    }
-  
-    return isValid;
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!validateForm()) {
-      return;
-    }
-    
     const formData = {
       numero,
       nomeGestor,
@@ -139,8 +104,7 @@ export default function EditContractForm() {
             </label>
             <StatusDropdown
               onChange={handleStatus}
-              initialValue={ativo ? "ativo" : "inativo"}
-              useSelecione={false}
+              value={ativo ? "ativo" : "inativo"}
             />
           </div>
           <label id="label">

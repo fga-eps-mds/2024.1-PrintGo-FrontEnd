@@ -8,6 +8,8 @@ import PropTypes from 'prop-types';
 import jsPDF from "jspdf";
 import "jspdf-autotable"; // se quiser adicionar tabelas no PDF
 import { LOGO_BASE64 } from "../utils/logo";
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
 
 
 
@@ -69,8 +71,6 @@ export default function Dashboard() {
                         unidades: data.data.unidades,
                         periodos: data.data.periodos
                     });
-                } else {
-                    console.log('Erro ao buscar opções de filtros');
                 }
             } catch (error) {
                 console.log('Erro ao buscar opções de filtros:', error);
@@ -327,6 +327,9 @@ export default function Dashboard() {
 
         // Salva o PDF
         doc.save(`Dashboard_Report_${filters.periodo || 'todos'}.pdf`);
+
+        // Exibe um toast de sucesso após gerar o PDF
+        toast.success("PDF gerado com sucesso!");
     };
 
 
@@ -354,6 +357,7 @@ export default function Dashboard() {
 
     return (
         <><Navbar />
+            <ToastContainer />
             <div className="container-dash">
                 <div className="top-container">
                     <div className="top-part1">

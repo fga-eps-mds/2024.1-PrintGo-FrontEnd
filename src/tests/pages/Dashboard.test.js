@@ -86,15 +86,15 @@ describe("Dashboard", () => {
       target: { value: "Unidade 1" },
     });
 
-    
+
     await waitFor(() => {
-      expect(screen.getByText("150")).toBeInTheDocument(); 
-      expect(screen.getByText("1")).toBeInTheDocument();   
-      expect(screen.getByText("0")).toBeInTheDocument();   
+      expect(screen.getByText("150")).toBeInTheDocument();
+      expect(screen.getByText("1")).toBeInTheDocument();
+      expect(screen.getByText("0")).toBeInTheDocument();
     });
   });
   test("handles error gracefully when getFiltroOpcoes fails", async () => {
-   
+
     getFiltroOpcoes.mockRejectedValueOnce(new Error("Erro ao buscar opções de filtros"));
 
     render(
@@ -111,13 +111,13 @@ describe("Dashboard", () => {
   });
   test("handles error gracefully when getDashboardData fails", async () => {
     getDashboardData.mockRejectedValueOnce(new Error("Erro ao buscar dados do dashboard"));
-  
+
     render(
       <MemoryRouter>
         <Dashboard />
       </MemoryRouter>
     );
-  
+
     await waitFor(() => {
       expect(screen.queryByText("Impressões totais")).toBeInTheDocument();
       expect(screen.queryByText("Impressoras coloridas")).toBeInTheDocument();
@@ -125,4 +125,26 @@ describe("Dashboard", () => {
     });
 
   });
+
+  test("generates PDF correctly", async () => {
+    render(
+      <MemoryRouter>
+        <Dashboard />
+      </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText("150")).toBeInTheDocument();
+      expect(screen.getByText("1")).toBeInTheDocument();
+      expect(screen.getByText("0")).toBeInTheDocument();
+    });
+
+    const pdfButton = screen.getByText("Gerar PDF");
+    fireEvent.click(pdfButton);
+
+    await waitFor(() => {
+      expect(toast.success).toHaveBeenCalledWith("PDF gerado com sucesso!");
+    });
+  });
+
 })

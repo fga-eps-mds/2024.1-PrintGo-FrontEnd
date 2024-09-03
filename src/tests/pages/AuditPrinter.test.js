@@ -6,8 +6,6 @@ import { getContract } from '../../services/contractService';
 import { getPrintersByContract, generatePrinterPDF } from '../../services/printerService';
 import { toast } from 'react-toastify';
 import { MemoryRouter } from 'react-router-dom';
-import Papa from 'papaparse';
-import UploadReport from '../../components/UploadReport';
 
 // Mock the services and toast
 jest.mock('../../components/UploadReport.js', () => (props) => (
@@ -21,7 +19,7 @@ jest.mock('../../components/UploadReport.js', () => (props) => (
             </div>
         )}
     </div>
-));
+)});
 
 jest.mock('../../services/contractService', () => ({
     getContract: jest.fn(),

@@ -6,8 +6,8 @@ import Navbar from "../components/navbar/Navbar";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { ReloadIcon } from "@radix-ui/react-icons";
-import { toast } from 'react-toastify';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { toast } from "react-toastify";
+import { useLocation, useNavigate } from "react-router-dom";
 import { recoverPassword } from "../services/userService";
 import { getPasswordSchema } from "../components/utils/YupSchema";
 
@@ -15,46 +15,57 @@ const passwordSchema = getPasswordSchema();
 
 export default function RecoverPasswordPage() {
   const navigate = useNavigate();
-  const location = useLocation()
-  const params = new URLSearchParams(location.search)
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid, isSubmitting }, 
-    reset
-  } = useForm({resolver: yupResolver(passwordSchema), mode: "onChange"})
-  
+    formState: { errors, isValid, isSubmitting },
+    reset,
+  } = useForm({ resolver: yupResolver(passwordSchema), mode: "onChange" });
+
   const submitChangePassword = async (data) => {
     const token = params.get("token");
-    const response = await recoverPassword({token, senha: data.novaSenha});
-    if (response.type === 'error') {
-      toast.error("Ocorreu um erro na atualização da senha! por favor tente novamente");
+    const response = await recoverPassword({ token, senha: data.novaSenha });
+    if (response.type === "error") {
+      toast.error(
+        "Ocorreu um erro na atualização da senha! por favor tente novamente"
+      );
     } else {
       toast.success("Senha alterada com sucesso! redirecionando");
       setTimeout(() => {
         reset();
-        navigate('/login');
-      }, 3000); 
+        navigate("/login");
+      }, 3000);
     }
   };
 
   return (
     <>
       <Navbar />
-      <div className="change-password-container" data-testid="change-password-container">
-        <div className="change-password-image-container">
-          <img src={ChangePasswordPeople} alt="Pessoas" />
-        </div>
+      <div
+        className="change-password-container"
+        data-testid="change-password-container"
+      >
+        <div className="change-password-image-container"></div>
         <div className="change-password-form-container">
-          <form className="change-password-form" onSubmit={handleSubmit(submitChangePassword)}>
+          <form
+            className="change-password-form"
+            onSubmit={handleSubmit(submitChangePassword)}
+          >
             <div className="change-password-input-container">
               <div className="change-password-form-title">Mudar senha</div>
               <div className="change-password-form-group">
                 <div className="input-form-container">
-                  <label htmlFor="label-change-password" className="label-change-password">Nova Senha</label>
+                  <label
+                    htmlFor="label-change-password"
+                    className="label-change-password"
+                  >
+                    Nova Senha
+                  </label>
                   <input
-                    {...register("novaSenha", {required: true} )}
+                    {...register("novaSenha", { required: true })}
                     type="password"
                     placeholder="*********"
                     className="input-field"
@@ -63,12 +74,15 @@ export default function RecoverPasswordPage() {
                   <span>{errors.novaSenha?.message}</span>
                 </div>
                 <div className="input-form-container">
-                  <label htmlFor="label-change-password" className="label-change-password">
+                  <label
+                    htmlFor="label-change-password"
+                    className="label-change-password"
+                  >
                     Repita a senha
                   </label>
                   <input
                     type="password"
-                    {...register("confirmacaoNovaSenha", {required: true} )}
+                    {...register("confirmacaoNovaSenha", { required: true })}
                     placeholder="*********"
                     className="input-field"
                     data-testid="input-repita-senha"
@@ -77,13 +91,8 @@ export default function RecoverPasswordPage() {
                 </div>
               </div>
               <div className="change-password-button-container">
-                <button
-                  type="submit"
-                  disabled={!isValid || isSubmitting}
-                >
-                  {isSubmitting && (
-                            <ReloadIcon id="animate-spin"/>
-                  )}
+                <button type="submit" disabled={!isValid || isSubmitting}>
+                  {isSubmitting && <ReloadIcon id="animate-spin" />}
                   Confirmar
                 </button>
               </div>

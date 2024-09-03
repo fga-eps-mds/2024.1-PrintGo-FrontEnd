@@ -1,4 +1,4 @@
-import { addContadores, createImpressora, editImpressora, getPrinters } from '../../services/printerService'
+import { addContadores, createImpressora, editImpressora, getPrinters, addRotina } from '../../services/printerService'
 import { api } from '../../lib/api/config';
 
 jest.mock('../../lib/api/config.js', () => ({
@@ -26,6 +26,17 @@ describe('printer endpoints', () => {
         contadorRetiradaCor: 0,
         localizacao: "Brasilia;Teste;SubTeste",
         modeloId: "2"
+    };
+
+    const rotinaData = {
+        localizacao: "Brasilia;Teste;SubTeste",
+        dataCriado: "2024-07-27",
+        dataUltimoUpdate: null,
+        cronExpression: "0 0 * * * *",
+        ativo: true,
+        cidadeTodas: false,
+        regionalTodas: false,
+        unidadeTodas: false
     };
 
     beforeEach(() => {
@@ -174,4 +185,37 @@ describe('printer endpoints', () => {
       expect(result).toEqual({ type: 'error', data: 'some data' });
       expect(api.patch).toHaveBeenCalledWith(`/printer/contadores/${id}`, payload);
     });
+
+    it('must return success when the routine is created', async () => {
+        const mockResponse = { status: 201, data: { id: 1, ...rotinaData } };
+    
+        api.post.mockResolvedValue(mockResponse);
+    
+        const result = await addRotina(rotinaData);
+    
+        expect(result).toEqual({ type: 'success', data: mockResponse.data });
+        expect(api.post).toHaveBeenCalledWith('/printer/rotina', {...rotinaData});
+      });
+    
+      it('should return error when status is not 200', async () => {
+        const mockResponse = { status: 400, data: { message: 'Erro ao criar rotina' } };
+    
+        api.post.mockResolvedValue(mockResponse);
+    
+        const result = await addRotina(rotinaData);
+    
+        expect(result).toEqual({ type: 'error', data: mockResponse.data });
+        expect(api.post).toHaveBeenCalledWith('/printer/rotina', {...rotinaData});
+      });
+    
+      it('should return error when API call fails', async () => {
+        const mockError = new Error('Falha na rede');
+    
+        api.post.mockRejectedValue(mockError);
+    
+        const result = await addRotina(rotinaData);
+    
+        expect(result).toEqual({ type: 'error', error: mockError });
+        expect(api.post).toHaveBeenCalledWith('/printer/rotina', {...rotinaData});
+      });
 })

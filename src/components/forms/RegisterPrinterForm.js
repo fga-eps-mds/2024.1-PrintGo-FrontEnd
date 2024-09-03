@@ -5,7 +5,6 @@ import SelectContainer from '../containers/SelectContainer';
 import InputContainer from '../containers/InputContainer';
 import DateContainer from '../containers/DateContainer';
 import NumberContainer from '../containers/NumberContainer';
-import ViewDataContainer from "../containers/ViewDataContainer";
 import { toast } from "react-toastify";
 import Button from '../Button';
 import { createImpressora, getLocalizacao } from "../../services/printerService";
@@ -13,11 +12,12 @@ import { getPadroes } from "../../services/patternService";
 import { getContract } from "../../services/contractService";
 
 export default function RegisterPrinterForm() {
-    const [marcas, setMarcas] = useState([]);
+    const [padroes, setPadroes] = useState([]);
     const [contratos, setContratos] = useState([]);
     const [selectedContrato, setSelectedContrato] = useState('');
     const [selectedMarca, setSelectedMarca] = useState('');
     const [selectedModelo, setSelectedModelo] = useState('');
+    const [selectedPadrao, setSelectedPadrao] = useState({});
     const [enderecoIP, setEnderecoIP] = useState('');
     const [numSerie, setNumSerie] = useState('');
     const [localizacoes, setLocalizacoes] = useState([]);
@@ -48,10 +48,10 @@ export default function RegisterPrinterForm() {
             }
         };
 
-        const fetchMarcas = async () => {
+        const fetchPadroes = async () => {
             try {
                 const response = await getPadroes();
-                setMarcas(response.data);
+                setPadroes(response.data);
             } catch (error) {
                 console.error('Erro ao buscar padrões:', error);
             }
@@ -67,7 +67,7 @@ export default function RegisterPrinterForm() {
             }
         };
 
-        fetchMarcas();
+        fetchPadroes();
         fetchContratos();
         fetchLocalizacoes();
     }, []);
@@ -85,6 +85,7 @@ export default function RegisterPrinterForm() {
         if (!selectedWorkstation) newErrors.workstation = 'Posto de trabalho é obrigatório';
         if (!dataInstalacao) newErrors.dataInstalacao = 'Data de instalação é obrigatória';
         if (!contadorInstalacaoCor) newErrors.contadorInstalacaoCor = 'Contador de instalação é obrigatório';
+        // if (selectedPadrao.colorido && !contadorInstalacaoCor) newErrors.contadorInstalacaoCor = 'Contador de instalação é obrigatório';
         if (!contadorInstalacaoPB) newErrors.contadorInstalacaoPB = 'Contador de instalação é obrigatório';
         if (status === 'Inativo') {
             if (!dataRetirada) newErrors.dataRetirada = 'Data de retirada é obrigatória';
@@ -101,7 +102,7 @@ export default function RegisterPrinterForm() {
                 let data = {
                     numContrato: selectedContrato,
                     // marca: selectedMarca,
-                    modeloId: selectedModelo,
+                    modeloId: selectedPadrao.id.toString(),
                     enderecoIp: enderecoIP,
                     numSerie: numSerie,
                     estaNaRede: selectedDentroRede == "Sim" ? true : false,
@@ -112,6 +113,7 @@ export default function RegisterPrinterForm() {
                     dataInstalacao: dataInstalacao,
                     contadorInstalacaoPB: contadorInstalacaoPB,
                     contadorInstalacaoCor: contadorInstalacaoCor,
+                    // contadorInstalacaoCor: selectedPadrao.colorido ? contadorInstalacaoCor : 0,
                     contadorRetiradaPB: 0,
                     contadorRetiradaCor: 0,
                     contadorAtualPB: 0,
@@ -132,7 +134,6 @@ export default function RegisterPrinterForm() {
                 toast.error("Erro ao criar impressora!");
             }
         } catch (error) {
-            // Trate o erro aqui, por exemplo, mostrar uma mensagem para o usuário
             console.error("Erro ao criar impressora:", error);
             toast.error("Ocorreu um erro ao criar a impressora. Tente novamente.");
         }
@@ -150,8 +151,15 @@ export default function RegisterPrinterForm() {
         const marcaSelecionada = event.target.value;
         setSelectedMarca(marcaSelecionada);
 
-        const marca = marcas.find(m => m.marca === marcaSelecionada);
-        setSelectedModelo(marca ? marca.modelo : 'Selecione uma marca');
+        setSelectedModelo('');
+    };
+
+    const handleModeloChange = (event) => {
+        const modeloSelecionado = event.target.value;
+        setSelectedModelo(modeloSelecionado);
+
+        const padrao = padroes.find(m => m.modelo === modeloSelecionado);
+        setSelectedPadrao(padrao);
     };
 
     const handleEnderecoIPChange = (newValue) => {
@@ -237,7 +245,7 @@ export default function RegisterPrinterForm() {
                 <SelectContainer
                     id="marca"
                     name="marca"
-                    options={marcas ? marcas.map(m => m.marca) : []}
+                    options={padroes ? Array.from(new Set(padroes.map(m => m.marca))) : []}
                     className="md-select"
                     label="Marca"
                     onChange={handleMarcaChange}
@@ -246,12 +254,15 @@ export default function RegisterPrinterForm() {
                 />
 
                 <div className="container" style={{ gap: '5rem' }}>
-                    <ViewDataContainer
-                        id="marca-equipamento"
-                        name="marca-equipamento"
-                        className="small-view"
-                        labelName={"Modelo"}
+                    <SelectContainer
+                        id="modelo"
+                        name="modelo"
+                        className="md-select"
+                        label={"Modelo"}
                         value={selectedModelo}
+                        error={errors.modelo}
+                        options={padroes ? padroes.filter(m => m.marca === selectedMarca).map(m => m.modelo) : []}
+                        onChange={handleModeloChange}
                     />
 
                     <InputContainer
@@ -350,6 +361,7 @@ export default function RegisterPrinterForm() {
                         className="md-select"
                         label="Contador com cor"
                         error={errors.contadorInstalacaoCor}
+                        // disabled={selectedPadrao.colorido === false}
                     />
                 </div>
 

@@ -23,11 +23,13 @@ export default function Dashboard() {
     const [equipmentCountByUnit, setEquipmentCountByUnit] = useState([]);
 
     const [filters, setFilters] = useState({
-        periodo: '',
+        inicio: '',
+        fim: '',
         cidade: '',
         regional: '',
         unidade: '',
     });
+
     const [opcoesFiltros, setOpcoesFiltros] = useState({
         periodos: [],
         cidades: [],
@@ -87,15 +89,19 @@ export default function Dashboard() {
                     // Filtrando dados no frontend com base nos filtros aplicados
                     const filteredImpressoras = data.impressoras.filter((impressora) => {
                         const [cidade, regional, unidade] = impressora.localizacao.split(';');
-                        const periodo = impressora.dataContador ? new Date(impressora.dataContador).toISOString().slice(0, 7) : '';
+                        const dataContador = impressora.dataContador ? new Date(impressora.dataContador) : null;
+
+                        const dentroDoPeriodo = (!filters.inicio || dataContador >= new Date(filters.inicio)) &&
+                            (!filters.fim || dataContador <= new Date(filters.fim));
 
                         return (
-                            (!filters.periodo || periodo === filters.periodo) &&
+                            dentroDoPeriodo &&
                             (!filters.cidade || cidade === filters.cidade) &&
                             (!filters.regional || regional === filters.regional) &&
                             (!filters.unidade || unidade === filters.unidade)
                         );
                     });
+
 
                     console.log("Impressoras após filtragem:", filteredImpressoras);
 
@@ -349,15 +355,25 @@ export default function Dashboard() {
                         <div className="dash_periodo">
                             <h1>Dashboard</h1>
                             <div className="select-pel">
-                                {/* Alteração: Seleção de período (mensal) baseada nas opções geradas */}
                                 <div className="select-options">
                                     <i className="fas fa-calendar-alt"></i>
-                                    <select id="periodo" name="periodo" value={filters.periodo} onChange={handleChange}>
-                                        <option value="">Selecione o período</option>
-                                        {opcoesFiltros.periodos.map(periodo => (
-                                            <option key={periodo} value={periodo}>{periodo}</option>
-                                        ))}
-                                    </select>
+                                    <div>
+                                        <label htmlFor="inicio">Início:</label>
+                                        <input
+                                            type="date"
+                                            name="inicio"
+                                            value={filters.inicio}
+                                            onChange={handleChange}
+                                        />
+
+                                        <label htmlFor="fim">Fim:</label>
+                                        <input
+                                            type="date"
+                                            name="fim"
+                                            value={filters.fim}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
                                 </div>
                                 {/* Alteração: preenchendo o select de cidade com opções dinâmicas */}
                                 <div className="select-options">

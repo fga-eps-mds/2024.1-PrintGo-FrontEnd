@@ -21,6 +21,13 @@
     align-items: center;
     justify-content: center;
 }
+
+.dash_periodo input{
+    background-color: #D9D9D9;
+    border: none;
+    color: #007438;
+}
+
 .dash_periodo h1{
     color: #03326D;
     font-weight: 500;

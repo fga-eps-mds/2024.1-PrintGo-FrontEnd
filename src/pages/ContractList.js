@@ -48,10 +48,10 @@ export default function ContractList() {
   };
 
   const handleToggleClick = async (contract) => {
-    const { id, numero, dataTermino } = contract;
+    const { id, numero, dataTermino, ativo } = contract;
 
-    if (new Date(dataTermino) < new Date()) {
-      toast.error("Contrato vencido, não é possível ativar/desativar");
+    if (!ativo && new Date(dataTermino) < new Date()) {
+      toast.error("Contrato vencido, não é possível ativar contrato vencido");
       return
     }
     try {

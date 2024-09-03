@@ -4,17 +4,6 @@
     gap: 15px;
     padding-inline: 70px;
     padding-top: 40px;
-    max-height: 400px;
-    overflow-y: auto;
-}
-
-.contract-list::-webkit-scrollbar {
-    width: 8px;
-}
-
-.contract-list::-webkit-scrollbar-thumb {
-    background-color: #0D3D6D;
-    border-radius: 10px;
 }
 
 .mainArea {
@@ -29,23 +18,52 @@
     align-items: center;
     justify-content: space-between;
     border-bottom-style: solid;
-    border-color: #0D3D6D;
+    border-color: #0d3d6d;
     margin-inline: 70px;
     max-height: 120px;
     margin-bottom: -10px;
 }
 
+.columnsContract {
+    color: #003366;
+    display: flex;
+    margin-left: 5%;
+}
+
+.columnLabel {
+    border-right-style: solid;
+    border-color: #0d3d6d;
+    width: 14rem;
+    font-size: 20px;
+    text-align: center;
+
+}
+
+.columnButtons {
+    display: flex;
+    justify-content: flex-end;
+    width: 25%;
+    padding-left: 16rem;
+}
+
+.columnBtn {
+    width: 20%;
+    font-size: 20px;
+    text-align: center;
+    margin-left: 15px;
+}
+
 .titulo {
     font-weight: 400;
     font-size: 48px;
-    color: #0D3D6D;
+    color: #0d3d6d;
 }
 
 #searchBar {
     width: 20vw;
     height: 6vh;
     border-radius: 5vh;
-    border: #0D3D6D 2px solid;
+    border: #0d3d6d 2px solid;
     padding-left: 20px;
     font-size: 24px;
 }
@@ -55,7 +73,7 @@
 }
 
 #buttonContracts {
-    background-color: #006633;
+    background-color: #003366;
     border-radius: 60px;
     margin-top: 20px;
     margin-left: 70px;

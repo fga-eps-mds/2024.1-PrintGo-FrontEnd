@@ -383,22 +383,26 @@ export default function Dashboard() {
                             <h1>Dashboard</h1>
                             <div className="select-pel">
                                 <div className="select-options">
-                                    <i className="fas fa-calendar-alt"></i>
                                     <div>
-                                        <label htmlFor="inicio">Início:</label>
+                                        <label htmlFor="inicio" className="input-label">
+                                            <i className="fas fa-calendar-alt"></i>
+                                            Início:
+                                        </label>
                                         <input
                                             type="date"
                                             name="inicio"
                                             value={filters.inicio}
                                             onChange={handleChange}
+                                            className="input-date"
                                         />
 
-                                        <label htmlFor="fim">Fim:</label>
+                                        <label htmlFor="fim" className="input-label">Fim:</label>
                                         <input
                                             type="date"
                                             name="fim"
                                             value={filters.fim}
                                             onChange={handleChange}
+                                            className="input-date"
                                         />
                                     </div>
                                 </div>

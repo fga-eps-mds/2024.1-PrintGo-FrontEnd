@@ -423,10 +423,6 @@ export default function EditPrinterForm() {
                             info={printerData.contadorAtualPB + printerData.contadorAtualCor}
                         />
                         <BigInfoCard
-                            title="Contador Atual"
-                            info={printerData.contadorInstalacaoCor + printerData.contadorInstalacaoPB}
-                        />
-                        <BigInfoCard
                             title="Impressões Preto e Branco"
                             info={printerData.contadorAtualPB}
                         />

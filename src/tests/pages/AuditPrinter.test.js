@@ -19,7 +19,7 @@ jest.mock('../../components/UploadReport.js', () => (props) => (
             </div>
         )}
     </div>
-)});
+));
 
 jest.mock('../../services/contractService', () => ({
     getContract: jest.fn(),

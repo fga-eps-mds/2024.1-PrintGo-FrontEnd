@@ -6,6 +6,7 @@ import { getFiltroOpcoes, getDashboardData } from "../../services/dasboardServic
 import { MemoryRouter } from "react-router-dom";
 import { toast } from "react-toastify";
 import { formatDate } from "../../pages/Dashboard";
+import { animateCount } from "../../pages/Dashboard";
 
 jest.mock("../../services/dasboardService");
 jest.mock("react-toastify");
@@ -17,6 +18,8 @@ beforeAll(() => {
     disconnect() { }
   };
 });
+
+jest.useFakeTimers()
 
 describe("Dashboard", () => {
   beforeEach(() => {
@@ -75,6 +78,14 @@ describe("Dashboard", () => {
       </MemoryRouter>
     );
 
+    const mockSetter = jest.fn();
+
+    animateCount(mockSetter, 0, 150, 1000);
+
+    jest.advanceTimersByTime(1000);
+
+    expect(mockSetter).toHaveBeenCalledWith(150);
+
     fireEvent.change(screen.getByTestId("cidade"), {
       target: { value: "City 1" },
     });
@@ -87,13 +98,13 @@ describe("Dashboard", () => {
       target: { value: "Unidade 1" },
     });
 
-
     await waitFor(() => {
       expect(screen.getByText("150")).toBeInTheDocument();
       expect(screen.getByText("1")).toBeInTheDocument();
       expect(screen.getByText("0")).toBeInTheDocument();
     });
   });
+
   test("handles error gracefully when getFiltroOpcoes fails", async () => {
 
     getFiltroOpcoes.mockRejectedValueOnce(new Error("Erro ao buscar opções de filtros"));
@@ -134,32 +145,32 @@ describe("Dashboard", () => {
         <Dashboard />
       </MemoryRouter>
     );
-  
+
     // Cenário: Nenhum filtro aplicado (ambos vazios)
     await waitFor(() => {
       expect(screen.getByText("150")).toBeInTheDocument();
       expect(screen.getByText("1")).toBeInTheDocument();
       expect(screen.getByText("0")).toBeInTheDocument();
     });
-  
+
     let pdfButton = screen.getByText("Gerar PDF");
     fireEvent.click(pdfButton);
-  
+
     await waitFor(() => {
       expect(toast.success).toHaveBeenCalledWith("PDF gerado com sucesso!");
     });
-  
+
     // Cenário 2: Apenas o filtro de início está preenchido
     fireEvent.change(screen.getByTestId("inicio"), {
       target: { value: "2024-08-01" },
     });
-  
+
     fireEvent.click(pdfButton);
-  
+
     await waitFor(() => {
       expect(toast.success).toHaveBeenCalledWith("PDF gerado com sucesso!");
     });
-  
+
     // Cenário 3: Apenas o filtro de fim está preenchido
     fireEvent.change(screen.getByTestId("inicio"), {
       target: { value: "" },
@@ -167,13 +178,13 @@ describe("Dashboard", () => {
     fireEvent.change(screen.getByTestId("fim"), {
       target: { value: "2024-09-01" },
     });
-  
+
     fireEvent.click(pdfButton);
-  
+
     await waitFor(() => {
       expect(toast.success).toHaveBeenCalledWith("PDF gerado com sucesso!");
     });
-  
+
     // Cenário 4: Ambos os filtros estão preenchidos
     fireEvent.change(screen.getByTestId("inicio"), {
       target: { value: "2024-08-01" },
@@ -181,9 +192,9 @@ describe("Dashboard", () => {
     fireEvent.change(screen.getByTestId("fim"), {
       target: { value: "2024-09-01" },
     });
-  
+
     fireEvent.click(pdfButton);
-  
+
     await waitFor(() => {
       expect(toast.success).toHaveBeenCalledWith("PDF gerado com sucesso!");
     });
@@ -195,17 +206,17 @@ describe("Dashboard", () => {
     expect(formatDate("2022-01-01")).toBe("01/01/2022");
   });
 
- /* test("calls renderCustomizedLabel function", async () => {
-    render(
-      <MemoryRouter>
-        <Dashboard />
-      </MemoryRouter>
-    );
-  
-    // Espera o gráfico de Pizza ser renderizado
-    await waitFor(() => {
-      const pieChartElements = screen.getAllByRole('img'); // Verifica se elementos SVG foram renderizados
-      expect(pieChartElements.length).toBeGreaterThan(0); // Verifica se pelo menos um SVG foi encontrado
-    });
-  });*/
+  /* test("calls renderCustomizedLabel function", async () => {
+     render(
+       <MemoryRouter>
+         <Dashboard />
+       </MemoryRouter>
+     );
+   
+     // Espera o gráfico de Pizza ser renderizado
+     await waitFor(() => {
+       const pieChartElements = screen.getAllByRole('img'); // Verifica se elementos SVG foram renderizados
+       expect(pieChartElements.length).toBeGreaterThan(0); // Verifica se pelo menos um SVG foi encontrado
+     });
+   });*/
 })

@@ -20,11 +20,11 @@ export function formatDate(dateString) {
 }
 
 export const animateCount = (setter, start, end, duration = 1000) => {
-    if (process.env.NODE_ENV === 'test') {
-        // No animation in test environment, set directly
-        setter(end);
-        return;
-    }
+    // if (process.env.NODE_ENV === 'test') {
+    //     // No animation in test environment, set directly
+    //     setter(end);
+    //     return;
+    // }
     const range = end - start;
     const startTime = performance.now();
     const animate = (time) => {

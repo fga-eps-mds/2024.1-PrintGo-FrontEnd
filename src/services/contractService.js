@@ -2,14 +2,9 @@ import { api } from '../lib/api/config';
 
 const basePath = "/contract"
 
-export const getContract = async (page, pageSize) => {
+export const getContract = async () => {
   try {
-    const response = await api.get(`${basePath}/`, {
-      params: {
-        page,
-        pageSize
-      }
-    });
+    const response = await api.get(`${basePath}/`);
     return { type: 'success', data: response.data};
   } catch (error) {
     return { type: 'error', error };

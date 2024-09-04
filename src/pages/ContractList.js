@@ -18,7 +18,7 @@ export default function ContractList() {
   useEffect(() => {
     const fetchContracts = async () => {
       try {
-        const response = await getContract(1, 100);
+        const response = await getContract();
         if (response.type === "success") {
           setContracts(response.data.data);
         } else {

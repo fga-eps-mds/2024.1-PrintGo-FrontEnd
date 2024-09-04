@@ -156,11 +156,11 @@ export default function UpdateRoutine() {
 
   const handleDayChange = (e) => {
     const value = e.target.value;
-    if (value >= 1 && value <= 28) {
-      setDay(value);
-      setErrors((prevErrors) => ({ ...prevErrors, diaMes: undefined }));
+    setDay(value);
+    if (value === "" || isNaN(value) || value < 1 || value > 28) {
+      setErrors((prevErrors) => ({ ...prevErrors, diaMes: "Por favor, insira um valor entre 1 e 28" }));
     } else {
-      alert("Por favor, insira um valor entre 1 e 28");
+      setErrors((prevErrors) => ({ ...prevErrors, diaMes: undefined }));
     }
   };
 
@@ -171,10 +171,6 @@ export default function UpdateRoutine() {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!selectedCidade) newErrors.cidade = "Cidade é obrigatória";
-    if (!selectedRegional) newErrors.regional = "Regional é obrigatória";
-    if (!selectedUnidade)
-      newErrors.unidade = "Unidade de Trabalho é obrigatória";
     if (!selectedRoutine) newErrors.rotina = "Uma Rotina precisa ser escolhida";
     if (routine === "Diariamente") {
       if (!time && !interval) {
@@ -202,7 +198,7 @@ export default function UpdateRoutine() {
   };
 
   const handleRoutineSubmit = async () => {
-    if (!validateForm) {
+    if (!validateForm()) {
       toast.error("Por Favor preencha os campos obrigatórios.");
       return;
     }
@@ -368,7 +364,7 @@ export default function UpdateRoutine() {
               id="Rotina de Registro"
               value={routine}
               onChange={handleRoutineChange}
-              className={errors.rotina ? "input-error" : "dropdownRoutine"}
+              className={errors.rotina ? "inputRoutine-error" : "dropdownRoutine"}
             >
               <option value={""}>Escolha uma opção</option>
               <option value={"Diariamente"}>Diariamente</option>
@@ -376,7 +372,7 @@ export default function UpdateRoutine() {
               <option value={"Mensalmente"}>Mensalmente</option>
             </select>
             {errors.rotina && (
-              <span className="error-message">{errors.rotina}</span>
+              <span className="errorRoutine-message">{errors.rotina}</span>
             )}
           </div>
           {selectedRoutine && (
@@ -408,17 +404,27 @@ export default function UpdateRoutine() {
                     )}
                   </div>
                   <div id="smallboxRoutine">
-                    <label htmlFor="intervalRoutine" id="slabelRoutine">
-                      Escolha o intervalo:
-                    </label>
-                    <IntervalDropdown
-                      className="intervalRoutine"
-                      id="intervalRoutine"
-                      data-testid="interval-dropdown" 
-                      value={interval}
-                      onChange={handleIntervalChange}
-                      error={errors.intervalo}
-                    />
+                    <div>
+                      <label htmlFor="intervalRoutine" id="slabelRoutine">
+                        Escolha o intervalo:
+                      </label>
+                    </div>
+                    <div id="interval-div">
+                      <IntervalDropdown
+                        className={errors.horario ? "inputInterval-error" : "intervalRoutine"}
+                        id="intervalRoutine"
+                        data-testid="interval-dropdown" 
+                        value={interval}
+                        onChange={handleIntervalChange}
+                        error={errors.intervalo}
+                      />
+                    </div>
+                    {errors.intervalo && (
+                      <div id="errorArea">
+                        <span className="errorRoutine-message">
+                          {errors.intervalo}</span>
+                      </div>                     
+                    )}
                   </div>
                 </div>
               )}
@@ -450,17 +456,27 @@ export default function UpdateRoutine() {
                     )}
                   </div>
                   <div id="smallboxRoutine">
-                    <label htmlFor="intervalRoutine" id="slabelRoutine">
-                      Escolha o intervalo:
-                    </label>
-                    <IntervalDropdown
-                      className="intervalRoutine"
-                      id="intervalRoutine"
-                      data-testid="interval-dropdown" 
-                      value={interval}
-                      onChange={handleIntervalChange}
-                      error={errors.intervalo}
-                    />
+                    <div>
+                      <label htmlFor="intervalRoutine" id="slabelRoutine">
+                        Escolha o intervalo:
+                      </label>
+                    </div>
+                    <div id="interval-div">
+                      <IntervalDropdown
+                        className={errors.horario ? "inputInterval-error" : "intervalRoutine"}
+                        id="intervalRoutine"
+                        data-testid="interval-dropdown" 
+                        value={interval}
+                        onChange={handleIntervalChange}
+                        error={errors.intervalo}
+                      />
+                    </div>
+                    {errors.intervalo && (
+                      <div id="errorArea">
+                        <span className="errorRoutine-message">
+                          {errors.intervalo}</span>
+                      </div>                     
+                    )}
                   </div>
                   <div id="smallboxRoutine">
                     <div>
@@ -578,17 +594,27 @@ export default function UpdateRoutine() {
                     </div>
                   </div>
                   <div id="smallboxRoutine">
-                    <label htmlFor="intervalRoutine" id="slabelRoutine">
-                      Escolha o intervalo:
-                    </label>
-                    <IntervalDropdown
-                      className="intervalRoutine"
-                      id="intervalRoutine"
-                      data-testid="interval-dropdown" 
-                      value={interval}
-                      onChange={handleIntervalChange}
-                      error={errors.intervalo}
-                    />
+                    <div>
+                      <label htmlFor="intervalRoutine" id="slabelRoutine">
+                        Escolha o intervalo:
+                      </label>
+                    </div>
+                    <div id="interval-div">
+                      <IntervalDropdown
+                        className={errors.horario ? "inputInterval-error" : "intervalRoutine"}
+                        id="intervalRoutine"
+                        data-testid="interval-dropdown" 
+                        value={interval}
+                        onChange={handleIntervalChange}
+                        error={errors.intervalo}
+                      />
+                    </div>
+                    {errors.intervalo && (
+                      <div id="errorArea">
+                        <span className="errorRoutine-message">
+                          {errors.intervalo}</span>
+                      </div>                     
+                    )}
                   </div>
                   <div id="smallboxRoutine">
                     <div>
@@ -606,7 +632,7 @@ export default function UpdateRoutine() {
                         id="dayRoutine"
                         value={day}
                         onChange={handleDayChange}
-                        className={errors.diaMes ? "inputRoutine-error" : ""}
+                        className={errors.diaMes ? "inputRoutineDay-error" : ""}
                       ></input>
                     </div>
                     <div>

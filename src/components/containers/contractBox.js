@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import "../../style/components/contractBox.css";
 import {
@@ -21,12 +21,16 @@ const ContractBox = ({
 }) => {
   const [isToggled, setIsToggled] = useState(ativo);
 
-  const handleToggleClick = () => {
-    setIsToggled((prevState) => !prevState);
-    if (onToggleClick) {
-      onToggleClick();
-    }
-  };
+    useEffect(() => {
+        setIsToggled(ativo);
+    }, [ativo]);
+
+    const handleToggleClick = () => {
+        setIsToggled(ativo);
+        if (onToggleClick) {
+            onToggleClick();
+        }
+    };
 
   const overlapGroupStyle = {
     backgroundColor: isToggled ? "#ffffff" : "#d9d9d9",

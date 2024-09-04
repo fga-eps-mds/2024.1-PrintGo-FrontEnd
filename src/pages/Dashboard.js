@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../style/pages/dashboard.css";
 import Navbar from "../components/navbar/Navbar";
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, ResponsiveContainer, Tooltip, Legend, PieChart, Pie, Cell, Bar, BarChart, Label, LabelList } from 'recharts';
-import { getFiltroOpcoes, getDashboardData, getDashboardPdf } from "../services/dasboardService";
+import { getFiltroOpcoes, getDashboardData } from "../services/dasboardService";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import PropTypes from 'prop-types';
 import jsPDF from "jspdf";

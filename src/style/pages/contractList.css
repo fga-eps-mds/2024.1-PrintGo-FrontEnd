@@ -4,6 +4,8 @@
     gap: 15px;
     padding-inline: 70px;
     padding-top: 40px;
+    max-height: 50vh;
+    overflow-y: auto;
 }
 
 .mainArea {

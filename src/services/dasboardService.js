@@ -19,13 +19,3 @@ export const getDashboardData = async () => {
   }
 
 };
-
-export const getDashboardPdf = async () => {
-  try {
-    const response = await api.post(`/printer/dashboard/create-report`);
-    return { type: 'success', data: response.data };
-  } catch (error) {
-    return { type: 'error', error };
-  }
-
-};

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../style/pages/dashboard.css";
 import Navbar from "../components/navbar/Navbar";
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, ResponsiveContainer, Tooltip, Legend, PieChart, Pie, Cell, Bar, BarChart, Label, LabelList } from 'recharts';
-import { getFiltroOpcoes, getDashboardData, getDashboardPdf } from "../services/dasboardService";
+import { getFiltroOpcoes, getDashboardData } from "../services/dasboardService";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import PropTypes from 'prop-types';
 import jsPDF from "jspdf";
@@ -13,7 +13,31 @@ import { ToastContainer, toast } from 'react-toastify';
 
 
 
+export function formatDate(dateString) {
+    if (dateString === "") return "";
+    const [year, month, day] = dateString.split("-");
+    return `${day}/${month}/${year}`;
+}
 
+export const animateCount = (setter, start, end, duration = 1000) => {
+    if (process.env.NODE_ENV === 'test') {
+        // No animation in test environment, set directly
+        setter(end);
+        return;
+    }
+    const range = end - start;
+    const startTime = performance.now();
+    const animate = (time) => {
+        const elapsed = time - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const currentValue = start + Math.round(progress * range);
+        setter(currentValue);
+        if (progress < 1) {
+            requestAnimationFrame(animate);
+        }
+    };
+    requestAnimationFrame(animate);
+};
 
 
 export default function Dashboard() {
@@ -38,26 +62,6 @@ export default function Dashboard() {
         regionais: [],
         unidades: []
     });
-    //Função para animar os números
-    const animateCount = (setter, start, end, duration = 1000) => {
-        if (process.env.NODE_ENV === 'test') {
-            // No animation in test environment, set directly
-            setter(end);
-            return;
-        }
-        const range = end - start;
-        const startTime = performance.now();
-        const animate = (time) => {
-            const elapsed = time - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            const currentValue = start + Math.round(progress * range);
-            setter(currentValue);
-            if (progress < 1) {
-                requestAnimationFrame(animate);
-            }
-        };
-        requestAnimationFrame(animate);
-    };
 
     //opções que aparecem nos filtros
     useEffect(() => {
@@ -257,12 +261,6 @@ export default function Dashboard() {
         });
     };
 
-    function formatDate(dateString) {
-        if (dateString === "") return "";
-        const [year, month, day] = dateString.split("-");
-        return `${day}/${month}/${year}`;
-    }
-
     const generatePDF = () => {
         const doc = new jsPDF();
         const pageWidth = doc.internal.pageSize.width;
@@ -430,7 +428,7 @@ export default function Dashboard() {
                             <div className="select-pel">
                                 <div className="select-options">
                                     <div>
-                                        <label htmlFor="inicio" className="input-label">
+                                        <label htmlFor="inicio" className="input-label" >
                                             <i className="fas fa-calendar-alt"></i>
                                             Início:
                                         </label>
@@ -440,6 +438,7 @@ export default function Dashboard() {
                                             value={filters.inicio}
                                             onChange={handleChange}
                                             className="input-date"
+                                            data-testid="inicio"
                                         />
 
                                         <label htmlFor="fim" className="input-label">Fim:</label>
@@ -449,6 +448,7 @@ export default function Dashboard() {
                                             value={filters.fim}
                                             onChange={handleChange}
                                             className="input-date"
+                                            data-testid="fim"
                                         />
                                     </div>
                                 </div>

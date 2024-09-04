@@ -5,6 +5,7 @@ import Dashboard from "../../pages/Dashboard";
 import { getFiltroOpcoes, getDashboardData } from "../../services/dasboardService";
 import { MemoryRouter } from "react-router-dom";
 import { toast } from "react-toastify";
+import { formatDate } from "../../pages/Dashboard";
 
 jest.mock("../../services/dasboardService");
 jest.mock("react-toastify");
@@ -126,25 +127,85 @@ describe("Dashboard", () => {
 
   });
 
-  test("generates PDF correctly", async () => {
+  test("generates PDF correctly for different filter scenarios", async () => {
+    // Cenário 1: ambos os filtros estão vazios
     render(
       <MemoryRouter>
         <Dashboard />
       </MemoryRouter>
     );
-
+  
+    // Cenário: Nenhum filtro aplicado (ambos vazios)
     await waitFor(() => {
       expect(screen.getByText("150")).toBeInTheDocument();
       expect(screen.getByText("1")).toBeInTheDocument();
       expect(screen.getByText("0")).toBeInTheDocument();
     });
-
-    const pdfButton = screen.getByText("Gerar PDF");
+  
+    let pdfButton = screen.getByText("Gerar PDF");
     fireEvent.click(pdfButton);
-
+  
+    await waitFor(() => {
+      expect(toast.success).toHaveBeenCalledWith("PDF gerado com sucesso!");
+    });
+  
+    // Cenário 2: Apenas o filtro de início está preenchido
+    fireEvent.change(screen.getByTestId("inicio"), {
+      target: { value: "2024-08-01" },
+    });
+  
+    fireEvent.click(pdfButton);
+  
+    await waitFor(() => {
+      expect(toast.success).toHaveBeenCalledWith("PDF gerado com sucesso!");
+    });
+  
+    // Cenário 3: Apenas o filtro de fim está preenchido
+    fireEvent.change(screen.getByTestId("inicio"), {
+      target: { value: "" },
+    });
+    fireEvent.change(screen.getByTestId("fim"), {
+      target: { value: "2024-09-01" },
+    });
+  
+    fireEvent.click(pdfButton);
+  
+    await waitFor(() => {
+      expect(toast.success).toHaveBeenCalledWith("PDF gerado com sucesso!");
+    });
+  
+    // Cenário 4: Ambos os filtros estão preenchidos
+    fireEvent.change(screen.getByTestId("inicio"), {
+      target: { value: "2024-08-01" },
+    });
+    fireEvent.change(screen.getByTestId("fim"), {
+      target: { value: "2024-09-01" },
+    });
+  
+    fireEvent.click(pdfButton);
+  
     await waitFor(() => {
       expect(toast.success).toHaveBeenCalledWith("PDF gerado com sucesso!");
     });
   });
 
+  test("formats date correctly using formatDate function", () => {
+    expect(formatDate("2024-08-15")).toBe("15/08/2024");
+    expect(formatDate("")).toBe("");
+    expect(formatDate("2022-01-01")).toBe("01/01/2022");
+  });
+
+ /* test("calls renderCustomizedLabel function", async () => {
+    render(
+      <MemoryRouter>
+        <Dashboard />
+      </MemoryRouter>
+    );
+  
+    // Espera o gráfico de Pizza ser renderizado
+    await waitFor(() => {
+      const pieChartElements = screen.getAllByRole('img'); // Verifica se elementos SVG foram renderizados
+      expect(pieChartElements.length).toBeGreaterThan(0); // Verifica se pelo menos um SVG foi encontrado
+    });
+  });*/
 })

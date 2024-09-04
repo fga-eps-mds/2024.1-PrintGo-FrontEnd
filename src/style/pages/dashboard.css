@@ -1,0 +1,197 @@
+.container-dash{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    width: 100%;
+}
+.top-container{
+    display: grid ;
+    width: 100%;
+    
+}
+.top-part1{
+    display: flex;
+    flex-direction: column;
+}
+
+.dash_periodo{
+    display: grid ;
+    grid-template-columns: 25% 70%;
+    gap: 2dvw;
+    align-items: center;
+    justify-content: center;
+}
+
+.dash_periodo input{
+    background-color: #D9D9D9;
+    border: none;
+    color: #007438;
+}
+
+.dash_periodo h1{
+    color: #03326D;
+    font-weight: 500;
+    font-size: 3dvw;
+    margin-left: 7.5dvw;
+    
+}
+.dash_periodo select{
+    width: 10dvw;
+    height: 6dvh;
+    font-weight: 500;
+    font-size: medium;
+    background-color: #D9D9D9;
+    border-color:#D9D9D9 ;
+    border-radius: 15px;
+    background-color: #D9D9D9;
+    color: #007438;
+    
+}
+
+.dash_periodo select:hover{
+    cursor: pointer;
+}
+.select-options{
+    color: #007438;
+    background-color: #D9D9D9;
+    border-color:#D9D9D9 ;
+    border-radius: 15px;
+    background-color: #D9D9D9;
+    align-content: center;
+}
+
+.input-date{
+    margin-right: 10px;
+}
+.select-options i{
+    margin-inline: 10px;
+}
+
+.impressao_card{
+    display: grid ;
+    grid-template-columns: 20% 20% 20% 20%;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    gap: 1dvw;
+}
+.impressao_card div{
+    padding: auto;
+    display: flex;
+    height: 8dvw;
+    width: 15dvw;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    background-color: #03326D;
+    border-radius: 25px;
+}
+.impressao_card h1{
+    padding: auto;
+    color: rgb(255, 255, 255);
+    font-size: medium;
+    font-weight: 300;
+    margin-top: 20px;
+}
+.impressao_card label{
+    color: rgb(255, 255, 255);
+    font-size:70px;
+    font-weight:500;
+}
+.impressao_card button{
+   border: none;
+   width: 15vw;
+   color: white;
+   font-weight: 200;
+   font-size: medium;
+   height: 8vh;
+   border-radius: 50px;
+   background-color: #007438;
+   box-shadow: none;
+   offset: none;
+   
+}
+.impressao_card button:hover{
+    background-color: #028f46;
+    cursor: pointer;
+ }
+
+.select-pel{
+    display: flex;
+    flex-direction: row;
+    gap: 2dvw;
+}
+
+.top-part2 div{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.contadores_card{
+    border: 3px solid #007438;
+    border-radius: 30px;
+    align-items: center;
+    padding: 20px;
+}
+.contadores_card label{
+    margin-top: 1.5dvh;
+    padding-left: 15px;
+}
+.middle-part{
+    display: grid ;
+    grid-template-columns: 40% 40% ;
+    width: 100%;
+    height: 30vh;
+    justify-content: center;
+    gap: 2vw;
+}
+.div_graficos{
+    width: 100%;
+    height: 30vh;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+}
+.bottom-part{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+    margin-top: 20;
+    padding-top: 0;
+    
+    
+}
+.bottom-part div{
+    margin-top: 20;
+    padding-top: 0;
+    justify-content: center;
+    align-items: center;
+    height: 30vh;
+    width: 80%;
+    
+}
+.bottom-part h1{
+   font-size: large;
+   margin-top: 7vh;
+   padding-top: 10;
+   font-weight: 400;
+   margin-bottom: 0;
+}
+.middle_containers{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 35vh;
+    justify-content: center;
+}
+.middle_containers h1{
+   font-size: large;
+   padding-top: 0;
+   font-weight: 400;
+   margin-bottom: 0;
+}

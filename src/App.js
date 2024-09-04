@@ -25,7 +25,7 @@ import ViewContract from "./pages/ViewContract";
 import UpdateRoutine from "./components/forms/CounterRoutineForm";
 import AuditPrinter from "./pages/AuditPrinter";
 import AddContador from "./pages/AddContador";
-
+import Dashboard from "./pages/Dashboard";
 function App() {
   return (
     <>
@@ -47,6 +47,7 @@ function App() {
             <Route path="/editarContrato" element={<EditContractForm />} />
             <Route path="/listagemContrato" element={<ContractList />} />
             <Route path="/definirRotina" element={<UpdateRoutine />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/verContrato/:id" element={<ViewContract />} />
             <Route path="/registrarContadores" element={<AddContador />} />
             <Route element={<AdminRoutes />}>

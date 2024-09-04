@@ -94,6 +94,7 @@ const Navbar = () => {
                     <Link to="/padroescadastrados">Padrões de impressora cadastrados</Link>
                     <Link to="/definirRotina">Rotina de Registro Automático</Link>
                     <Link to="/registrarContadores">Registrar Contadores</Link>
+                    <Link to="/dashboard">Dashboard</Link>
 
                   </div>
                 )}

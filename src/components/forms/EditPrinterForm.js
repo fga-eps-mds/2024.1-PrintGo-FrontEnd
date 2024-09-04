@@ -453,10 +453,6 @@ export default function EditPrinterForm() {
                             title="Impressões Coloridas"
                             info={printerData.contadorAtualCor}
                         />
-                        <BigInfoCard
-                            title="Digitalizações totais"
-                            info="80"
-                        />
                     </div>
                 </div>
 

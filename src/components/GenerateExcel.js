@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import * as XLSX from "xlsx/xlsx.mjs";
+import * as XLSX from "xlsx";
 import { getPrinters } from "../services/printerService";
 import { toast } from "react-toastify";
 

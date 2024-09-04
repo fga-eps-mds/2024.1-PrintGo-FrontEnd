@@ -13,7 +13,11 @@ import { ToastContainer, toast } from 'react-toastify';
 
 
 
-
+export function formatDate(dateString) {
+    if (dateString === "") return "";
+    const [year, month, day] = dateString.split("-");
+    return `${day}/${month}/${year}`;
+}
 
 
 export default function Dashboard() {
@@ -210,12 +214,6 @@ export default function Dashboard() {
             [e.target.name]: e.target.value,
         });
     };
-
-    function formatDate(dateString) {
-        if (dateString === "") return "";
-        const [year, month, day] = dateString.split("-");
-        return `${day}/${month}/${year}`;
-    }
 
     const generatePDF = () => {
         const doc = new jsPDF();

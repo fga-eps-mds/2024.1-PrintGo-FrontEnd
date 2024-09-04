@@ -5,6 +5,7 @@ import Dashboard from "../../pages/Dashboard";
 import { getFiltroOpcoes, getDashboardData } from "../../services/dasboardService";
 import { MemoryRouter } from "react-router-dom";
 import { toast } from "react-toastify";
+import { formatDate } from "../../pages/Dashboard";
 
 jest.mock("../../services/dasboardService");
 jest.mock("react-toastify");
@@ -147,4 +148,9 @@ describe("Dashboard", () => {
     });
   });
 
+  test("formats date correctly using formatDate function", () => {
+    expect(formatDate("2024-08-15")).toBe("15/08/2024");
+    expect(formatDate("")).toBe("");
+    expect(formatDate("2022-01-01")).toBe("01/01/2022");
+  });
 })

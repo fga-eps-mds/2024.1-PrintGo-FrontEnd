@@ -35,4 +35,26 @@ describe('dashboard service endpoints', () => {
         expect(result).toEqual({ type: 'error', error: mockError });
     });
 
+    it('should fetch dashboard data successfully', async () => {
+        const mockResponse = { status: 200, data: { impressoras: [{ numSerie: "XYZ123", modeloId: "Modelo 1", localizacao: "City 1;Regional 1;Unidade 1", dataContador: "2024-08-15T10:00:00Z", contadorAtualPB: 100, contadorAtualCor: 50 }], colorModelIds: ["Modelo 1"], pbModelIds: ["Modelo 2"] } };
+
+        api.get.mockResolvedValue(mockResponse); 
+
+        const result = await getDashboardData();
+
+        expect(api.get).toHaveBeenCalledWith('/printer/dashboard/dashboard-data'); 
+        expect(result).toEqual({ type: 'success', data: mockResponse.data }); 
+    });
+
+    it('should return error when fetching dashboard data fails', async () => {
+        const mockError = new Error('Error');
+
+        api.get.mockRejectedValue(mockError); 
+
+        const result = await getDashboardData();
+
+        expect(api.get).toHaveBeenCalledWith('/printer/dashboard/dashboard-data'); 
+        expect(result).toEqual({ type: 'error', error: mockError }); 
+    });
+
 });

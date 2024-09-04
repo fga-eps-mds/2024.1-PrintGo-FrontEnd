@@ -80,6 +80,49 @@ export default function Dashboard() {
         fetchFiltroOpcoes();
     }, []);
 
+    const CustomTooltip = ({ payload, label, active }) => {
+        if (active && payload && payload.length) {
+          const { regional, unidade, totalEquipamentos } = payload[0].payload;
+          return (
+            <div style={{ backgroundColor: '#fff', border: '1px solid #ccc', padding: '10px',  maxWidth: '250px', maxHeight: '85px',  x: null, y: null  }}>
+              <p>{`${regional}  -  `}{`${unidade}`}</p>
+              <p style={{ color: '#007438' }}>{`Total de Equipamentos: ${totalEquipamentos}`}</p>
+            </div>
+          );
+        }
+      
+        return null;
+      };
+      
+      // Validando prop-types
+      CustomTooltip.propTypes = {
+        payload: PropTypes.array,
+        label: PropTypes.string,
+        active: PropTypes.bool,
+      };
+
+      const CustomTooltip2 = ({ payload, label, active }) => {
+        if (active && payload && payload.length) {
+          const { regional, unidade, TotalCor,TotalPB } = payload[0].payload;
+          return (
+            <div style={{ backgroundColor: '#fff', border: '1px solid #ccc', padding: '10px', }}>
+              <p>{`${regional}  -  `}{`${unidade}`}</p>
+              <p style={{ color: '#007438' }}>{`Total Colorida: ${TotalCor}`}</p>
+              <p style={{ color: '#03326D' }}>{`Total PB: ${TotalPB}`}</p> {/* Texto em azul */}
+            </div>
+          );
+        }
+      
+        return null;
+      };
+      
+      // Validando prop-types
+      CustomTooltip2.propTypes = {
+        payload: PropTypes.array,
+        label: PropTypes.string,
+        active: PropTypes.bool,
+      };
+
     //conectando back e front dos blocos azuis da tela
     useEffect(() => {
         const fetchDashboardData = async () => {
@@ -140,6 +183,9 @@ export default function Dashboard() {
                         const key = `${cidade};${regional};${unidade}`;
                         if (!acc[key]) {
                             acc[key] = {
+                                cidade: cidade,
+                                regional: regional,
+                                unidade: unidade || '',
                                 localizacao: `${cidade};${regional};${unidade}`,
                                 totalEquipamentos: 0,
                             };
@@ -500,7 +546,7 @@ export default function Dashboard() {
                                 >
                                     <XAxis type="number" />
                                     <YAxis dataKey="cidade" type="category" />
-                                    <Tooltip />
+                                    <Tooltip content={<CustomTooltip2 />} />
                                     <Legend />
                                     <Bar dataKey="TotalPB" fill="#03326D" />
                                     <Bar dataKey="TotalCor" fill="#007235" />
@@ -515,14 +561,15 @@ export default function Dashboard() {
                         <ResponsiveContainer width="95%" height="100%">
                             <BarChart
                                 data={equipmentCountByUnit}
+                                margin={{left: 80}}
                                 layout="vertical"
                             >
                                 <XAxis type="number" >
-                                    <Label value="Número de Equipamentos" offset={0} position="bottom" />
+                                    
                                 </XAxis>
-                                <YAxis dataKey="localizacao" type="category" />
-                                <Tooltip contentStyle={{ maxHeight: '60px', maxWidth: '250px', overflowY: 'auto' }} />
-                                <Legend width={150} wrapperStyle={{ top: 40, right: 20, backgroundColor: '#f5f5f5', border: '1px solid #d5d5d5', borderRadius: 3, lineHeight: '40px' }} />
+                                <YAxis dataKey="cidade" type="category" />
+                                <Tooltip content={<CustomTooltip />} />
+                                <Legend />
                                 <Bar dataKey="totalEquipamentos" fill="#007235">
                                     <LabelList dataKey="localizacao" position="right" formatter={(value) => value.split(';')[0]} />
                                 </Bar>

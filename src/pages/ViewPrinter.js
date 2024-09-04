@@ -214,10 +214,6 @@ export default function ViewPrinter() {
                             title="Impressões Coloridas"
                             info={printerData.contadorAtualCor}
                         />
-                        <BigInfoCard
-                            title="Digitalizações totais"
-                            info="80"
-                        />
                     </div>
                 </div>
 

@@ -14,34 +14,9 @@ import { getContract } from "../../services/contractService";
 import { getPadroes } from "../../services/patternService";
 import DateContainer from '../containers/DateContainer.js';
 import { toast } from "react-toastify";
+import NumberContainer from '../containers/NumberContainer';
+import { set } from 'react-hook-form';
 
-// Mock de dados da impressora
-const mockPrinterData = {
-    equipamento: "Impressora XYZ",
-    numeroSerie: "123456789",
-    modelo: "Modelo ABC",
-    localizacao: "Goias",
-    contrato: "Contrato XYZ-123",
-    enderecoIp: "192.168.0.1",
-    dentroDaRede: "Sim",
-    dataInstalacao: "2023-01-15",
-    dataRetirada: "2024-01-15",
-    status: "Ativo",
-    marca: "Marca ABC",
-    cidade: "Cidade XYZ",
-    regional: "Regional 1",
-    subestacao: "Subestação A"
-};
-
-// Função para codificar um objeto em Base64
-function encodeToBase64(obj) {
-    return btoa(JSON.stringify(obj));
-}
-
-// Codificar os dados da impressora
-const encodedPrinterData = encodeToBase64(mockPrinterData);
-
-console.log(encodedPrinterData); // A string codificada para usar na URL
 
 export default function EditPrinterForm() {
 
@@ -68,7 +43,6 @@ export default function EditPrinterForm() {
     const [localizacoes, setLocalizacoes] = useState([]);
     const [marcasData, setMarcasData] = useState([]);
     const [marcas, setMarcas] = useState([]);
-    const [modelos, setModelos] = useState([]);
     const [selectedModelo, setSelectedModelo] = useState('');
     const [selectedMarca, setSelectedMarca] = useState('');
     const [contratos, setContratos] = useState([]);
@@ -99,7 +73,6 @@ export default function EditPrinterForm() {
                 setMarcasData(response.data);
 
                 const marcas = response.data.map(m => m.marca);
-                const modelos = response.data.map(m => m.modelo);
 
                 if (printerData.modeloId) {
                     const selectedMarca = response.data.find(m => m.modelo === printerData.modeloId)?.marca;
@@ -107,7 +80,6 @@ export default function EditPrinterForm() {
                 }
 
                 setMarcas(marcas);
-                setModelos(modelos);
             } catch (error) {
                 console.error('Erro ao buscar padrões:', error);
             }
@@ -140,7 +112,6 @@ export default function EditPrinterForm() {
 
                 setSubWorkstations(subestacoes);
             }
-
         };
 
         fetchData();
@@ -236,11 +207,32 @@ export default function EditPrinterForm() {
         }));
     }
 
+    const handleContadorRetiradaPBChange = (event) => {
+        const newContadorRetiradaPB = event.target.value;
+        setPrinterData((prevData) => ({
+            ...prevData,
+            contadorRetiradaPB: newContadorRetiradaPB,
+        }));
+    };
+
+    const handleContadorRetiradaCorChange = (event) => {
+        const newContadorRetiradaCor = event.target.value;
+        setPrinterData((prevData) => ({
+            ...prevData,
+            contadorRetiradaCor: newContadorRetiradaCor,
+        }));
+    };
+
     const handleMarcaChange = (event) => {
         const marcaSelecionada = event.target.value;
         const marca = marcasData.find(m => m.marca === marcaSelecionada);
         setSelectedModelo(marca ? marca.modelo : 'Selecione uma marca');
         setSelectedMarca(marcaSelecionada);
+    }
+
+    const handleModeloChange = (event) => {
+        const modeloSelecionado = event.target.value;
+        setSelectedModelo(modeloSelecionado);
     }
 
     const formatDate = (date) => {
@@ -267,6 +259,8 @@ export default function EditPrinterForm() {
         if (!printerData.enderecoIp && printerData.estaNaRede) newErrors.enderecoIP = 'Endereço IP é obrigatório';
         if (!printerData.ativo) {
             if (!printerData.dataRetirada) newErrors.dataRetirada = 'Data de retirada é obrigatória';
+            if (!printerData.contadorRetiradaPB) newErrors.contadorRetirada = 'Contador de retirada PB é obrigatório';
+            if (!printerData.contadorRetiradaCor) newErrors.contadorRetirada = 'Contador de retirada Cor é obrigatório';
         }
 
         setErrors(newErrors);
@@ -280,12 +274,13 @@ export default function EditPrinterForm() {
                 return;
             }
 
-            console.log(selectedSubWorkstation);
             let data = {
                 ...printerData,
                 modeloId: selectedModelo,
                 localizacao: `${selectedCidade};${selectedWorkstation};${selectedSubWorkstation}`,
                 ...(printerData.dataRetirada !== "" && { dataRetirada: printerData.dataRetirada }),
+                contadorRetiradaPB: printerData.contadorRetiradaPB ? parseInt(printerData.contadorRetiradaPB) : 0,
+                contadorRetiradaCor: printerData.contadorRetiradaCor ? parseInt(printerData.contadorRetiradaCor) : 0,
             };
 
             const res = await editImpressora(data);
@@ -339,20 +334,23 @@ export default function EditPrinterForm() {
                         <SelectContainer
                             id="marca"
                             name="marca"
-                            options={marcas}
+                            options={marcas ? Array.from(new Set(marcas)) : []}
                             className="lg-select"
                             label="Marca"
                             onChange={handleMarcaChange}
                             value={selectedMarca}
                             error={errors.marca}
                         />
-                        <ViewDataContainer
-                            id="marca-equipamento"
-                            className="small-view"
-                            labelName={"Modelo"}
+                        <SelectContainer
+                            id="modelo"
+                            name="modelo"
+                            className="md-select"
+                            label={"Modelo"}
                             value={selectedModelo}
-                        />
+                            options={marcasData ? marcasData.filter(m => m.marca === selectedMarca).map(m => m.modelo) : []}
+                            onChange={handleModeloChange}
 
+                        />
                         <SelectContainer
                             id="contrato"
                             name="contrato"
@@ -387,7 +385,6 @@ export default function EditPrinterForm() {
                             />
                         </div>
 
-
                         <DateContainer
                             label="Data de Instalação"
                             value={formatDate(printerData.dataInstalacao)}
@@ -396,6 +393,27 @@ export default function EditPrinterForm() {
                             error={errors.dataInstalacao}
                         />
 
+                        <div className="form-separator"> Retirada </div>
+                        <div className="container" style={{ gap: '3rem' }}>
+                            <NumberContainer
+                                id="contadorRetiradaPb"
+                                name="contadorRetiradaPb"
+                                value={printerData.contadorRetiradaPB}
+                                onChange={handleContadorRetiradaPBChange}
+                                className={`md-select ${printerData.ativo ? 'disabled' : ''}`}
+                                label="Contador de Retirada PB"
+                                error={errors.contadorRetirada}
+                            />
+                            <NumberContainer
+                                id="contadorRetiradaCor"
+                                name="contadorRetiradaCor"
+                                value={printerData.contadorRetiradaCor}
+                                onChange={handleContadorRetiradaCorChange}
+                                className={`md-select ${printerData.ativo ? 'disabled' : ''}`}
+                                label="Contador de Retirada Cor"
+                                error={errors.contadorRetirada}
+                            />
+                        </div>
                         <div className="container" style={{ gap: '5rem' }}>
                             <DateContainer
                                 label="Data de Retirada"
@@ -414,6 +432,7 @@ export default function EditPrinterForm() {
                                 onChange={handleAtivoChange}
                                 value={printerData.ativo ? "Ativo" : "Inativo"}
                                 error={errors.status}
+                                usePlaceholder={false}
                             />
                         </div>
                     </div>
@@ -429,10 +448,6 @@ export default function EditPrinterForm() {
                         <BigInfoCard
                             title="Impressões Coloridas"
                             info={printerData.contadorAtualCor}
-                        />
-                        <BigInfoCard
-                            title="Digitalizações totais"
-                            info="80"
                         />
                     </div>
                 </div>

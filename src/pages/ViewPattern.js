@@ -1,9 +1,8 @@
 import "../style/pages/viewPattern.css";
-import React, { useEffect, useState } from "react";
-import Ellipse from "../assets/login_ellipse.svg";
+import React from "react";
 import voltar_vector from "../assets/voltar_vector.svg";
 import Navbar from "../components/navbar/Navbar";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 export default function ViewPattern() {
   const location = useLocation();
@@ -51,9 +50,9 @@ export default function ViewPattern() {
   return (
     <>
       <Navbar />
-      <div className="viewpattern-container">
+      <div>
         <div className="viewpattern-card">
-
+        <h2 id="printer-pattern-form-header">Visualizar de padrão de impressora</h2>
           {pattern ? (
             <div className="viewpattern-info-group">
 
@@ -82,8 +81,8 @@ export default function ViewPattern() {
                 </div>
               </div>
 
+                <h2 className="snmp-header">SNMP</h2>
               <div className="viewpattern-oid-line">
-                <p>SNMP</p>
                 {Object.entries(oidLabels).map(([key, label]) => (
                   <div key={key} className="viewpattern-oid-box">
                     <label>{label}:</label>
@@ -91,16 +90,12 @@ export default function ViewPattern() {
                   </div>
                 ))}
               </div>
-
+              
             </div>
           ) : (
             <p id="viewpattern-loading-text">Carregando dados...</p>
           )
           }
-        </div>
-
-        <div className="viewpattern-ellipse">
-          <img alt="elipse" src={Ellipse} />
         </div>
       </div>
     </>

@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import "../../style/components/printerPatternForm.css";
-import elipse6 from "../../assets/elipse6.svg";
 import { getRegisterPatternSchema } from "../utils/YupSchema";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { createPadraoImpressora } from "../../services/patternService";
@@ -91,24 +90,24 @@ export default function PrinterPatternForm() {
       <form >
           
         <div id="printer-pattern-fields">
-          <div id="printer-pattern-input-line">
-                  <label>Tipo<span>*</span></label>
+          <div className="printer-pattern-input-line">
+            <label>Tipo</label>
             <input
               placeholder={`Digite ${"Tipo".toLowerCase()}`}
               value={tipo}
                    onChange={(e)=>setTipo(e.target.value)}/>
           </div>
 
-          <div id="printer-pattern-input-line">
-                  <label>Marca<span>*</span></label>
+          <div className="printer-pattern-input-line">
+            <label>Marca</label>
             <input
               placeholder={`Digite ${"Marca".toLowerCase()}`}
               value={marca}
                    onChange={(e)=>setMarca(e.target.value)}/>
           </div>
 
-          <div id="printer-pattern-input-line">
-                  <label>Modelo<span>*</span></label>
+          <div className="printer-pattern-input-line">
+            <label>Modelo</label>
             <input
               placeholder={`Digite ${"Modelo".toLowerCase()}`}
               value={modelo}
@@ -124,9 +123,10 @@ export default function PrinterPatternForm() {
           </div>
         </div>
 
+        <h2 htmlFor="snmp" className="snmp-header">
+          SNMP:
+        </h2>
         <div id="printer-pattern-snmp-fields">
-          <label htmlFor="snmp">SNMP:</label>
-
           <div id="snmp-fields-input-line">
             <label>Modelo da impressora</label>
             <input
@@ -196,7 +196,7 @@ export default function PrinterPatternForm() {
           <button
             className="printer-pattern-form-button"
             type="button"
-            id="cancelar-bnt"
+            id="cancel-bnt"
           >
             <Link to="/">CANCELAR</Link>
           </button>

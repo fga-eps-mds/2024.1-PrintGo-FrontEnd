@@ -1,9 +1,8 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import "../../style/components/printerPatternForm.css";
-import elipse6 from "../../assets/elipse6.svg";
 import { getRegisterPatternSchema } from "../utils/YupSchema";
 import { editPadrao} from "../../services/patternService";
 import { toast } from "react-toastify";
@@ -122,27 +121,28 @@ export default function EditPatternForm() {
   
   
   return (
-    <div id="printer-pattern-signup-card" data-testid="printer-pattern-signup-card">
+    <div id="printer-pattern-signup-card" data-testid="printer-pattern-signup-card"
+    style={{marginLeft: "10vw"}}>
       <h2 id="printer-pattern-form-header">Edição de padrão de impressora</h2>
       <form >
         <div id="printer-pattern-fields">
-              <div id="printer-pattern-input-line">
-                  <label>Tipo<span>*</span></label>
+              <div className="printer-pattern-input-line">
+                  <label>Tipo</label>
                   <input
                    placeholder={`Digite ${"Tipo".toLowerCase()}`} 
                    value={type}
                    onChange={(e)=>setType(e.target.value)}/>
               </div>
-              <div id="printer-pattern-input-line">
-                  <label>Marca<span>*</span></label>
+              <div className="printer-pattern-input-line">
+                  <label>Marca</label>
                   <input
                    placeholder={`Digite ${"Marca".toLowerCase()}`} 
                    value={marca}
                    onChange={(e)=>setMarca(e.target.value)}/>
               </div>
 
-              <div id="printer-pattern-input-line">
-                  <label>Modelo<span>*</span></label>
+              <div className="printer-pattern-input-line">
+                  <label>Modelo</label>
                   <input
                    placeholder={`Digite ${"Modelo".toLowerCase()}`} 
                    value={modelo}
@@ -160,9 +160,8 @@ export default function EditPatternForm() {
               </div>
         </div>
 
+              <h2 htmlFor="snmp" className="snmp-header">SNMP:</h2>
         <div id="printer-pattern-snmp-fields">
-              <label htmlFor="snmp">SNMP:</label>
-
                 <div id="snmp-fields-input-line">
                   <label>Modelo da impressora</label>
                   <input
@@ -230,7 +229,7 @@ export default function EditPatternForm() {
           
         
         <div id="printer-pattern-buttons">
-          <button className="printer-pattern-form-button" type="button" id="cancelar-bnt">
+          <button className="printer-pattern-form-button" type="button" id="cancel-bnt">
             <Link to="/">
               CANCELAR
             </Link>
@@ -243,9 +242,6 @@ export default function EditPatternForm() {
         </div>
 
       </form>
-      <div className="elipse-pattern">
-        <img alt="elipse" src={elipse6} />
-      </div>
     </div>
   );
 }

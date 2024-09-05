@@ -79,12 +79,14 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   height: 2.5rem;
   width: 20rem;
+  margin-left: 20px;
 }
 
 #snmp-fields-input-line label {
   font-size: 25px;
   color: #0d3d6d;
   padding-top: 20px;
+  margin-left: 20px;
 }
 #snmp-fields-input-line input::placeholder {
   font-size: 20px;

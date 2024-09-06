@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import AddContador from "../../pages/AddContador";
-import { getPadroes } from "../../services/patternService";
+import { getPadrao } from "../../services/patternService";
 import {
   getPrinters,
   addContadores,
@@ -33,8 +33,8 @@ describe("AddContador", () => {
       ],
     });
 
-    getPadroes.mockResolvedValue({
-      data: [{ marca: "Marca 1", modelo: "Modelo 1", colorido: true }],
+    getPadrao.mockResolvedValue({
+      data: { marca: "Marca 1", modelo: "Modelo 1", colorido: true },
     });
 
     getPrinters.mockResolvedValue({

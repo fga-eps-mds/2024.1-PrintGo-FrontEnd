@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import '../style/pages/addcontador.css';
 import Navbar from '../components/navbar/Navbar';
 import { getPrinters, getLocalizacao, addContadores } from "../services/printerService";
-import { getPadroes } from "../services/patternService";
+import { getPadrao } from "../services/patternService";
 import { toast } from "react-toastify";
 import SelectContainer from '../components/containers/SelectContainer';
 import DateContainer from '../components/containers/DateContainer';
@@ -97,9 +97,11 @@ const AddContador = () => {
 
     if (equipamento) {
       setSelectedEquipamentoId(equipamento.id);
-      const response = await getPadroes();
+
+      const response = await getPadrao(Number(equipamento.modeloId));
+
       if (response.type === 'success' && response.data) {
-        const padrao = response.data.find(p => p.modelo === equipamento.modeloId);
+        const padrao = response.data;
         if (padrao) {
           setIsColorido(padrao.colorido);
         }

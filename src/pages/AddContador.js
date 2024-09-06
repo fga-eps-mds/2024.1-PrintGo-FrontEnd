@@ -99,7 +99,7 @@ const AddContador = () => {
       setSelectedEquipamentoId(equipamento.id);
       const response = await getPadroes();
       if (response.type === 'success' && response.data) {
-        const padrao = response.data.find(p => p.modelo === equipamento.modeloId);
+        const padrao = response.data.find(p => p.id === Number(equipamento.modeloId));
         if (padrao) {
           setIsColorido(padrao.colorido);
         }

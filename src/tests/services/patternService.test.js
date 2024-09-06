@@ -87,23 +87,26 @@ describe('pattern endpoints', () => {
 
     it('gets a pattern by id successfully', async () => {
         const id = 1;
-        api.get.mockResolvedValue({ status: 200, data: "some data" })
-
+        const mockData = "some data";
+        api.get.mockResolvedValue({ status: 200, data: mockData });
+    
         const result = await getPadrao(id);
-
+    
         expect(api.get).toHaveBeenCalledWith(`/printer/padrao/${id}`);
-        expect(result).toEqual({ type: 'success' });
+        expect(result).toEqual({ type: 'success', data: mockData });
     });
 
     it('gets a pattern by id and returns error status code', async () => {
         const id = 2;
-        api.get.mockResolvedValue({ status: 404, data: "some data" })
-
+        const mockData = "some data";
+        api.get.mockResolvedValue({ status: 404, data: mockData });
+    
         const result = await getPadrao(id);
-
+    
         expect(api.get).toHaveBeenCalledWith(`/printer/padrao/${id}`);
-        expect(result).toEqual({ type: 'error' });
+        expect(result).toEqual({ type: 'error', data: mockData });
     });
+    
 
     it('gets a pattern by id and throws error', async () => {
         const id = 3;

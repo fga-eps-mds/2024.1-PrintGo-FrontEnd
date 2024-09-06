@@ -69,16 +69,13 @@ export default function EditPrinterForm() {
         const fetchMarcas = async () => {
             try {
                 const response = await getPadroes();
-                setSelectedModelo(printerData.modeloId);
-                setMarcasData(response.data);
-
-                const marcas = response.data.map(m => m.marca);
-
                 if (printerData.modeloId) {
-                    const selectedMarca = response.data.find(m => m.modelo === printerData.modeloId)?.marca;
-                    setSelectedMarca(selectedMarca);
+                    const printerModeloId = parseInt(printerData.modeloId);
+                    setSelectedMarca(response.data.find(m => m.id === printerModeloId)?.marca);
+                    setSelectedModelo(response.data.find(m => m.id === printerModeloId)?.modelo);
                 }
-
+                setMarcasData(response.data);
+                const marcas = response.data.map(m => m.marca);
                 setMarcas(marcas);
             } catch (error) {
                 console.error('Erro ao buscar padrões:', error);
@@ -226,8 +223,8 @@ export default function EditPrinterForm() {
     const handleMarcaChange = (event) => {
         const marcaSelecionada = event.target.value;
         const marca = marcasData.find(m => m.marca === marcaSelecionada);
-        setSelectedModelo(marca ? marca.modelo : 'Selecione uma marca');
         setSelectedMarca(marcaSelecionada);
+        setSelectedModelo(marca ? marca.modelo : 'Selecione uma marca');
     }
 
     const handleModeloChange = (event) => {
@@ -276,7 +273,7 @@ export default function EditPrinterForm() {
 
             let data = {
                 ...printerData,
-                modeloId: selectedModelo,
+                modeloId: marcasData.find(m => m.marca === selectedMarca && m.modelo === selectedModelo).id.toString(),
                 localizacao: `${selectedCidade};${selectedWorkstation};${selectedSubWorkstation}`,
                 ...(printerData.dataRetirada !== "" && { dataRetirada: printerData.dataRetirada }),
                 contadorRetiradaPB: printerData.contadorRetiradaPB ? parseInt(printerData.contadorRetiradaPB) : 0,

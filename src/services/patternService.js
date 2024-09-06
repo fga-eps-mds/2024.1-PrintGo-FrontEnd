@@ -4,9 +4,9 @@ export async function getPadrao(id) {
   try {
     const response = await api.get(`/printer/padrao/${id}`);
     if (response.status !== 200) {
-      return { type: 'error' };
+      return { type: 'error', data: response.data };
     }
-    return { type: 'success' };
+    return { type: 'success', data: response.data };
   } catch (error) {
     return { type: 'error', error };
   }

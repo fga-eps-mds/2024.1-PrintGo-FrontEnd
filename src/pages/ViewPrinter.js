@@ -8,6 +8,7 @@ import BigInfoCard from "../components/cards/BigInfoCard.js";
 import Button from "../components/Button.js";
 import { getPrinterById, generatePrinterPDF } from '../services/printerService.js';
 import { toast } from "react-toastify";
+import { getPadrao } from '../services/patternService.js';
 
 export default function ViewPrinter() {
 
@@ -31,6 +32,7 @@ export default function ViewPrinter() {
         regional: '',
         subestacao: ''
     });
+    const [patternData, setPatternData] = useState({});
 
     const { id } = useParams()
 
@@ -40,17 +42,15 @@ export default function ViewPrinter() {
         const fetchData = async () => {
             try {
                 const response = await getPrinterById(id);
+                const responsePadrao = await getPadrao(parseInt(response.data.modeloId));
                 if (response.type === 'success') {
                     const { localizacao, ...restData } = response.data;
                     const [cidade, regional, subestacao] = localizacao.split(';');
-                    console.log(restData.dataInstalacao);
-
-                    setPrinterData({
-                        ...restData,
-                        cidade: cidade || '',
-                        regional: regional || '',
-                        subestacao: subestacao || ''
-                    });
+                    const printerData = { ...restData, cidade, regional, subestacao };
+                    setPrinterData(printerData);
+                }
+                if (responsePadrao.type === 'success') {
+                    setPatternData(responsePadrao.data);
                 }
             } catch (error) {
                 console.log(error);
@@ -146,7 +146,7 @@ export default function ViewPrinter() {
                             id="modelo-equipamento"
                             className="large-view"
                             labelName={infoLabels.modelo}
-                            value={printerData.modeloId}
+                            value={patternData.modelo}
                         />
 
                         <ViewDataContainer

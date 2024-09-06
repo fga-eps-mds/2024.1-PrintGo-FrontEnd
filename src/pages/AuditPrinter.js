@@ -164,13 +164,13 @@ export default function AuditPrinter() {
                                                 key={printer.id}
                                                 equipamento={printer.numSerie}
                                                 contadorCor={printer.contadorAtualCor}
-                                                contadorCorAnterior={printer.relatorio.contadorCor}
+                                                contadorCorAnterior={printer.relatorio?.contadorCor}
                                                 contadorPB={printer.contadorAtualPB}
-                                                contadorPBAnterior={printer.relatorio.contadorPB}
+                                                contadorPBAnterior={printer.relatorio?.contadorPB}
                                                 contadorLocPB={relatorio.actualColorCounter}
                                                 contadorLocCor={relatorio.actualMonoCounter}
-                                                totPrintgoPB={printer.contadorAtualPB  - printer.relatorio.contadorPB}
-                                                totPrintgoCor={printer.contadorAtualCor - printer.relatorio.contadorCor}
+                                                totPrintgoPB={printer.contadorAtualPB  - printer.relatorio?.contadorPB}
+                                                totPrintgoCor={printer.contadorAtualCor - printer.relatorio?.contadorCor}
                                                 totLoc={relatorio.endTotalCounter}
                                                 onClick={handleGeneratePrinterPDF(printer.id)}
                                                 marginError={marginError}

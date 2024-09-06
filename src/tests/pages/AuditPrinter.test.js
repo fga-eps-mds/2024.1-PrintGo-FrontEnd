@@ -1,11 +1,12 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import AuditPrinter from '../../pages/AuditPrinter';
 import { getContract } from '../../services/contractService';
-import { getPrintersByContract, generatePrinterPDF } from '../../services/printerService';
+import { getPrintersByContract, generatePrinterPDF, getPrinters} from '../../services/printerService';
 import { toast } from 'react-toastify';
 import { MemoryRouter } from 'react-router-dom';
+import GenerateExcel from '../../components/GenerateExcel';
 
 // Mock the services and toast
 jest.mock('../../components/UploadReport.js', () => (props) => (
@@ -28,6 +29,7 @@ jest.mock('../../services/contractService', () => ({
 jest.mock('../../services/printerService', () => ({
     getPrintersByContract: jest.fn(),
     generatePrinterPDF: jest.fn(),
+    getPrinters: jest.fn(),
 }));
 
 jest.mock('../../assets/report.png', () => 'test-file-stub');
@@ -43,6 +45,49 @@ describe('AuditPrinter', () => {
         getPrintersByContract.mockResolvedValue({
             type: 'success',
             data: { data: [{ id: '1', numSerie: 'A1', contadorAtualCor: 100, contadorAtualPB: 50, contadorInstalacaoPB: 10, contadorInstalacaoCor: 5, contadorRetiradaPB: 2, contadorRetiradaCor: 1 }] },
+        });
+
+        getPrinters.mockResolvedValue({
+            type: 'success',
+            data: [
+                {
+                    id: 1,
+                    numContrato: "12345",
+                    numSerie: "SN123456789",
+                    enderecoIp: "192.168.1.100",
+                    estaNaRede: true,
+                    dataInstalacao: "2023-01-01T00:00:00Z",
+                    dataRetirada: "2023-06-01T00:00:00Z",
+                    dataContador: "2023-09-01T00:00:00Z",
+                    ativo: true,
+                    contadorInstalacaoPB: 5000,
+                    contadorInstalacaoCor: 1000,
+                    contadorAtualPB: 7500,
+                    contadorAtualCor: 1600,
+                    contadorRetiradaPB: 7000,
+                    contadorRetiradaCor: 1500,
+                    localizacao: "Escritório Central",
+                    modeloId: "MX500",
+                    relatorio: {
+                      id: 1,
+                      impressoraId: 1,
+                      contadorPB: 4000,
+                      contadorPBDiff: 1500,
+                      contadorCor: 800,
+                      contadorCorDiff: 800,
+                      ultimoResultado: 500,
+                      resultadoAtual: 600,
+                      ultimaAtualizacao: "2023-08-01T00:00:00Z"
+                    },
+                    relatorioLocadora: {
+                      id: 1,
+                      impressoraId: 1,
+                      contadorPB: 4500,
+                      contadorCor: 900,
+                      contadorTotal: 5400
+                    }
+                }
+            ], 
         });
 
         toast.success = jest.fn();

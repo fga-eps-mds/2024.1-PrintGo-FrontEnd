@@ -4,22 +4,54 @@ import Navbar from "../navbar/Navbar";
 import "../../style/components/contractForm.css";
 import { createContract } from "../../services/contractService";
 import StatusDropdown from "../containers/StatusDropdown";
-import encodeSpecialChars from "../../utils/encode";
 
 export default function ContractForm() {
   const [numero, setNumero] = useState("");
   const [nomeGestor, setNomeGestor] = useState("");
   const [descricao, setDescricao] = useState("");
-  const [dataInicio, setDataInicio] = useState(
-    new Date(Date.now()).toISOString()
-  );
-  const [dataTermino, setdataTermino] = useState(
-    new Date(Date.now()).toISOString()
-  );
-  const [ativo, setAtivo] = useState(false);
+  const [dataInicio, setDataInicio] = useState('');
+  const [dataTermino, setdataTermino] = useState('');
+  const [ativo, setAtivo] = useState(true);
+
+  const validateForm = () => {
+    let isValid = true;
+  
+    if (!numero || numero.trim() === '') {
+      toast.error("O número do contrato é obrigatório");
+      isValid = false;
+    }
+    if (!nomeGestor || nomeGestor.trim() === '') {
+      toast.error("O nome do gestor é obrigatório");
+      isValid = false;
+    }
+    if (!descricao || descricao.trim() === '') {
+      toast.error("A descrição é obrigatória");
+      isValid = false;
+    }
+    if (!dataInicio) {
+      toast.error("A data de início é obrigatória");
+      isValid = false;
+    }
+    if (!dataTermino) {
+      toast.error("A data de término é obrigatória");
+      isValid = false;
+    }
+    if (new Date(dataTermino) < new Date(dataInicio)) {
+      toast.error("A data de término não pode ser anterior à data de início");
+      isValid = false;
+    }
+  
+    return isValid;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const isValid = validateForm();
+    if (!isValid) {
+      return;
+    }
+    
     const formData = {
       numero,
       nomeGestor,
@@ -37,7 +69,7 @@ export default function ContractForm() {
         toast.success("Contrato criado com sucesso!");
         setTimeout(() => {
           const url = `/verContrato/${response.data.data.id}`;
-          window.location = url
+          window.location = url;
         }, 3000);
       } else {
         if (response.error.status === 400) {
@@ -57,10 +89,10 @@ export default function ContractForm() {
   };
 
   const handleStatus = (e) => {
-    console.log("value", e.target.value);
-    if (e.target.value === "ativo") {
+    const status = e.target.value;
+    if (status === "ativo") {
       setAtivo(true);
-    } else if (e.target.value === "inativo") {
+    } else if (status === "inativo") {
       setAtivo(false);
     }
   };
@@ -86,7 +118,10 @@ export default function ContractForm() {
                   onChange={(e) => setNumero(e.target.value)}
                 ></input>
               </label>
-              <StatusDropdown onChange={handleStatus} />
+              <StatusDropdown
+                onChange={handleStatus}
+                useSelecione={false}
+              />
             </div>
             <label id="label">
               Gestor do Contrato

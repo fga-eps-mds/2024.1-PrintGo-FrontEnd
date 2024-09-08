@@ -5,7 +5,6 @@ import SelectContainer from '../containers/SelectContainer';
 import InputContainer from '../containers/InputContainer';
 import DateContainer from '../containers/DateContainer';
 import NumberContainer from '../containers/NumberContainer';
-import ViewDataContainer from "../containers/ViewDataContainer";
 import { toast } from "react-toastify";
 import Button from '../Button';
 import { createImpressora, getLocalizacao } from "../../services/printerService";
@@ -13,11 +12,12 @@ import { getPadroes } from "../../services/patternService";
 import { getContract } from "../../services/contractService";
 
 export default function RegisterPrinterForm() {
-    const [marcas, setMarcas] = useState([]);
+    const [padroes, setPadroes] = useState([]);
     const [contratos, setContratos] = useState([]);
     const [selectedContrato, setSelectedContrato] = useState('');
     const [selectedMarca, setSelectedMarca] = useState('');
     const [selectedModelo, setSelectedModelo] = useState('');
+    const [selectedPadrao, setSelectedPadrao] = useState({});
     const [enderecoIP, setEnderecoIP] = useState('');
     const [numSerie, setNumSerie] = useState('');
     const [localizacoes, setLocalizacoes] = useState([]);
@@ -31,8 +31,9 @@ export default function RegisterPrinterForm() {
     const [dataRetirada, setDataRetirada] = useState('');
     const [contadorInstalacaoPB, setContadorInstalacaoPB] = useState('');
     const [contadorInstalacaoCor, setContadorInstalacaoCor] = useState('');
-    const [contadorRetirada, setContadorRetirada] = useState('');
-    const [status, setStatus] = useState('Ativo');  // Estado para armazenar o status
+    const [contadorRetiradaPB, setContadorRetiradaPB] = useState('');
+    const [contadorRetiradaCor, setContadorRetiradaCor] = useState('');
+    const [status, setStatus] = useState('Ativo');
     const [errors, setErrors] = useState({});
     const yesNo = ["Sim", "Não"];
 
@@ -48,10 +49,10 @@ export default function RegisterPrinterForm() {
             }
         };
 
-        const fetchMarcas = async () => {
+        const fetchPadroes = async () => {
             try {
                 const response = await getPadroes();
-                setMarcas(response.data);
+                setPadroes(response.data);
             } catch (error) {
                 console.error('Erro ao buscar padrões:', error);
             }
@@ -67,11 +68,15 @@ export default function RegisterPrinterForm() {
             }
         };
 
-        fetchMarcas();
+        fetchPadroes();
         fetchContratos();
         fetchLocalizacoes();
     }, []);
 
+    const isValidIP = (ipAddress) => {
+        const ipPattern = /^(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)$/;
+        return ipPattern.test(ipAddress);
+    };
 
     const validateForm = () => {
         const newErrors = {};
@@ -80,15 +85,18 @@ export default function RegisterPrinterForm() {
         if (!selectedMarca) newErrors.marca = 'Marca é obrigatória';
         if (!selectedModelo) newErrors.modelo = 'Modelo é obrigatório';
         if (!enderecoIP && selectedDentroRede === "Sim") newErrors.enderecoIP = 'Endereço IP é obrigatório';
+        if (enderecoIP && !isValidIP(enderecoIP)) newErrors.enderecoIP = 'Endereço IP inválido';
         if (!numSerie) newErrors.numSerie = 'Número de série é obrigatório';
         if (!selectedCidade) newErrors.cidade = 'Cidade é obrigatória';
         if (!selectedWorkstation) newErrors.workstation = 'Posto de trabalho é obrigatório';
         if (!dataInstalacao) newErrors.dataInstalacao = 'Data de instalação é obrigatória';
-        if (!contadorInstalacaoCor) newErrors.contadorInstalacaoCor = 'Contador de instalação é obrigatório';
+        // if (!contadorInstalacaoCor) newErrors.contadorInstalacaoCor = 'Contador de instalação é obrigatório';
+        if (selectedPadrao.colorido && !contadorInstalacaoCor) newErrors.contadorInstalacaoCor = 'Contador de instalação é obrigatório';
         if (!contadorInstalacaoPB) newErrors.contadorInstalacaoPB = 'Contador de instalação é obrigatório';
         if (status === 'Inativo') {
             if (!dataRetirada) newErrors.dataRetirada = 'Data de retirada é obrigatória';
-            if (!contadorRetirada) newErrors.contadorRetirada = 'Contador de retirada é obrigatório';
+            if (!contadorRetiradaPB) newErrors.contadorRetiradaPB = 'Contador de retirada PB é obrigatório';
+            if (selectedPadrao.colorido && !contadorRetiradaCor) newErrors.contadorRetiradaCor = 'Contador de retirada Cor é obrigatório';
         }
 
         setErrors(newErrors);
@@ -101,7 +109,7 @@ export default function RegisterPrinterForm() {
                 let data = {
                     numContrato: selectedContrato,
                     // marca: selectedMarca,
-                    modeloId: selectedModelo,
+                    modeloId: selectedPadrao.id.toString(),
                     enderecoIp: enderecoIP,
                     numSerie: numSerie,
                     estaNaRede: selectedDentroRede == "Sim" ? true : false,
@@ -110,16 +118,17 @@ export default function RegisterPrinterForm() {
                     // regional: selectedWorkstation,
                     // ...(selectedSubWorkstation !== "" && { subestacao: selectedSubWorkstation }),
                     dataInstalacao: dataInstalacao,
-                    contadorInstalacaoPB: contadorInstalacaoPB,
-                    contadorInstalacaoCor: contadorInstalacaoCor,
-                    contadorRetiradaPB: 0,
-                    contadorRetiradaCor: 0,
+                    contadorInstalacaoPB: parseInt(contadorInstalacaoPB),
+                    contadorInstalacaoCor: selectedPadrao.colorido ? parseInt(contadorInstalacaoCor) : 0,
+                    contadorInstalacaoCor: selectedPadrao.colorido ? contadorInstalacaoCor : 0,
+                    contadorRetiradaPB: contadorRetiradaPB ? parseInt(contadorRetiradaPB) : 0,
+                    contadorRetiradaCor: contadorRetiradaCor ? parseInt(contadorRetiradaCor) : 0,
                     contadorAtualPB: 0,
                     contadorAtualCor: 0,
                     ...(dataRetirada !== "" && { dataRetirada: dataRetirada }),
                     ativo: status == "Ativo" ? true : false,
-                    ...(contadorRetirada !== "" && { contadorRetiradaPB: contadorRetirada }),
-                    ...(contadorRetirada !== "" && { contadorRetiradaCor: contadorRetirada }),
+                    contadorAtualPB: parseInt(contadorInstalacaoPB),
+                    contadorAtualCor: selectedPadrao.colorido ? parseInt(contadorInstalacaoCor) : 0
                 };
 
                 const res = await createImpressora(data);
@@ -132,7 +141,6 @@ export default function RegisterPrinterForm() {
                 toast.error("Erro ao criar impressora!");
             }
         } catch (error) {
-            // Trate o erro aqui, por exemplo, mostrar uma mensagem para o usuário
             console.error("Erro ao criar impressora:", error);
             toast.error("Ocorreu um erro ao criar a impressora. Tente novamente.");
         }
@@ -150,8 +158,20 @@ export default function RegisterPrinterForm() {
         const marcaSelecionada = event.target.value;
         setSelectedMarca(marcaSelecionada);
 
-        const marca = marcas.find(m => m.marca === marcaSelecionada);
-        setSelectedModelo(marca ? marca.modelo : 'Selecione uma marca');
+        setSelectedModelo('');
+    };
+
+    const handleModeloChange = (event) => {
+        const modeloSelecionado = event.target.value;
+        if (modeloSelecionado === '') {
+            setSelectedModelo('');
+            setSelectedPadrao({});
+            return;
+        }
+        setSelectedModelo(modeloSelecionado);
+
+        const padrao = padroes.find(m => m.modelo === modeloSelecionado);
+        setSelectedPadrao(padrao);
     };
 
     const handleEnderecoIPChange = (newValue) => {
@@ -170,8 +190,12 @@ export default function RegisterPrinterForm() {
         setContadorInstalacaoCor(event.target.value);
     };
 
-    const handleContadorRetiradaChange = (event) => {
-        setContadorRetirada(event.target.value);
+    const handleContadorRetiradaPBChange = (event) => {
+        setContadorRetiradaPB(event.target.value);
+    };
+
+    const handleContadorRetiradaCorChange = (event) => {
+        setContadorRetiradaCor(event.target.value);
     };
 
     const handleLocalizacaoChange = (event) => {
@@ -210,6 +234,10 @@ export default function RegisterPrinterForm() {
 
     const handleStatusChange = (event) => {
         const newStatus = event.target.value;
+        if (newStatus === 'Ativo') {
+            setDataRetirada('');
+            setContadorRetiradaPB('');
+        }
         setStatus(newStatus);
     };
 
@@ -237,7 +265,7 @@ export default function RegisterPrinterForm() {
                 <SelectContainer
                     id="marca"
                     name="marca"
-                    options={marcas ? marcas.map(m => m.marca) : []}
+                    options={padroes ? Array.from(new Set(padroes.map(m => m.marca))) : []}
                     className="md-select"
                     label="Marca"
                     onChange={handleMarcaChange}
@@ -246,12 +274,15 @@ export default function RegisterPrinterForm() {
                 />
 
                 <div className="container" style={{ gap: '5rem' }}>
-                    <ViewDataContainer
-                        id="marca-equipamento"
-                        name="marca-equipamento"
-                        className="small-view"
-                        labelName={"Modelo"}
+                    <SelectContainer
+                        id="modelo"
+                        name="modelo"
+                        className="md-select"
+                        label={"Modelo"}
                         value={selectedModelo}
+                        error={errors.modelo}
+                        options={padroes ? padroes.filter(m => m.marca === selectedMarca).map(m => m.modelo) : []}
+                        onChange={handleModeloChange}
                     />
 
                     <InputContainer
@@ -272,6 +303,7 @@ export default function RegisterPrinterForm() {
                         label="Dentro da rede"
                         onChange={handleDentroRedeChange}
                         value={selectedDentroRede}
+                        usePlaceholder={false}
                     />
                 </div>
 
@@ -350,21 +382,32 @@ export default function RegisterPrinterForm() {
                         className="md-select"
                         label="Contador com cor"
                         error={errors.contadorInstalacaoCor}
+                        disabled={selectedPadrao.colorido === false}
                     />
                 </div>
 
                 <div className="form-separator"> Retirada </div>
-                <div className="container">
+                <div className="container" style={{ gap: '3rem' }}>
                     <NumberContainer
-                        id="contadorRetirada"
-                        name="contadorRetirada"
-                        value={contadorRetirada}
-                        onChange={handleContadorRetiradaChange}
+                        id="contadorRetiradaPb"
+                        name="contadorRetiradaPb"
+                        value={contadorRetiradaPB}
+                        onChange={handleContadorRetiradaPBChange}
                         className={`md-select ${retiradaClass}`}
-                        label="Contador de Retirada"
+                        label="Contador de Retirada PB"
                         error={errors.contadorRetirada}
                     />
+                    <NumberContainer
+                        id="contadorRetiradaCor"
+                        name="contadorRetiradaCor"
+                        value={contadorRetiradaCor}
+                        onChange={handleContadorRetiradaCorChange}
+                        className={`md-select ${retiradaClass}`}
+                        label="Contador de Retirada Cor"
+                        error={errors.contadorRetirada}
+                        disabled={selectedPadrao.colorido === false}
 
+                    />
                 </div>
                 <div className='container' style={{ gap: '5rem' }}>
                     <DateContainer
@@ -373,6 +416,7 @@ export default function RegisterPrinterForm() {
                         onChange={(e) => setDataRetirada(e.target.value)}
                         className={`md ${retiradaClass}`}
                         error={errors.dataRetirada}
+                        // disabled={status === 'Ativo'}
                     />
 
                     <SelectContainer
@@ -383,6 +427,7 @@ export default function RegisterPrinterForm() {
                         label="Status"
                         onChange={handleStatusChange}
                         value={status}
+                        usePlaceholder={false}
                     />
 
                 </div>

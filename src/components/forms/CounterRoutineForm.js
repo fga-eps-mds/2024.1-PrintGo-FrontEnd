@@ -2,10 +2,10 @@ import Navbar from "../navbar/Navbar";
 import React, { useState, useEffect } from "react";
 import "../../style/components/counterRoutineForm.css";
 import IntervalDropdown from "../containers/IntervalDropdown";
-import { getLocalizacao } from "../../services/printerService";
+import { getLocalizacao, addRotina } from "../../services/printerService";
 import SelectContainer from "../containers/SelectContainer";
 import { toast } from "react-toastify";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 export default function UpdateRoutine() {
   const [routine, setRoutine] = useState("");
@@ -22,21 +22,21 @@ export default function UpdateRoutine() {
   const [selectedUnidade, setUnidade] = useState("");
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
-  
+  const [hora, setHora] = useState("");
+  const [minuto, setMinuto] = useState("");
 
   useEffect(() => {
     const fetchLocalizacoes = async () => {
       try {
         const response = await getLocalizacao();
 
-        if (response.type === 'error'){
-          toast.error("Erro ao buscar localizações!")
-        }
-        else {
+        if (response.type === "error") {
+          toast.error("Erro ao buscar localizações!");
+        } else {
           setLocalizacoes(response.data);
         }
       } catch (error) {
-        console.error('Erro ao buscar localizações:', error);
+        console.error("Erro ao buscar localizações:", error);
       }
     };
     fetchLocalizacoes();
@@ -46,7 +46,7 @@ export default function UpdateRoutine() {
     const cidadeSelecionada = event.target.value;
     setCidade(cidadeSelecionada);
 
-    const localizacao = localizacoes.find(m => m.name === cidadeSelecionada);
+    const localizacao = localizacoes.find((m) => m.name === cidadeSelecionada);
     setWorkstations(localizacao ? localizacao.workstations : []);
   };
 
@@ -54,7 +54,9 @@ export default function UpdateRoutine() {
     const workstationSelecionada = event.target.value;
     setRegional(workstationSelecionada);
 
-    const workstation = workstations.find(m => m.name === workstationSelecionada);
+    const workstation = workstations.find(
+      (m) => m.name === workstationSelecionada
+    );
     setSubworkstations(workstation ? workstation.child_workstations : []);
   };
 
@@ -69,8 +71,8 @@ export default function UpdateRoutine() {
 
     if (selectedRoutine !== "") {
       setErrors((prevErrors) => {
-          const { rotina, ...rest } = prevErrors;
-          return rest;
+        const { rotina, ...rest } = prevErrors;
+        return rest;
       });
     }
 
@@ -104,9 +106,9 @@ export default function UpdateRoutine() {
               const newDays = [...prevDays, dayByValue];
               if (newDays.length > 0) {
                 setErrors((prevErrors) => {
-                    const { diasSemana, ...restErrors } = prevErrors;
-                    return restErrors;
-                  });
+                  const { diasSemana, ...restErrors } = prevErrors;
+                  return restErrors;
+                });
               }
               return newDays;
             });
@@ -125,11 +127,14 @@ export default function UpdateRoutine() {
     setTime(selectedTime);
 
     if (selectedTime) {
-        setInterval(""); 
-        setErrors((prevErrors) => {
-            const { horario, intervalo, ...rest } = prevErrors;
-            return rest;
-        });
+      const [hour, minute] = selectedTime.split(":");
+      setHora(parseInt(hour).toString());
+      setMinuto(parseInt(minute).toString());
+      setInterval("");
+      setErrors((prevErrors) => {
+        const { horario, intervalo, ...rest } = prevErrors;
+        return rest;
+      });
     }
   };
 
@@ -138,96 +143,169 @@ export default function UpdateRoutine() {
     setInterval(selectedInterval);
 
     if (selectedInterval) {
-        setTime(""); 
-        setErrors((prevErrors) => {
-            const { intervalo, horario, ...rest } = prevErrors;
-            return rest;
-        });
+      const [hour, minute] = selectedInterval.split(":");
+      setHora(parseInt(hour).toString());
+      setMinuto(parseInt(minute).toString());
+      setTime("");
+      setErrors((prevErrors) => {
+        const { intervalo, horario, ...rest } = prevErrors;
+        return rest;
+      });
     }
   };
 
   const handleDayChange = (e) => {
     const value = e.target.value;
-    if (value >= 1 && value <= 28) {
-        setDay(value);
-        setErrors(prevErrors => ({ ...prevErrors, diaMes: undefined }));
+    setDay(value);
+    if (value === "" || isNaN(value) || value < 1 || value > 28) {
+      setErrors((prevErrors) => ({ ...prevErrors, diaMes: "Por favor, insira um valor entre 1 e 28" }));
     } else {
-        alert('Por favor, insira um valor entre 1 e 28');
+      setErrors((prevErrors) => ({ ...prevErrors, diaMes: undefined }));
     }
   };
 
   const handleExitForm = () => {
-    navigate('/');
-};
+    navigate("/");
+  };
 
   const validateForm = () => {
     const newErrors = {};
 
-    if (!selectedCidade) newErrors.cidade = 'Cidade é obrigatória';
-    if (!selectedRegional) newErrors.regional = 'Regional é obrigatória';
-    if (!selectedUnidade) newErrors.unidade = 'Unidade de Trabalho é obrigatória';
-    if (!selectedRoutine) newErrors.rotina = 'Uma Rotina precisa ser escolhida';
-    if (routine === 'Diariamente') {
+    if (!selectedRoutine) newErrors.rotina = "Uma Rotina precisa ser escolhida";
+    if (routine === "Diariamente") {
       if (!time && !interval) {
-        newErrors.horario = 'Um horário precisa ser escolhido';
-        newErrors.intervalo = 'Um intervalo precisa ser escolhido'; 
-    }}
-    if (routine === 'Semanalmente') {
-      if (!time && !interval) {
-        newErrors.horario = 'Um horário precisa ser escolhido';
-        newErrors.intervalo = 'Um intervalo precisa ser escolhido'; 
+        newErrors.horario = "Um horário precisa ser escolhido";
+        newErrors.intervalo = "Um intervalo precisa ser escolhido";
       }
-      if (selectedDays.length === 0) newErrors.diasSemana = 'Escolha o(s) dia(s) da semana';
     }
-    if (routine === 'Mensalmente') {
+    if (routine === "Semanalmente") {
       if (!time && !interval) {
-        newErrors.horario = 'Um horário precisa ser escolhido';
-        newErrors.intervalo = 'Um intervalo precisa ser escolhido';
+        newErrors.horario = "Um horário precisa ser escolhido";
+        newErrors.intervalo = "Um intervalo precisa ser escolhido";
       }
-      if (!day) newErrors.diaMes = 'Um dia do mês precisa ser escolhido';
+      if (selectedDays.length === 0)
+        newErrors.diasSemana = "Escolha o(s) dia(s) da semana";
+    }
+    if (routine === "Mensalmente") {
+      if (!time && !interval) {
+        newErrors.horario = "Um horário precisa ser escolhido";
+        newErrors.intervalo = "Um intervalo precisa ser escolhido";
+      }
+      if (!day) newErrors.diaMes = "Um dia do mês precisa ser escolhido";
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0; // Retorna true se não houver erros
   };
 
-  const handleFormSubmit = async () => {
-    try {
-        if (validateForm()) {
-            let data = {
-                cidade: selectedCidade,
-                regional: selectedRegional,
-                unidade: selectedUnidade,
-                rotina: selectedRoutine,
-                horario: time,
-                intervalo: interval,
-                diasSemana: selectedDays,
-                diaMes: day,
-            };
-            console.log(data);
-        } else {
-            toast.error("Erro ao criar Rotina!");
-        }
-    } catch (error) {
-        console.error("Erro ao criar Rotina:", error);
-        toast.error("Ocorreu um erro ao criar um Rotina. Tente novamente.");
+  const handleRoutineSubmit = async () => {
+    if (!validateForm()) {
+      toast.error("Por Favor preencha os campos obrigatórios.");
+      return;
     }
-};
+    const cronString = () => {
+      let pattern = "";
+      switch (routine) {
+        case "Diariamente":
+          if (time === "") {
+            // intervalo
+            hora == 0 // Não tem suporte para intervalos como 1:30, precisar usar expressões diferentes
+              ? (pattern = "* " + "*/" + minuto + " * * * *") // "A cada x minutos"
+              : (pattern = "* " + "0 " + "*/" + hora + " * * *"); // "A cada x horas"
+          } else {
+            // horario
+            pattern = "* " + minuto + " " + hora + " * * *"; // "todos os dias as x horas e y minutos"
+          }
+          return pattern;
+        case "Semanalmente":
+          if (time === "") {
+            // intervalo
+            hora == 0
+              ? (pattern =
+                  "* " + "*/" + minuto + " * * * " + selectedDays.toString()) // A cada x minutos nos dias a,b e c
+              : (pattern =
+                  "* " +
+                  "*" +
+                  " */" +
+                  hora +
+                  " * * " +
+                  selectedDays.toString()); // A cada x horas nos dias a,b e c
+          } else {
+            // horario
+            pattern =
+              "* " + minuto + " " + hora + " * * " + selectedDays.toString();
+          }
+
+          return pattern;
+        case "Mensalmente":
+          if (time === "") {
+            // intervalo'
+            hora == 0
+              ? (pattern = "* " + "*/" + minuto + " * " + day + " * *") // cada x minutos no dia y do mes
+              : (pattern = "* " + "0 " + "*/" + hora + " " + day + " * *"); // cada x horas no dia y do mes
+          } else {
+            // horario
+            pattern = "* " + minuto + " " + hora + " " + day + " * * ";
+          }
+          return pattern;
+      }
+      return pattern;
+    };
+
+    const rotinaData = {
+      localizacao: `${selectedCidade};${selectedRegional};${selectedUnidade}`,
+      dataCriado: new Date(Date.now()).toISOString().split("T")[0],
+      cronExpression: cronString(),
+      dataUltimoUpdate: null,
+      ativo: true,
+      cidadeTodas: selectedCidade == "Todas" ? true : false,
+      regionalTodas: selectedRegional == "Todas" ? true : false,
+      unidadeTodas: selectedUnidade == "Todas" ? true : false,
+    };
+
+    try {
+      const response = await addRotina(rotinaData);
+
+      if (response.type === "success") {
+        toast.success("Rotina registrada com sucesso!");
+        setTimeout(() => {
+          navigate(`/`);
+        }, 3000);
+      } else {
+        console.error("Erro recebido do backend:", response.error);
+        toast.error(
+          "Erro ao registrar rotina: " + (response.error || response.data)
+        );
+        console.log(response);
+      }
+    } catch (error) {
+      console.error("Erro na requisição:", error);
+      toast.error("Erro ao registrar rotina: " + error.message);
+    }
+  };
 
   return (
     <>
       <Navbar />
       <div className="page-Routine">
         <div className="topRoutine">
-          <h1 id="titleRoutine"> Rotina de Registro Automático</h1>
+          <h1 id="titleRoutine">Rotina de Registro Automático</h1>
         </div>
         <div className="midPage-Routine">
           <div>
-            <label id="labelRoutine">Cidade</label>
+            <label htmlFor="Cidade" id="labelRoutine">
+              Cidade
+            </label>
             <SelectContainer
-              id="dropdownRoutine"
+              data-testid="cidade-dropdown"
+              id="Cidade"
+              className="dropdownRoutine"
               name="cidade"
               label=""
-              options={localizacoes ? localizacoes.map((localizacao) => localizacao.name) : []}
+              options={
+                localizacoes
+                  ? localizacoes.map((localizacao) => localizacao.name)
+                  : []
+              }
               onChange={handleLocalizacaoChange}
               value={selectedCidade}
               error={errors.cidade}
@@ -235,12 +313,20 @@ export default function UpdateRoutine() {
             />
           </div>
           <div>
-            <label id="labelRoutine">Regional</label>
+            <label htmlFor="Regional" id="labelRoutine">
+              Regional
+            </label>
             <SelectContainer
-              id="dropdownRoutine"
-              name="workstation"
+              data-testid="regional-dropdown"
+              id="Regional"
+              className="dropdownRoutine"
+              name="regional"
               label=""
-              options={workstations ? workstations.map((workstation) => workstation.name) : []}
+              options={
+                workstations
+                  ? workstations.map((workstation) => workstation.name)
+                  : []
+              }
               onChange={handleWorkstationChange}
               value={selectedRegional}
               error={errors.regional}
@@ -248,12 +334,20 @@ export default function UpdateRoutine() {
             />
           </div>
           <div>
-            <label id="labelRoutine">Unidade de Trabalho</label>
+            <label htmlFor="Unidade de Trabalho" id="labelRoutine">
+              Unidade de Trabalho
+            </label>
             <SelectContainer
-              id="dropdownRoutine"
-              name="subworkstation"
+              data-testid="unidade-dropdown"
+              id="Unidade de Trabalho"
+              className="dropdownRoutine"
+              name="Unidade de Trabalho"
               label=""
-              options={subWorkstations ? subWorkstations.map((subworkstation) => subworkstation.name) : []}
+              options={
+                subWorkstations
+                  ? subWorkstations.map((subworkstation) => subworkstation.name)
+                  : []
+              }
               onChange={handleSubWorkstationChange}
               value={selectedUnidade}
               error={errors.unidade}
@@ -263,19 +357,23 @@ export default function UpdateRoutine() {
         </div>
         <div className="bottomPage-Routine">
           <div className="optionsRoutine">
-            <label id="labelRoutine">Rotina de Registro</label>
+            <label htmlFor="Rotina de Registro" id="labelRoutine">
+              Rotina de Registro
+            </label>
             <select
-              id="dropdownRoutine"
+              id="Rotina de Registro"
               value={routine}
               onChange={handleRoutineChange}
-              className={errors.rotina ? 'input-error' : ''}
+              className={errors.rotina ? "inputRoutine-error" : "dropdownRoutine"}
             >
               <option value={""}>Escolha uma opção</option>
               <option value={"Diariamente"}>Diariamente</option>
               <option value={"Semanalmente"}>Semanalmente</option>
               <option value={"Mensalmente"}>Mensalmente</option>
             </select>
-            {errors.rotina && <span className="error-message">{errors.rotina}</span>}
+            {errors.rotina && (
+              <span className="errorRoutine-message">{errors.rotina}</span>
+            )}
           </div>
           {selectedRoutine && (
             <div className="routineResults">
@@ -284,7 +382,9 @@ export default function UpdateRoutine() {
                   <label id="labelRoutine">Diariamente</label>
                   <div id="smallboxRoutine">
                     <div>
-                    <label id="slabelRoutine">Escolha um horário:</label>
+                      <label htmlFor="timeRoutine" id="slabelRoutine">
+                        Escolha um horário:
+                      </label>
                     </div>
                     <div className="inputRoutine">
                       <input
@@ -292,22 +392,39 @@ export default function UpdateRoutine() {
                         id="timeRoutine"
                         value={time}
                         onChange={handleTimeChange}
-                        className={errors.horario ? 'inputRoutine-error' : ''}
+                        className={errors.horario ? "inputRoutine-error" : ""}
                       ></input>
                     </div>
                     {errors.horario && (
                       <div id="errorArea">
-                        <span className="errorRoutine-message">{errors.horario}</span>
+                        <span className="errorRoutine-message">
+                          {errors.horario}
+                        </span>
                       </div>
-                      )}
+                    )}
                   </div>
                   <div id="smallboxRoutine">
-                    <label id="slabelRoutine">Escolha o intervalo:</label>
-                    <IntervalDropdown
-                      value={interval}
-                      onChange={handleIntervalChange}
-                      error={errors.intervalo}
-                    />
+                    <div>
+                      <label htmlFor="intervalRoutine" id="slabelRoutine">
+                        Escolha o intervalo:
+                      </label>
+                    </div>
+                    <div id="interval-div">
+                      <IntervalDropdown
+                        className={errors.horario ? "inputInterval-error" : "intervalRoutine"}
+                        id="intervalRoutine"
+                        data-testid="interval-dropdown" 
+                        value={interval}
+                        onChange={handleIntervalChange}
+                        error={errors.intervalo}
+                      />
+                    </div>
+                    {errors.intervalo && (
+                      <div id="errorArea">
+                        <span className="errorRoutine-message">
+                          {errors.intervalo}</span>
+                      </div>                     
+                    )}
                   </div>
                 </div>
               )}
@@ -317,7 +434,9 @@ export default function UpdateRoutine() {
                   <label id="labelRoutine">Semanalmente</label>
                   <div id="smallboxRoutine">
                     <div>
-                    <label id="slabelRoutine">Escolha o horário:</label>
+                      <label htmlFor="timeRoutine" id="slabelRoutine">
+                        Escolha o horário:
+                      </label>
                     </div>
                     <div className="inputRoutine">
                       <input
@@ -325,33 +444,53 @@ export default function UpdateRoutine() {
                         id="timeRoutine"
                         value={time}
                         onChange={handleTimeChange}
-                        className={errors.horario ? 'inputRoutine-error' : ''}
+                        className={errors.horario ? "inputRoutine-error" : ""}
                       ></input>
                     </div>
                     {errors.horario && (
                       <div id="errorArea">
-                        <span className="errorRoutine-message">{errors.horario}</span>
+                        <span className="errorRoutine-message">
+                          {errors.horario}
+                        </span>
                       </div>
-                      )}
-                  </div>
-                  <div id="smallboxRoutine">
-                    <label id="slabelRoutine">Escolha o intervalo:</label>
-                    <IntervalDropdown
-                      value={interval}
-                      onChange={handleIntervalChange}
-                      error={errors.intervalo}
-                    />
+                    )}
                   </div>
                   <div id="smallboxRoutine">
                     <div>
-                    <label id="slabelRoutine">Escolha o dia:</label>
+                      <label htmlFor="intervalRoutine" id="slabelRoutine">
+                        Escolha o intervalo:
+                      </label>
+                    </div>
+                    <div id="interval-div">
+                      <IntervalDropdown
+                        className={errors.horario ? "inputInterval-error" : "intervalRoutine"}
+                        id="intervalRoutine"
+                        data-testid="interval-dropdown" 
+                        value={interval}
+                        onChange={handleIntervalChange}
+                        error={errors.intervalo}
+                      />
+                    </div>
+                    {errors.intervalo && (
+                      <div id="errorArea">
+                        <span className="errorRoutine-message">
+                          {errors.intervalo}</span>
+                      </div>                     
+                    )}
+                  </div>
+                  <div id="smallboxRoutine">
+                    <div>
+                      <label htmlFor="weekDays" id="slabelRoutine">
+                        Escolha o dia:
+                      </label>
                     </div>
                     <div className="weekDayOptions">
                       <span>
                         <div
                           className="weekDayRoutine"
                           role="checkbox"
-                          value={"Sunday"}
+                          value={"0"}
+                          id="weekDays"
                         >
                           D
                         </div>
@@ -360,7 +499,8 @@ export default function UpdateRoutine() {
                         <div
                           className="weekDayRoutine"
                           role="checkbox"
-                          value={"Monday"}
+                          value={"1"}
+                          id="weekDays"
                         >
                           S
                         </div>
@@ -369,7 +509,8 @@ export default function UpdateRoutine() {
                         <div
                           className="weekDayRoutine"
                           role="checkbox"
-                          value={"Tuesday"}
+                          value={"2"}
+                          id="weekDays"
                         >
                           T
                         </div>
@@ -378,7 +519,8 @@ export default function UpdateRoutine() {
                         <div
                           className="weekDayRoutine"
                           role="checkbox"
-                          value={"Wednesday"}
+                          value={"3"}
+                          id="weekDays"
                         >
                           Q
                         </div>
@@ -387,7 +529,8 @@ export default function UpdateRoutine() {
                         <div
                           className="weekDayRoutine"
                           role="checkbox"
-                          value={"Thursday"}
+                          value={"4"}
+                          id="weekDays"
                         >
                           Q
                         </div>
@@ -396,7 +539,8 @@ export default function UpdateRoutine() {
                         <div
                           className="weekDayRoutine"
                           role="checkbox"
-                          value={"Friday"}
+                          value={"5"}
+                          id="weekDays"
                         >
                           S
                         </div>
@@ -405,14 +549,19 @@ export default function UpdateRoutine() {
                         <div
                           className="weekDayRoutine"
                           role="checkbox"
-                          value={"Saturday"}
+                          value={"6"}
+                          id="weekDays"
                         >
                           S
                         </div>
                       </span>
                     </div>
                     <div id="erroArea">
-                    {errors.diasSemana && <span className="errorRoutine-message">{errors.diasSemana}</span>}
+                      {errors.diasSemana && (
+                        <span className="errorRoutine-message">
+                          {errors.diasSemana}
+                        </span>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -423,47 +572,75 @@ export default function UpdateRoutine() {
                   <label id="labelRoutine">Mensalmente</label>
                   <div id="smallboxRoutine">
                     <div>
-                    <label id="slabelRoutine">Escolha o horário:</label>
+                      <label htmlFor="timeRoutine" id="slabelRoutine">
+                        Escolha o horário:
+                      </label>
                     </div>
                     <div className="inputRoutine">
-                    <input
-                      type="time"
-                      id="timeRoutine"
-                      value={time}
-                      onChange={handleTimeChange}
-                      className={errors.horario ? 'inputRoutine-error' : ''}
-                    ></input>
+                      <input
+                        type="time"
+                        id="timeRoutine"
+                        value={time}
+                        onChange={handleTimeChange}
+                        className={errors.horario ? "inputRoutine-error" : ""}
+                      ></input>
                     </div>
                     <div>
-                    {errors.horario && <span className="errorRoutine-message">{errors.horario}</span>}
+                      {errors.horario && (
+                        <span className="errorRoutine-message">
+                          {errors.horario}
+                        </span>
+                      )}
                     </div>
                   </div>
                   <div id="smallboxRoutine">
-                    <label id="slabelRoutine">Escolha o intervalo:</label>
-                    <IntervalDropdown
-                      value={interval}
-                      onChange={handleIntervalChange}
-                      error={errors.intervalo}
-                    />
+                    <div>
+                      <label htmlFor="intervalRoutine" id="slabelRoutine">
+                        Escolha o intervalo:
+                      </label>
+                    </div>
+                    <div id="interval-div">
+                      <IntervalDropdown
+                        className={errors.horario ? "inputInterval-error" : "intervalRoutine"}
+                        id="intervalRoutine"
+                        data-testid="interval-dropdown" 
+                        value={interval}
+                        onChange={handleIntervalChange}
+                        error={errors.intervalo}
+                      />
+                    </div>
+                    {errors.intervalo && (
+                      <div id="errorArea">
+                        <span className="errorRoutine-message">
+                          {errors.intervalo}</span>
+                      </div>                     
+                    )}
                   </div>
                   <div id="smallboxRoutine">
                     <div>
-                    <label id="slabelRoutine">Digite o dia do mês:</label>
+                      <label htmlFor="dayRoutine" id="slabelRoutine">
+                        Digite o dia do mês:
+                      </label>
                     </div>
                     <div>
-                    <input
-                      placeholder="1-28"
-                      type="number"
-                      min="1"
-                      max="28"
-                      id="dayRoutine"
-                      value={day}
-                      onChange={handleDayChange}
-                      className={errors.diaMes ? 'inputRoutine-error' : ''}
-                    ></input>
+                      <input
+                        data-testid="dayInput"
+                        placeholder="1-28"
+                        type="number"
+                        min="1"
+                        max="28"
+                        id="dayRoutine"
+                        value={day}
+                        onChange={handleDayChange}
+                        className={errors.diaMes ? "inputRoutineDay-error" : ""}
+                      ></input>
                     </div>
                     <div>
-                    {errors.diaMes && <span className="errorRoutine-message">{errors.diaMes}</span>}
+                      {errors.diaMes && (
+                        <span className="errorRoutine-message">
+                          {errors.diaMes}
+                        </span>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -472,11 +649,14 @@ export default function UpdateRoutine() {
           )}
         </div>
         <div className="buttons-Routine">
-          <button id="addRoutine" onClick={handleFormSubmit}>Adicionar Rotina</button>
-          <button id="cancelEditRoutine" onClick={handleExitForm}>Cancelar</button>
+          <button id="addRoutine" onClick={handleRoutineSubmit}>
+            Adicionar Rotina
+          </button>
+          <button id="cancelEditRoutine" onClick={handleExitForm}>
+            Cancelar
+          </button>
         </div>
       </div>
     </>
   );
 }
-

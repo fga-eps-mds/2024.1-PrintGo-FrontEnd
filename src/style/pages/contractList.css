@@ -4,47 +4,78 @@
     gap: 15px;
     padding-inline: 70px;
     padding-top: 40px;
+    max-height: 50vh;
+    overflow-y: auto;
 }
 
-.mainArea{
+.mainArea {
     background-color: rgb(255, 255, 255);
     margin-top: 5px;
     padding-inline: 100px;
     justify-content: center;
 }
 
-.barraPesquisa{
+.barraPesquisa {
     display: flex;
     align-items: center;
     justify-content: space-between;
     border-bottom-style: solid;
-    border-color: #0D3D6D;
+    border-color: #0d3d6d;
     margin-inline: 70px;
     max-height: 120px;
     margin-bottom: -10px;
 }
 
-.titulo{
-    font-weight: 400;
-    font-size: 48px;
-    color: #0D3D6D;
+.columnsContract {
+    color: #003366;
+    display: flex;
+    margin-left: 5%;
 }
 
-#searchBar{
+.columnLabel {
+    border-right-style: solid;
+    border-color: #0d3d6d;
+    width: 14rem;
+    font-size: 20px;
+    text-align: center;
+
+}
+
+.columnButtons {
+    display: flex;
+    justify-content: flex-end;
+    width: 25%;
+    padding-left: 16rem;
+}
+
+.columnBtn {
+    width: 20%;
+    font-size: 20px;
+    text-align: center;
+    margin-left: 15px;
+}
+
+.titulo {
+    font-weight: 400;
+    font-size: 48px;
+    color: #0d3d6d;
+}
+
+#searchBar {
     width: 20vw;
     height: 6vh;
     border-radius: 5vh;
-    border: #0D3D6D 2px solid;
+    border: #0d3d6d 2px solid;
     padding-left: 20px;
     font-size: 24px;
 }
 
-::placeholder{
+::placeholder {
     font-size: 24px;
 }
 
-#buttonContracts{
-    background-color: #006633;
+#buttonContracts {
+    background-color: #003366;
     border-radius: 60px;
     margin-top: 20px;
     margin-left: 70px;
@@ -55,4 +86,4 @@
     font-size: 24px;
     font-weight: 600;
     cursor: pointer;
-}   
+}

@@ -1,62 +1,68 @@
-.box .overlap-group {
-    background-color: #ffffff;
-    border-color: #003366;
-    border-radius: 20px;
-    display: flex;
-    justify-content: space-between;
-    height: 100px;
-    align-items: center;
+.box {
+  background-color: #ffffff;
+  border-color: #003366;
+  border-radius: 20px;
+  display: flex;
+  justify-content: space-between;
+  height: 100px;
+  min-height: 100px;
+  align-items: center;
 }
 
 .box .text-wrapper {
-    color: #003366;
-    font-family: "Jost", Helvetica;
-    font-size: 40px;
-    font-weight: 400;
-    letter-spacing: 0;
-    line-height: normal;
-    display: flex;
-    justify-content: space-between;
-    width: 900px;
-    align-items:first baseline;
-    overflow: hidden;
+  color: #003366;
+  font-family: "Jost", Helvetica;
+  font-size: 40px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: normal;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 920px;
+  overflow: hidden;
 }
-
 .box .text-wrapper .numero {
-    font-weight: 600;
-    margin-left: 45px;
+  font-weight: 600;
+  width: 20%;
+  margin-left: 45px;
+
 }
 
 .box .text-wrapper .gestor {
-    font-weight: 500;
-    width: 400px;
+  font-weight: 500;
+  width: 20%;
+}
+.box .text-wrapper .data {
+  font-weight: 500;
+  font-size: 30px;
+  width: 20%;
 }
 
 .box .read {
-    width: 69px;
-    align-items: center;
-    justify-content: left;
+  width: 69px;
+  align-items: center;
+  justify-content: left;
 }
 
 .box .edit {
-    object-fit: cover;
-    width: 69px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  object-fit: cover;
+  width: 69px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .box .toggle {
-    object-fit: cover;
-    width: 93px;
-    justify-content: center;
-    display: flex;
-    align-items: center;
+  object-fit: cover;
+  width: 93px;
+  justify-content: center;
+  display: flex;
+  align-items: center;
 }
 
 .box .actions {
-    justify-content: space-between;
-    display: flex;
-    align-items: center;
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
 }
-

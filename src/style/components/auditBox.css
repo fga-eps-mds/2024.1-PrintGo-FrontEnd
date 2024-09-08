@@ -47,3 +47,21 @@
     
 }
 
+.audit-box-element-color{
+    width: 6.5%;
+    text-align: center;
+    color: #003366;
+    font-size: medium;
+    border-right-style: solid;
+    border-color: #D9D9D9;
+}
+
+.audit-box-element-pb{
+    width: 6.5%;
+    text-align: center;
+    color: #003366;
+    font-size: medium;
+    border-right-style: solid;
+    border-color: #D9D9D9;
+}
+

@@ -54,6 +54,7 @@ function StatusDropdown({ onChange, useSelecione, initialValue }) {
           outline: 'none',
           backgroundSize: '10px'
         }}
+        data-testid="status-dropdown"
       >
         {(() => {
           if (useSelecione) {

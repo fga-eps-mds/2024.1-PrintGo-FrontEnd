@@ -172,25 +172,15 @@ export default function UpdateRoutine() {
     const newErrors = {};
 
     if (!selectedRoutine) newErrors.rotina = "Uma Rotina precisa ser escolhida";
-    if (routine === "Diariamente") {
-      if (!time && !interval) {
-        newErrors.horario = "Um horário precisa ser escolhido";
-        newErrors.intervalo = "Um intervalo precisa ser escolhido";
-      }
+    if (!time && !interval) {
+      newErrors.horario = "Um horário precisa ser escolhido";
+      newErrors.intervalo = "Um intervalo precisa ser escolhido";
     }
     if (routine === "Semanalmente") {
-      if (!time && !interval) {
-        newErrors.horario = "Um horário precisa ser escolhido";
-        newErrors.intervalo = "Um intervalo precisa ser escolhido";
-      }
       if (selectedDays.length === 0)
         newErrors.diasSemana = "Escolha o(s) dia(s) da semana";
     }
     if (routine === "Mensalmente") {
-      if (!time && !interval) {
-        newErrors.horario = "Um horário precisa ser escolhido";
-        newErrors.intervalo = "Um intervalo precisa ser escolhido";
-      }
       if (!day) newErrors.diaMes = "Um dia do mês precisa ser escolhido";
     }
     setErrors(newErrors);
@@ -380,104 +370,12 @@ export default function UpdateRoutine() {
               {routine === "Diariamente" && (
                 <div className="dailyOption">
                   <label id="labelRoutine">Diariamente</label>
-                  <div id="smallboxRoutine">
-                    <div>
-                      <label htmlFor="timeRoutine" id="slabelRoutine">
-                        Escolha um horário:
-                      </label>
-                    </div>
-                    <div className="inputRoutine">
-                      <input
-                        type="time"
-                        id="timeRoutine"
-                        value={time}
-                        onChange={handleTimeChange}
-                        className={errors.horario ? "inputRoutine-error" : ""}
-                      ></input>
-                    </div>
-                    {errors.horario && (
-                      <div id="errorArea">
-                        <span className="errorRoutine-message">
-                          {errors.horario}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                  <div id="smallboxRoutine">
-                    <div>
-                      <label htmlFor="intervalRoutine" id="slabelRoutine">
-                        Escolha o intervalo:
-                      </label>
-                    </div>
-                    <div id="interval-div">
-                      <IntervalDropdown
-                        className={errors.horario ? "inputInterval-error" : "intervalRoutine"}
-                        id="intervalRoutine"
-                        data-testid="interval-dropdown" 
-                        value={interval}
-                        onChange={handleIntervalChange}
-                        error={errors.intervalo}
-                      />
-                    </div>
-                    {errors.intervalo && (
-                      <div id="errorArea">
-                        <span className="errorRoutine-message">
-                          {errors.intervalo}</span>
-                      </div>                     
-                    )}
-                  </div>
                 </div>
               )}
 
               {routine === "Semanalmente" && (
                 <div className="weeklyOption">
                   <label id="labelRoutine">Semanalmente</label>
-                  <div id="smallboxRoutine">
-                    <div>
-                      <label htmlFor="timeRoutine" id="slabelRoutine">
-                        Escolha o horário:
-                      </label>
-                    </div>
-                    <div className="inputRoutine">
-                      <input
-                        type="time"
-                        id="timeRoutine"
-                        value={time}
-                        onChange={handleTimeChange}
-                        className={errors.horario ? "inputRoutine-error" : ""}
-                      ></input>
-                    </div>
-                    {errors.horario && (
-                      <div id="errorArea">
-                        <span className="errorRoutine-message">
-                          {errors.horario}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                  <div id="smallboxRoutine">
-                    <div>
-                      <label htmlFor="intervalRoutine" id="slabelRoutine">
-                        Escolha o intervalo:
-                      </label>
-                    </div>
-                    <div id="interval-div">
-                      <IntervalDropdown
-                        className={errors.horario ? "inputInterval-error" : "intervalRoutine"}
-                        id="intervalRoutine"
-                        data-testid="interval-dropdown" 
-                        value={interval}
-                        onChange={handleIntervalChange}
-                        error={errors.intervalo}
-                      />
-                    </div>
-                    {errors.intervalo && (
-                      <div id="errorArea">
-                        <span className="errorRoutine-message">
-                          {errors.intervalo}</span>
-                      </div>                     
-                    )}
-                  </div>
                   <div id="smallboxRoutine">
                     <div>
                       <label htmlFor="weekDays" id="slabelRoutine">
@@ -572,52 +470,6 @@ export default function UpdateRoutine() {
                   <label id="labelRoutine">Mensalmente</label>
                   <div id="smallboxRoutine">
                     <div>
-                      <label htmlFor="timeRoutine" id="slabelRoutine">
-                        Escolha o horário:
-                      </label>
-                    </div>
-                    <div className="inputRoutine">
-                      <input
-                        type="time"
-                        id="timeRoutine"
-                        value={time}
-                        onChange={handleTimeChange}
-                        className={errors.horario ? "inputRoutine-error" : ""}
-                      ></input>
-                    </div>
-                    <div>
-                      {errors.horario && (
-                        <span className="errorRoutine-message">
-                          {errors.horario}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                  <div id="smallboxRoutine">
-                    <div>
-                      <label htmlFor="intervalRoutine" id="slabelRoutine">
-                        Escolha o intervalo:
-                      </label>
-                    </div>
-                    <div id="interval-div">
-                      <IntervalDropdown
-                        className={errors.horario ? "inputInterval-error" : "intervalRoutine"}
-                        id="intervalRoutine"
-                        data-testid="interval-dropdown" 
-                        value={interval}
-                        onChange={handleIntervalChange}
-                        error={errors.intervalo}
-                      />
-                    </div>
-                    {errors.intervalo && (
-                      <div id="errorArea">
-                        <span className="errorRoutine-message">
-                          {errors.intervalo}</span>
-                      </div>                     
-                    )}
-                  </div>
-                  <div id="smallboxRoutine">
-                    <div>
                       <label htmlFor="dayRoutine" id="slabelRoutine">
                         Digite o dia do mês:
                       </label>
@@ -645,6 +497,52 @@ export default function UpdateRoutine() {
                   </div>
                 </div>
               )}
+              <div id="smallboxRoutine">
+                    <div>
+                      <label htmlFor="timeRoutine" id="slabelRoutine">
+                        Escolha um horário:
+                      </label>
+                    </div>
+                    <div className="inputRoutine">
+                      <input
+                        type="time"
+                        id="timeRoutine"
+                        value={time}
+                        onChange={handleTimeChange}
+                        className={errors.horario ? "inputRoutine-error" : ""}
+                      ></input>
+                    </div>
+                    {errors.horario && (
+                      <div id="errorArea">
+                        <span className="errorRoutine-message">
+                          {errors.horario}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  <div id="smallboxRoutine">
+                    <div>
+                      <label htmlFor="intervalRoutine" id="slabelRoutine">
+                        Escolha o intervalo:
+                      </label>
+                    </div>
+                    <div id="interval-div">
+                      <IntervalDropdown
+                        className={errors.horario ? "inputInterval-error" : "intervalRoutine"}
+                        id="intervalRoutine"
+                        data-testid="interval-dropdown" 
+                        value={interval}
+                        onChange={handleIntervalChange}
+                        error={errors.intervalo}
+                      />
+                    </div>
+                    {errors.intervalo && (
+                      <div id="errorArea">
+                        <span className="errorRoutine-message">
+                          {errors.intervalo}</span>
+                      </div>                     
+                    )}
+                  </div>
             </div>
           )}
         </div>
@@ -652,7 +550,7 @@ export default function UpdateRoutine() {
           <button id="addRoutine" onClick={handleRoutineSubmit}>
             Adicionar Rotina
           </button>
-          <button id="cancelEditRoutine" onClick={handleExitForm}>
+          <button id="cancelEditRoutine" data-testid="cancel-button" onClick={handleExitForm}>
             Cancelar
           </button>
         </div>

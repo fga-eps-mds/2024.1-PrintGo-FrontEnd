@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act, getByTestId } from '@testing-library/react';
 import UpdateRoutine from '../../components/forms/CounterRoutineForm';
 import { getLocalizacao, addRotina } from '../../services/printerService';
 import { MemoryRouter, useNavigate} from "react-router-dom";
@@ -266,7 +266,7 @@ describe('UpdateRoutine', () => {
     fireEvent.change(screen.getByLabelText('Rotina de Registro'), { target: { value: 'Semanalmente' } });
     fireEvent.click(screen.getByText('D')); 
     fireEvent.click(screen.getByText('T')); 
-    fireEvent.change(screen.getByLabelText('Escolha o horário:'), { target: { value: '14:00' } });
+    fireEvent.change(screen.getByLabelText('Escolha um horário:'), { target: { value: '14:00' } });
   
     fireEvent.click(screen.getByText('Adicionar Rotina'));
   
@@ -346,7 +346,7 @@ describe('UpdateRoutine', () => {
         
     fireEvent.change(screen.getByLabelText('Rotina de Registro'), { target: { value: routine } });
     fireEvent.change(screen.getByTestId('dayInput'), { target: { value: day } });
-    fireEvent.change(screen.getByLabelText('Escolha o horário:'), { target: { value: `${hora}:${minuto}` } });
+    fireEvent.change(screen.getByLabelText('Escolha um horário:'), { target: { value: `${hora}:${minuto}` } });
     fireEvent.change(screen.getByLabelText('Cidade'), { target: { value: selectedCidade } });
     fireEvent.change(screen.getByLabelText('Regional'), { target: { value: selectedRegional } });
     fireEvent.change(screen.getByLabelText('Unidade de Trabalho'), { target: { value: selectedUnidade } });
@@ -411,13 +411,13 @@ describe('UpdateRoutine', () => {
     expect(screen.getByText('Um horário precisa ser escolhido')).toBeInTheDocument();
     expect(screen.getByText('Um intervalo precisa ser escolhido')).toBeInTheDocument();
   
-    fireEvent.change(screen.getByLabelText('Escolha o horário:'), { target: { value: '14:00' } });
+    fireEvent.change(screen.getByLabelText('Escolha um horário:'), { target: { value: '14:00' } });
   
     expect(screen.queryByText('Um horário precisa ser escolhido')).not.toBeInTheDocument();
     expect(screen.queryByText('Um intervalo precisa ser escolhido')).not.toBeInTheDocument();
   });
 
-  test('should navigate to the home page when "Gerar Relatório" button is clicked', () => {
+  test('should navigate to the home page when "Adicionar Rotina" button is clicked', () => {
     const navigate = useNavigate();
   
     render(
@@ -453,5 +453,20 @@ describe('UpdateRoutine', () => {
     fireEvent.change(dayInput, { target: { value: '15' } });
   
     expect(screen.queryByText('Por favor, insira um valor entre 1 e 28')).not.toBeInTheDocument();
+  });
+
+  test("should navigate to home when the cancel button is clicked", () => {
+    const navigate = useNavigate();
+
+    // Renderiza o componente
+    render(
+      <MemoryRouter>
+        <UpdateRoutine />
+      </MemoryRouter>
+    );
+
+    fireEvent.click(screen.getByText('Cancelar'));
+
+    expect(navigate).toHaveBeenCalledWith("/");
   });
 });

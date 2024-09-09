@@ -6,12 +6,15 @@ import { MemoryRouter, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import StatusDropdown from '../../components/containers/StatusDropdown';
 
-jest.mock('../../services/contractService');
 jest.mock('react-toastify', () => ({
   toast: {
     success: jest.fn(),
     error: jest.fn(),
   },
+}));
+
+jest.mock('../../services/contractService', () => ({
+  createContract: jest.fn(),
 }));
 
 
@@ -176,6 +179,31 @@ describe('ContractForm', () => {
     
     fireEvent.change(dropdown, { target: { value: 'invalid' } });
 
+  });
+
+  test('should show error toast when createContract fails with other status', async () => {
+    createContract.mockResolvedValue({
+      type: 'error',
+      error: { status: 500 }
+    });
+  
+    render(
+      <MemoryRouter>
+        <ContractForm />
+      </MemoryRouter>
+    );
+  
+    fireEvent.change(screen.getByPlaceholderText(/Insira o n° do contrato/i), { target: { value: '123' } });
+    fireEvent.change(screen.getByPlaceholderText(/Insira o nome do gestor/i), { target: { value: 'Gestor Nome' } });
+    fireEvent.change(screen.getByPlaceholderText(/Insira a descrição do contrato/i), { target: { value: 'Descrição do contrato' } });
+    fireEvent.change(screen.getAllByPlaceholderText(/dd\/mm\/aaaa/i)[0], { target: { value: '2024-01-01' } });
+    fireEvent.change(screen.getAllByPlaceholderText(/dd\/mm\/aaaa/i)[1], { target: { value: '2024-12-31' } });
+  
+    fireEvent.click(screen.getByText(/Cadastrar/i));
+  
+    await waitFor(() => {
+      expect(toast.error).toHaveBeenCalledWith('Erro ao criar contrato!');
+    });
   });
 
   //StatusDropdown tests//

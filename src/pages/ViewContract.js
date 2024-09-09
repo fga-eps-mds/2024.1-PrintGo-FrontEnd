@@ -71,11 +71,11 @@ const ViewContract = () => {
                         <div className="dateC">
                             <div className="dateI">
                                 <h2 id="titlesContracts">Data de Início:</h2>
-                                <h3 id="textDateContent">{new Date(dataInicio).toLocaleDateString()}</h3>
+                                <h3 id="textDateContent" data-testid="data-inicio">{new Date(dataInicio).toLocaleDateString()}</h3>
                             </div>
                             <div className="dateF">
                                 <h2 id="titlesContracts">Data de Término:</h2>
-                                <h3 id="textDateContent">{new Date(dataTermino).toLocaleDateString()}</h3>
+                                <h3 id="textDateContent" data-testid="data-termino">{new Date(dataTermino).toLocaleDateString()}</h3>
                             </div>
                         </div>
                         <div className="statusContract">

@@ -1,10 +1,9 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor, cleanup } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import EditContractForm from '../../components/forms/EditContractForm'
-import { MemoryRouter, useNavigate } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { editContract } from '../../services/contractService';
-import StatusDropdown from '../../components/containers/StatusDropdown';
 
 jest.mock('react-toastify', () => ({
     toast: {

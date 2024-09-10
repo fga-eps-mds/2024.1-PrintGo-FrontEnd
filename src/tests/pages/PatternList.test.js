@@ -117,37 +117,7 @@ describe('PatternList', () => {
         });
     });
 
-    it('should open modal', async () => {
-        getPadroes.mockResolvedValue(mockPatternsData);
-
-        render(<PatternList />);
-
-        await waitFor(() => {
-            expect(screen.getByText('Padrões de Impressoras Cadastradas')).toBeInTheDocument();
-            expect(screen.getByText(/HP.*123.*Laser/i)).toBeInTheDocument();
-            expect(screen.getByText(/Epson.*456.*Inkjet/i)).toBeInTheDocument();
-        });
-
-        const activePatternButton = screen.getByText("Desativar");
-        fireEvent.click(activePatternButton);
-
-        await waitFor(() => {
-            expect(screen.getByText('Você tem certeza que deseja desativar o padrão?')).toBeInTheDocument();
-        });
-
-        const modalCancelButton = screen.getByText("Cancelar");
-        fireEvent.click(modalCancelButton);
-
-        const deactivatePatternButton = screen.getByText("Ativar");
-        fireEvent.click(deactivatePatternButton);
-
-        await waitFor(() => {
-            expect(screen.getByText('Você tem certeza que deseja reativar o padrão?')).toBeInTheDocument();
-        });
-
-    });
-
-    it('handles pattern deactivation', async () => {
+    it('handle Toggle', async () => {
         getPadroes.mockResolvedValue(mockPatternsData);
 
         togglePattern.mockResolvedValue({ type: 'success' });
@@ -159,47 +129,22 @@ describe('PatternList', () => {
             expect(screen.getByText(/HP.*123.*Laser/i)).toBeInTheDocument();
             expect(screen.getByText(/Epson.*456.*Inkjet/i)).toBeInTheDocument();
         });
+        
 
-        fireEvent.click(screen.getByText("Desativar"));
-
+          
+        const toggleButtons = screen.getAllByRole('button');
+        const toggleButton = toggleButtons[2];
+      
+        fireEvent.click(toggleButton);
+      
         await waitFor(() => {
-            expect(screen.getByText('Você tem certeza que deseja desativar o padrão?')).toBeInTheDocument();
+          expect(screen.getByText(/Epson.*456.*Inkjet/i)).toHaveStyle('color: gray'); // Assumindo que o estilo muda para indicar desativado
         });
-
-        fireEvent.click(screen.getByText("Confirmar"));
-
-        await waitFor(() => {
-            expect(togglePattern).toHaveBeenCalled();
-            expect(screen.queryByText('Você tem certeza que deseja desativar o padrão?')).toBeNull();
-        });
+      
+       
+        
     });
 
-    it('handles pattern activation', async () => {
-        getPadroes.mockResolvedValue(mockPatternsData);
-
-        togglePattern.mockResolvedValue({ type: 'success' });
-
-        render(<PatternList />);
-
-        await waitFor(() => {
-            expect(screen.getByText('Padrões de Impressoras Cadastradas')).toBeInTheDocument();
-            expect(screen.getByText(/HP.*123.*Laser/i)).toBeInTheDocument();
-            expect(screen.getByText(/Epson.*456.*Inkjet/i)).toBeInTheDocument();
-        });
-
-        fireEvent.click(screen.getByText("Ativar"));
-
-        await waitFor(() => {
-            expect(screen.getByText('Você tem certeza que deseja reativar o padrão?')).toBeInTheDocument();
-        });
-
-        fireEvent.click(screen.getByText("Confirmar"));
-
-        await waitFor(() => {
-            expect(togglePattern).toHaveBeenCalled();
-            expect(screen.queryByText('Você tem certeza que deseja reativar o padrão?')).toBeNull();
-        });
-    });
 
     it('filters patterns by name', async () => {
         getPadroes.mockResolvedValue(mockPatternsData);

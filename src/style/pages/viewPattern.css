@@ -1,26 +1,19 @@
 /* Container */
 
-.viewpattern-container {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    
-}
+
 
 /* View card */
 
 .viewpattern-card {
-    background-color: #FFFFFF;
     border-radius: 10px;
     display: flex;
-    width: 43rem;
+    flex-direction: column;
+    width: 65rem;
     height: 100%;
     justify-content: flex-start;
-    align-items: center;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+    align-items: start;
     padding: 1rem 5rem;
     margin-right: 8vw;
-    margin-top: 8%;
     margin-bottom: 1vh;
 }
 
@@ -33,9 +26,8 @@
 /* Header */
 
 .viewpattern-card-header {
-    width: 100%;
-    margin-top: 10px;
-    margin-bottom: 70px;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
     display: block;
 }
 
@@ -43,7 +35,7 @@
     font-weight: bold;
     font-size: 22px;
     color: #003366;
-    margin-left: 8px;
+    margin-left: 20px;
     text-decoration: none;
 }
 
@@ -51,15 +43,13 @@
 
 .viewpattern-info-group{
     display: flex;
-    width: 100%;
-    flex-wrap: wrap;
+    flex-direction: column;
+    width: 50vw;
     justify-content: space-between;
     
 }
 
 .viewpattern-info-header {
-    display: block;
-    width: 100%;
     color: #003366;
     font-size: 30px;
     
@@ -67,9 +57,7 @@
 
 .viewpattern-info-line {
     display: flex;
-    width: 100%;
-    justify-content: flex-start;
-    flex-wrap: wrap;
+    flex-direction: column;
     margin-bottom: 10px;
 }
 
@@ -86,33 +74,39 @@
     flex-direction: column;
     margin: 12px 10px; /* Adiciona espaço acima, abaixo, à direita e à esquerda */
     box-sizing: border-box;
-    border: 1px solid #003366; /* Adiciona a borda */
+    
     padding: 5px; /* Adiciona espaço interno */
     border-radius: 15px; /* Adiciona cantos arredondados */
     
 }
 
 .viewpattern-info-box label {
-    color: #003366;
-    display: block;
-    margin-bottom: 0px;
-    font-weight: bold; /* Deixa todos os textos dentro de .viewpattern-info-box em negrito */
+  font-size: 28px;
+  color: #0d3d6d;
     
 }
 
 .viewpattern-info-box p {
-    color: #003366;
-    display: block;
-    font-size: 20px;
-    margin-top: 5px;
-    margin-bottom: 5px;
+  border-radius: 10px;
+  border: 2px solid #0d3d6d;
+  font-size: 23px;
+  outline: none;
+  transition: border-color 0.3s ease;
+  margin: 0px;
+  padding: 6.5px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: 3rem;
+  width: 30rem;
+  color: #003366;
     
 }
 
 .viewpattern-oid-line {
-  display: block;
-  width: 100%;
-  margin-bottom: 30px;
+  width: 65vw;
+  display: grid;
+  grid-template-columns: auto auto;
+  margin-bottom: 20px;
   
 }
 
@@ -123,28 +117,32 @@
 
 .viewpattern-oid-box {
   display: flex;
-  justify-content: flex-start;
+  flex-direction: column;
   width: 100%;
-  height: fit-content;
   margin: 15px 0; /* Adiciona espaço acima e abaixo */
-  border: 1px solid #003366; /* Adiciona a borda */
+ 
   padding: 5px; /* Adiciona espaço interno */
   border-radius: 15px; /* Adiciona cantos arredondados */
 }
 
 .viewpattern-oid-box label {
-  color: #003366;
-  width: 50%;
-  margin: 5px 5px; /* */
-  font-weight: bold; /* Deixa todos os textos dentro de .viewpattern-info-box em negrito */
+  font-size: 28px;
+  color: #0d3d6d;
 }
 
 .viewpattern-oid-box p {
+  border-radius: 10px;
+  border: 2px solid #0d3d6d;
+  font-size: 23px;
+  outline: none;
+  transition: border-color 0.3s ease;
+  margin: 0px;
+  padding: 6.5px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: 3rem;
+  width: 20rem;
   color: #003366;
-  display: block;
-  font-size: 16px;
-  margin-top: 5px;
-  margin-bottom: 5px;
 }
 
 /*Estilo de circuferencia */

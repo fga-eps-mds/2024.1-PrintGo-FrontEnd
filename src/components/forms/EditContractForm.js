@@ -125,7 +125,7 @@ export default function EditContractForm() {
       <Navbar />
       <div id="padraoPagina">
         <h1 id="titulo">Edição de Contrato</h1>
-        <form id="contratos-form">
+        <form id="contratos-form" data-testid="contract-form">
           <div className="ContratoStatus">
             <label id="label">
               Contrato
@@ -189,7 +189,7 @@ export default function EditContractForm() {
           </div>
         </form>
         <div>
-          <button className="botaoSalvar" type="submit" onClick={handleSubmit}>
+          <button className="botaoSalvar" type="submit" onClick={handleSubmit} data-testid="save-button">
             Salvar Mudanças
           </button>
           <button

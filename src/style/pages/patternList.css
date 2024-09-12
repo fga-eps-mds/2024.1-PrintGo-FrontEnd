@@ -1,5 +1,5 @@
 /* Container */
-.patternlist-container{
+.patternlist-container {
   position: relative;
   width: 100vw;
   text-align: left;
@@ -33,8 +33,9 @@
 }
 
 .patternlist-header-title h2 {
-    margin: 0px;
-    font-size: 35px;
+  margin: 0px;
+  font-size: 35px;
+  font-weight: normal;
 }
 
 .patternlist-header-title h4 {
@@ -50,16 +51,16 @@
    
 }
 
-.patternlist-header-search-filter input{
-    height: 5vh;
-    width: 20vw;
-    margin-bottom: 8px;
-    justify-self: end;
-    border-radius: 50px;
-    font-size: large;
-    color: #003366;
-    border: #0D3D6D 2px solid;
-
+.patternlist-header-search-filter div input {
+  height: 5vh;
+  width: 20vw;
+  margin-bottom: 8px;
+  justify-self: end;
+  border-radius: 50px;
+  font-size: large;
+  color: #003366;
+  border: #0d3d6d 2px solid;
+  padding-left: 10px;
 }
 
 .patternlist filter {
@@ -205,4 +206,10 @@
 /* Modal */
 .deactivate-modal-buttons{
     display: none;
+}
+
+.actions {
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
 }

@@ -1,46 +1,20 @@
 #printer-pattern-signup-card {
-  background-color: #ffffff;
-  border-radius: 10px;
   display: flex;
-  min-width: 40vw;
-  justify-content: center;
+  justify-content: space-around;
   align-items: start;
   flex-direction: column;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  margin-right: 50vw;
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
-
-#printer-pattern-fields {
-  height: fit-content;
-  width: 100%;
-  margin-bottom: 5px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  font-size: 14px;
-  gap: 10px;
+  width: 80%;
 }
 
 #printer-pattern-form-header {
-  color: #003366;
-  margin: 0;
-  width: 100%;
-  text-align: center;
+  font-size: 48px;
+  color: #0d3d6d;
+  margin-bottom: 16px;
+  border-bottom: 2px solid #0d3d6d;
+  font-weight: normal;
 }
 
-#printer-pattern-input-group {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-#printer-pattern-input-line {
-  flex: 1;
+.printer-pattern-input-line {
   display: flex;
   width: 65%;
   flex-direction: column;
@@ -48,108 +22,96 @@
   box-sizing: border-box;
   padding: 0 20px;
 }
-#printer-pattern-input-line input {
-  width: 100%;
-}
-#inputCheckBox {
-  display: flex;
-  align-items: center;
-  justify-content: start;
-  margin-left: 20px;
+.printer-pattern-input-line label {
+  font-size: 28px;
+  color: #0d3d6d;
+  padding-top: 20px;
 }
 
-#inputCheckBox input {
-  cursor: pointer;
-  min-width: 25px;
-  min-height: 25px;
+.printer-pattern-input-line input {
+  border-radius: 10px;
+  border: 2px solid #0d3d6d;
+  font-size: 18px;
+  outline: none;
+  transition: border-color 0.3s ease;
+  margin: 0px;
+  padding: 6.5px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: 2.5rem;
+  width: 30rem;
 }
-#inputCheckBox label {
-  margin-top: 5px;
-  margin-right: 10px;
+.printer-pattern-input-line input::placeholder {
+  font-size: 20px;
 }
 
 #printer-pattern-snmp-fields {
-  width: 100%;
-  width: 37vw;
+  width: 65vw;
   display: grid;
+  grid-template-columns: auto auto;
   margin-bottom: 20px;
-  margin-left: 20px;
+}
+
+.snmp-header {
+  font-size: 45px;
+  color: #0d3d6d;
+  margin-bottom: 16px;
+  border-bottom: 2px solid #0d3d6d;
+  font-weight: normal;
 }
 
 #snmp-fields-input-line {
   display: flex;
-  align-items: center;
-}
-
-#snmp-fields-input-line label {
-  justify-self: start;
-  width: 45%;
-  margin-right: 10px;
-}
-
-#printer-pattern-input-box {
-  flex: 1;
-  width: 100%;
-  display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-  padding: 0 20px;
-  box-sizing: border-box;
-}
-
-#label-checkbox {
-  top: 10rem;
-}
-
-#printer-pattern-signup-card label {
-  font-size: 16px;
-  color: #003366;
-}
-
-#printer-pattern-signup-card span {
-  color: #9f0805;
-}
-
-#selection select {
-  width: 150px;
-  font-size: 15px;
-  border-radius: 10px;
-}
-#selection select:focus {
-  background-color: #ffffff;
-  color: #003366;
-}
-
-#selection {
-  margin-left: 20px;
-}
-
-#printer-pattern-fields input {
-  font-size: 14px;
-  border: 1px solid #003366;
-  border-color: #003366;
-  border-radius: 10px;
-  padding: 5px;
+  align-items: start;
+  justify-content: center;
 }
 
 #snmp-fields-input-line input {
-  font-size: 14px;
-  margin: 2px;
-  border: 1px solid #003366;
-  border-color: #003366;
   border-radius: 10px;
-  padding: 5px;
-  height: 18px;
-  flex: 1;
-  max-width: 20vw;
+  border: 2px solid #0d3d6d;
+  font-size: 18px;
+  outline: none;
+  transition: border-color 0.3s ease;
+  margin: 0px;
+  padding: 6.5px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: 2.5rem;
+  width: 20rem;
+  margin-left: 20px;
 }
 
-#printer-pattern-buttons {
-  height: fit-content;
+#snmp-fields-input-line label {
+  font-size: 25px;
+  color: #0d3d6d;
+  padding-top: 20px;
+  margin-left: 20px;
+}
+#snmp-fields-input-line input::placeholder {
+  font-size: 20px;
+}
+#selection label {
+  font-size: 25px;
+  color: #0d3d6d;
+  padding-top: 20px;
+}
+#selection select {
+  width: 15vw;
+  height: 2.5rem;
+  color: #003366;
+  border: 2px solid #0d3d6d;
+  font-size: 23px;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#selection {
   display: flex;
-  align-items: center;
-  justify-content: space-around;
+  flex-direction: column;
+  margin-top: 1.5rem;
+  margin-left: 20px;
 }
 
 .printer-pattern-form-button {
@@ -163,16 +125,19 @@
   font-size: 16px;
   padding: 0.5rem;
   font-weight: bold;
-}
-
-.printer-pattern-form-button:hover {
-  filter: brightness(1.8);
+  margin-bottom: 5rem;
+  margin-top: 3.5rem;
 }
 
 #cancel-bnt {
-  background-color: hsl(355, 96%, 36%);
-  border-color: #9f0805;
+  background-color: #ff0000;
   transition: background-color 0.3s, filter 0.3s;
+  margin-right: 3.5rem;
+}
+
+#cancel-bnt a {
+  text-decoration: none;
+  color: white;
 }
 
 #registrar-bnt {
@@ -184,40 +149,4 @@
   background-color: #6c6c6c !important;
   opacity: 65%;
   cursor: not-allowed;
-}
-
-#input-description {
-  color: #6c6c6c;
-  font-size: 10px;
-}
-
-.elipse-pattern {
-  position: fixed;
-  width: 50vw;
-  height: 100vh;
-  top: 0;
-  right: 0;
-  z-index: -1;
-  bottom: 2px;
-  color: #003366;
-  overflow: hidden;
-}
-
-.elipse-pattern img {
-  height: 100%;
-  width: 100%;
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-#animate-spin {
-  animation: spin 1s linear infinite;
-  margin-right: 4px;
 }

@@ -9,7 +9,6 @@ export default function EditPattern() {
     <>
       <Navbar />
       <div id="editPattern-container">
-        <img alt="homem" src={registerPrinter_image} />
         <EditPatternForm />
       </div>
     </>
